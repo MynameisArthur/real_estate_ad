@@ -1,0 +1,11 @@
+{
+    "name": "real_estate_ad",
+    "version": "0.0.1",
+    "description": "real_estate full-stack MERN project",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Arthur Domański",
+    "license": "ISC"
+}
