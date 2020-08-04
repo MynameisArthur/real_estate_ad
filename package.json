@@ -4,7 +4,7 @@
     "description": "real_estate full-stack MERN project",
     "main": "server.js",
     "scripts": {
-        "start": "NODE_ENV=production node server",
+        "start": "SET NODE_ENV=production & node server",
         "dev": "nodemon server"
     },
     "author": "Arthur Domański",
