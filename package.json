@@ -2,10 +2,15 @@
     "name": "real_estate_ad",
     "version": "0.0.1",
     "description": "real_estate full-stack MERN project",
-    "main": "app.js",
+    "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "NODE_ENV=production node server",
+        "dev": "nodemon server"
     },
     "author": "Arthur Domański",
-    "license": "ISC"
+    "license": "MIT",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1"
+    }
 }
