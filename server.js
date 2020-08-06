@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const estates = require('./routes/estates');
 const connectDB = require('./config/db');
 const colors = require('colors');
-
+const errorHandler = require('./middleware/error');
 //env vars
 dotenv.config({path: './config/config.env'});
 //DB connection
@@ -21,6 +21,7 @@ if (process.env.NODE_ENV === 'development') {
 
 //Mount routes
 app.use('/real_estate_ad/estates', estates);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
