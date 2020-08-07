@@ -50,20 +50,23 @@ const EstateSchema = new mongoose.Schema({
         state: String,
         zipcode: String,
         country: String,
-        averageRating: {
-            type: Number,
-            min: [1, 'Rating must be at least 1'],
-            max: [10, 'Rating must be no more than 10'],
-        },
-        averageCost: Number,
-        photo: {
-            type: String,
-            default: 'no-photo.jpg',
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now,
-        },
+    },
+    averageRating: {
+        type: Number,
+        min: [1, 'Rating must be at least 1'],
+        max: [10, 'Rating must be no more than 10'],
+    },
+    cost: Number,
+    photo: {
+        type: String,
+        default: 'no-photo.jpg',
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    features: {
+        type: Array,
     },
 });
 
