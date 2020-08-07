@@ -1,13 +1,13 @@
 const express = require('express');
 const dotenv = require('dotenv');
+//env vars
 dotenv.config({path: './config/config.env'});
 const morgan = require('morgan');
 const estates = require('./routes/estates');
 const connectDB = require('./config/db');
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
-//env vars
-console.log('API KEY', process.env.GEOCODER_API_KEY);
+
 //DB connection
 connectDB();
 

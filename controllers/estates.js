@@ -1,12 +1,14 @@
 const ErrorResponse = require('../utils/errorResponse');
 const Estate = require('../models/Estate');
 const asyncHandler = require('../middleware/async');
+const geocoder = require('../utils/geocoder');
 
 //@desc Get all estates
 //@route GET /real_estate_ad/estates
 //@access Public
 
 exports.getEstates = asyncHandler(async (req, res, next) => {
+    console.log(req.query);
     const estates = await Estate.find();
     res.status(200).json({
         success: true,
@@ -88,4 +90,27 @@ exports.deleteEstate = asyncHandler(async (req, res, next) => {
         success: true,
         data: {},
     });
+});
+
+//@desc Get estates within a radius
+//@route GET /real_estate_ad/estates/radius/:zipcode/:distance/:unit
+//@access Private
+
+exports.getEstatesInRadius = asyncHandler(async (req, res, next) => {
+    const {zipcode, distance, unit} = req.params;
+    //Get lat/lng from geocoder
+    const loc = await geocoder.geocode(zipcode);
+    const lat = loc[0].latitude;
+    const lng = loc[0].longitude;
+    //Calc radius using radians
+    //Divide dist by radius of Earth
+    //Earth radius = 3,963miles(6378km)
+    const earthRadius = unit === 'miles' ? 3963 : 6378;
+    const radius = distance / earthRadius;
+    const estates = await Estate.find({
+        location: {
+            $geoWithin: {$centerSphere: [[lng, lat], radius]},
+        },
+    });
+    res.status(200).json({success: true, count: estates.length, data: estates});
 });
