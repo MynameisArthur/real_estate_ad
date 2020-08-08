@@ -24,7 +24,8 @@ exports.getEstates = asyncHandler(async (req, res, next) => {
         (match) => `$${match}`
     );
     //Finding resource
-    query = Estate.find(JSON.parse(queryStr));
+    query = Estate.find(JSON.parse(queryStr)).populate('offers');
+
     //Select Fields
     if (req.query.select) {
         const fields = req.query.select.split(',').join(' ');
@@ -130,7 +131,7 @@ exports.updateEstate = asyncHandler(async (req, res, next) => {
 //@access Private
 
 exports.deleteEstate = asyncHandler(async (req, res, next) => {
-    const estate = await Estate.findByIdAndDelete(req.params.id);
+    const estate = await Estate.findById(req.params.id);
     if (!estate) {
         return next(
             new ErrorResponse(
@@ -139,6 +140,7 @@ exports.deleteEstate = asyncHandler(async (req, res, next) => {
             )
         );
     }
+    estate.remove();
     res.status(201).json({
         success: true,
         data: {},

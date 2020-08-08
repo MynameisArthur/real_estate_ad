@@ -3,13 +3,15 @@ const dotenv = require('dotenv');
 //env vars
 dotenv.config({path: './config/config.env'});
 const morgan = require('morgan');
-const estates = require('./routes/estates');
 const connectDB = require('./config/db');
 const colors = require('colors');
 const errorHandler = require('./middleware/error');
 
 //DB connection
 connectDB();
+//Route files
+const estates = require('./routes/estates');
+const offers = require('./routes/offers');
 
 const app = express();
 //Body parser
@@ -22,6 +24,7 @@ if (process.env.NODE_ENV === 'development') {
 
 //Mount routes
 app.use('/real_estate_ad/estates', estates);
+app.use('/real_estate_ad/offers', offers);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;

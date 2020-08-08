@@ -4,6 +4,7 @@
         "title": "Offer #1",
         "description": "Alias reiciendis pariatur eos optio assumenda commodi aliquam fuga dolor ipsa voluptas amet dolore distinctio, voluptate iure, nesciunt maxime doloremque modi quo iusto illo tempore quis. Aliquid, quos dolorum libero, eligendi nobis reiciendis iure natus voluptates!",
         "estate": "5d713995b721c3bb38c1f5d0",
+        "amountOffered": 610000,
         "user": "5d7a514b5d2c12c7449be045"
     },
     {
@@ -11,6 +12,7 @@
         "title": "Offer #2",
         "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus ducimus facere voluptatibus officia asperiores consequuntur neque nam sequi, assumenda, ex velit aliquam praesentium expedita numquam amet, commodi nemo libero nulla! ",
         "estate": "5d713995b721c3bb38c1f5d0",
+        "amountOffered": 608000,
         "user": "5d7a514b5d2c12c7449be045"
     },
     {
@@ -18,6 +20,7 @@
         "title": "Offer #3",
         "description": "Aliquam fuga dolor ipsa voluptas amet dolore distinctio, voluptate iure, nesciunt maxime doloremque modi quo iusto illo tempore quis. Aliquid, quos dolorum libero, eligendi nobis",
         "estate": "5d713a66ec8f2b88b8f830b8",
+        "amountOffered": 755000,
         "user": "5d7a514b5d2c12c7449be046"
     },
     {
@@ -25,6 +28,7 @@
         "title": "Offer #4",
         "description": "Voluptate iure, nesciunt maxime doloremque modi quo iusto illo tempore quis. Aliquid, quos dolorum libero, eligendi nobis reiciendis iure",
         "estate": "5d713a66ec8f2b88b8f830b8",
+        "amountOffered": 761000,
         "user": "5d7a514b5d2c12c7449be046"
     },
     {
@@ -32,6 +36,7 @@
         "title": "Offer #5",
         "description": "Asperiores consequuntur neque nam sequi, assumenda, ex velit aliquam praesentium expedita numquam amet, commodi nemo libero nulla! ",
         "estate": "5d725a037b292f5f8ceff787",
+        "amountOffered": 500000,
         "user": "5c8a1d5b0190b214360dc031"
     },
     {
@@ -39,6 +44,7 @@
         "title": "Offer #6",
         "description": "Pariatur eos optio assumenda commodi aliquam fuga dolor ipsa voluptas amet dolore distinctio, voluptate iure.",
         "estate": "5d725a037b292f5f8ceff787",
+        "amountOffered": 490000,
         "user": "5c8a1d5b0190b214360dc031"
     },
     {
@@ -46,20 +52,23 @@
         "title": "Offer #6",
         "description": "Fuga dolor ipsa voluptas amet dolore distinctio, voluptate iure, nesciunt maxime doloremque modi quo iusto illo tempore quis. Aliquid, quos dolorum libero, eligendi.",
         "estate": "5d725a1b7b292f5f8ceff788",
+        "amountOffered": 920000,
         "user": "5c8a1d5b0190b214360dc032"
     },
     {
         "_id": "5d725cfec4ded7bcb480eaa6",
         "title": "Offer #7",
-        "description": "This course will teach you everything you need to know about quality assurance",
+        "description": "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi!",
         "estate": "5d725a1b7b292f5f8ceff788",
+        "amountOffered": 940000,
         "user": "5c8a1d5b0190b214360dc032"
     },
     {
         "_id": "5d725cfec4ded7bcb480eaa7",
         "title": "Offer #8",
-        "description": "Get started building mobile applications for IOS using Swift and other tools",
+        "description": "Sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.",
         "estate": "5d725a1b7b292f5f8ceff788",
+        "amountOffered": 960000,
         "user": "5c8a1d5b0190b214360dc032"
     }
 ]

@@ -77,21 +77,48 @@ EstateSchema.pre('save', function (next) {
 });
 
 //Geocode and create location field
-EstateSchema.pre('save', async function (next) {
-    const loc = await geocoder.geocode(this.address);
-    this.location = {
-        type: 'Point',
-        coordinates: [loc[0].longitude, loc[0].latitude],
-        formattedAddress: loc[0].formattedAddress,
-        street: loc[0].streetName,
-        city: loc[0].city,
-        state: loc[0].stateCode,
-        zipcode: loc[0].zipcode,
-        country: loc[0].countryCode,
-    };
-    //Don't save address in DB
-    this.address = undefined;
+EstateSchema.pre(
+    'save',
+    async function (next) {
+        const loc = await geocoder.geocode(this.address);
+        this.location = {
+            type: 'Point',
+            coordinates: [loc[0].longitude, loc[0].latitude],
+            formattedAddress: loc[0].formattedAddress,
+            street: loc[0].streetName,
+            city: loc[0].city,
+            state: loc[0].stateCode,
+            zipcode: loc[0].zipcode,
+            country: loc[0].countryCode,
+        };
+        //Don't save address in DB
+        this.address = undefined;
+        next();
+    },
+    {
+        toJSON: {
+            virtuals: true,
+        },
+        toObject: {
+            virtuals: true,
+        },
+    }
+);
+
+//Cascade delete offers when an estate is deleted
+EstateSchema.pre('remove', async function (next) {
+    console.log(`Offers being removed from estate ${this._id}`);
+    await this.model('Offer').deleteMany({
+        estate: this._id,
+    });
     next();
+});
+//Reverse populate with virtuals
+EstateSchema.virtual('offers', {
+    ref: 'Offer',
+    localField: '_id',
+    foreignField: 'estate',
+    justOne: false,
 });
 
 module.exports = mongoose.model('Estate', EstateSchema);
