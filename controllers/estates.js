@@ -76,7 +76,7 @@ exports.getEstates = asyncHandler(async (req, res, next) => {
 //@access Public
 
 exports.getEstate = asyncHandler(async (req, res, next) => {
-    const estate = await Estate.findById(req.params.id);
+    const estate = await Estate.findById(req.params.id).populate('offers');
     if (!estate) {
         return next(
             new ErrorResponse(
