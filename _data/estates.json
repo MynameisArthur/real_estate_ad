@@ -8,6 +8,7 @@
         "email": "house1@gmail.com",
         "address": "233 Bay State Rd Boston MA 02215",
         "startingPrice": 600000,
+        "highestBid": 600000,
         "features": ["garage", "surveilance system"]
     },
     {
@@ -19,6 +20,7 @@
         "email": "house2@gmail.com",
         "address": "220 Pawtucket St, Lowell, MA 01854",
         "startingPrice": 750000,
+        "highestBid": 750000,
         "features": ["garage", "swimming pool", "surveilance system"]
     },
     {
@@ -30,6 +32,7 @@
         "email": "house3@gmail.com",
         "address": "85 South Prospect Street Burlington VT 05405",
         "startingPrice": 480000,
+        "highestBid": 480000,
         "features": ["garage"]
     },
     {
@@ -41,6 +44,7 @@
         "email": "house4@gmail.com",
         "address": "45 Upper College Rd Kingston RI 02881",
         "startingPrice": 900000,
+        "highestBid": 900000,
         "features": [
             "garage",
             "swimming pool",
