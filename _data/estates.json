@@ -7,7 +7,7 @@
         "phone": "(111) 111-1111",
         "email": "house1@gmail.com",
         "address": "233 Bay State Rd Boston MA 02215",
-        "cost": 600000,
+        "startingPrice": 600000,
         "features": ["garage", "surveilance system"]
     },
     {
@@ -18,7 +18,7 @@
         "phone": "(222) 222-2222",
         "email": "house2@gmail.com",
         "address": "220 Pawtucket St, Lowell, MA 01854",
-        "cost": 750000,
+        "startingPrice": 750000,
         "features": ["garage", "swimming pool", "surveilance system"]
     },
     {
@@ -29,7 +29,7 @@
         "phone": "(333) 333-3333",
         "email": "house3@gmail.com",
         "address": "85 South Prospect Street Burlington VT 05405",
-        "cost": 480000,
+        "startingPrice": 480000,
         "features": ["garage"]
     },
     {
@@ -40,7 +40,7 @@
         "phone": "(444) 444-4444",
         "email": "house4@gmail.com",
         "address": "45 Upper College Rd Kingston RI 02881",
-        "cost": 900000,
+        "startingPrice": 900000,
         "features": [
             "garage",
             "swimming pool",

@@ -60,7 +60,8 @@ const EstateSchema = new mongoose.Schema(
             min: [1, 'Rating must be at least 1'],
             max: [10, 'Rating must be no more than 10'],
         },
-        cost: Number,
+        startingPrice: Number,
+        highestBid: Number,
         photo: {
             type: String,
             default: 'no-photo.jpg',

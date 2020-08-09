@@ -67,7 +67,21 @@ exports.addOffer = asyncHandler(async (req, res, next) => {
             404
         );
     }
+    //Check if money offered is at least as much as startingPrice
+    if (req.body.amountOffered < estate.startingPrice) {
+        return next(
+            new ErrorResponse(
+                `You need to offer at least $${estate.startingPrice}`
+            ),
+            400
+        );
+    }
+
     const offer = await Offer.create(req.body);
+    //If more money is offered than current highestBid, update highestBid field in estate
+    if (req.body.amountOffered >= estate.highestBid) {
+        await estate.update({highestBid: req.body.amountOffered});
+    }
 
     res.status(200).json({
         success: true,
