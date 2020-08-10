@@ -27,7 +27,7 @@ const offers = JSON.parse(
 const importData = async () => {
     try {
         await Estate.create(estates);
-        // await Offer.create(offers);
+        await Offer.create(offers);
         console.log('Data imported...'.bgGreen.white);
         process.exit();
     } catch (err) {

@@ -62,10 +62,28 @@ const EstateSchema = new mongoose.Schema(
         },
         startingPrice: Number,
         highestBid: Number,
-        photo: {
-            type: String,
-            default: 'no-photo.jpg',
+        houseArea: {
+            type: Number,
+            required: [true, "Please specify house's area"],
         },
+        yardArea: {
+            type: Number,
+            required: [true, "Please specify yard's area"],
+        },
+        bedrooms: {
+            type: Number,
+            required: [true, 'Please specify number of bedrooms'],
+        },
+        bathrooms: {
+            type: Number,
+            required: [true, 'Please specify number of bathrooms'],
+        },
+        photos: [
+            {
+                type: String,
+                default: 'no-photo.jpg',
+            },
+        ],
         createdAt: {
             type: Date,
             default: Date.now,

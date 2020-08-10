@@ -1,3 +1,4 @@
+const path = require('path');
 const ErrorResponse = require('../utils/errorResponse');
 const Estate = require('../models/Estate');
 const asyncHandler = require('../middleware/async');
@@ -8,67 +9,7 @@ const geocoder = require('../utils/geocoder');
 //@access Public
 
 exports.getEstates = asyncHandler(async (req, res, next) => {
-    let query;
-    // Copy req.query
-    const reqQuery = {...req.query};
-    //Fields to execute
-    const removeFields = ['select', 'sort', 'page', 'limit'];
-    //Loop over removeFields and delete them from reqQuery
-    removeFields.forEach((param) => delete reqQuery[param]);
-
-    //Create query string
-    let queryStr = JSON.stringify(reqQuery);
-    //Create operators ($gt, $gte, etc)
-    queryStr = queryStr.replace(
-        /\b(gt|gte|lt|lte|in)\b/g,
-        (match) => `$${match}`
-    );
-    //Finding resource
-    query = Estate.find(JSON.parse(queryStr)).populate('offers');
-
-    //Select Fields
-    if (req.query.select) {
-        const fields = req.query.select.split(',').join(' ');
-        query = query.select(fields);
-    }
-    //Sort
-    if (req.query.sort) {
-        const sortBy = req.query.sort.split(',').join(' ');
-        query = query.sort(sortBy);
-    } else {
-        query = query.sort('-createdAt');
-    }
-    //Pagination
-    const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 25;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const total = await Estate.countDocuments();
-
-    query = query.skip(startIndex).limit(limit);
-    //Executing query
-    const estates = await query;
-    //Pagination result
-    const pagination = {};
-    if (endIndex < total) {
-        pagination.next = {
-            page: page + 1,
-            limit,
-        };
-    }
-    if (startIndex > 0) {
-        pagination.prev = {
-            page: page - 1,
-            limit,
-        };
-    }
-
-    res.status(200).json({
-        success: true,
-        data: estates,
-        count: estates.length,
-        pagination,
-    });
+    res.status(200).json(res.advancedResults);
 });
 
 //@desc Get single estate
@@ -168,4 +109,66 @@ exports.getEstatesInRadius = asyncHandler(async (req, res, next) => {
         },
     });
     res.status(200).json({success: true, count: estates.length, data: estates});
+});
+
+//@desc Upload photo for estate
+//@route PUT /real_estate_ad/estates/:id/photo
+//@access Private
+
+exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
+    const estate = await Estate.findById(req.params.id);
+    if (!estate) {
+        return next(
+            new ErrorResponse(
+                `Estate with the id ${req.params.id} not found`,
+                404
+            )
+        );
+    }
+    if (!req.files) {
+        return next(new ErrorResponse(`Please upload a file`, 400));
+    }
+    const file = req.files.file;
+    //Make sure the image is a photo
+    if (!file.mimetype.startsWith('image')) {
+        return next(new ErrorResponse(`Please upload an image file`, 400));
+    }
+    //Check filesize
+    if (file.size > process.env.MAX_FILE_UPLOAD) {
+        return next(
+            new ErrorResponse(
+                `Please upload an image less than ${process.env.MAX_FILE_UPLOAD} bytes`,
+                400
+            )
+        );
+    }
+
+    const {photos} = await estate;
+    if (photos.length >= 8) {
+        return next(
+            new ErrorResponse(
+                `You can upload up to 8 photos for one estate`,
+                400
+            )
+        );
+    }
+    //Create custom file name
+    file.name = `photo_${estate._id}_${photos.length + 1}${
+        path.parse(file.name).ext
+    }`;
+    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+        if (err) {
+            console.error(err);
+            return next(new ErrorResponse(`Problem with file upload`, 500));
+        }
+
+        photos.push(file.name);
+        await estate.updateOne({
+            photos,
+        });
+        res.status(200).json({
+            success: true,
+            data: file.name,
+        });
+    });
 });

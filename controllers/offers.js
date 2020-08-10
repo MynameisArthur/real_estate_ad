@@ -10,23 +10,18 @@ const Estate = require('../models/Estate');
 //@access Public
 
 exports.getOffers = asyncHandler(async (req, res, next) => {
-    let query;
     if (req.params.estateId) {
-        query = Offer.find({
+        const offers = await Offer.find({
             estate: req.params.estateId,
         });
-    } else {
-        query = Offer.find().populate({
-            path: 'estate',
-            select: 'name description',
+        return res.status(200).json({
+            success: true,
+            count: offers.length,
+            data: offers,
         });
+    } else {
+        res.status(200).json(res.advancedResults);
     }
-    const offers = await query;
-    res.status(200).json({
-        success: true,
-        count: offers.length,
-        data: offers,
-    });
 });
 
 //@desc Get single offer
@@ -137,26 +132,28 @@ exports.deleteOffer = asyncHandler(async (req, res, next) => {
             404
         );
     }
-
+    const {amountOffered} = offer;
     // get estate associated with offer
     const estate = await Estate.findById(offer.estate);
     //remove offer
     await offer.remove();
-    //find all offers for given id
-    const offers = await Offer.find({
-        estate: estate._id,
-    });
-    //extract highest amountOffered
-    let maxBid = Math.max(...offers.map((offer) => offer.amountOffered));
-    //if maxBid is less than 0 set it to startingPrice of the estate
-    if (maxBid < 0) {
-        maxBid = estate.startingPrice;
+    if (amountOffered >= estate.highestBid) {
+        console.log('updating highestBid');
+        //find all offers for given id
+        const offers = await Offer.find({
+            estate: estate._id,
+        });
+        //extract highest amountOffered
+        let maxBid = Math.max(...offers.map((offer) => offer.amountOffered));
+        //if maxBid is less than 0 set it to startingPrice of the estate
+        if (maxBid < 0) {
+            maxBid = estate.startingPrice;
+        }
+        //update highestBid
+        await estate.updateOne({
+            highestBid: maxBid,
+        });
     }
-
-    //update highestBid
-    await estate.update({
-        highestBid: maxBid,
-    });
 
     res.status(200).json({
         success: true,
