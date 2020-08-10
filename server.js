@@ -14,6 +14,7 @@ connectDB();
 //Route files
 const estates = require('./routes/estates');
 const offers = require('./routes/offers');
+const auth = require('./routes/auth');
 
 const app = express();
 //Body parser
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Mount routes
 app.use('/real_estate_ad/estates', estates);
 app.use('/real_estate_ad/offers', offers);
+app.use('/real_estate_ad/auth', auth);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
