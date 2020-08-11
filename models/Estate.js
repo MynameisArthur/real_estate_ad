@@ -91,6 +91,11 @@ const EstateSchema = new mongoose.Schema(
         features: {
             type: Array,
         },
+        user: {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User',
+            required: true,
+        },
     },
     {
         toJSON: {

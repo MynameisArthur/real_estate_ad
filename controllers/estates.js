@@ -37,6 +37,20 @@ exports.getEstate = asyncHandler(async (req, res, next) => {
 //@access Private
 
 exports.createEstate = asyncHandler(async (req, res, next) => {
+    //Add user to req body
+    req.body.user = req.user.id;
+    //Check for published estate
+    const publishedEstate = await Estate.findOne({user: req.user.id});
+    //if the user is not admin, he/she can only add 1 estate
+    if (publishedEstate && req.user.role !== 'admin') {
+        return next(
+            new ErrorResponse(
+                `The user with ID ${req.user.id} has already published an estate`,
+                400
+            )
+        );
+    }
+
     const estate = await Estate.create(req.body);
     res.status(201).json({
         success: true,
@@ -58,6 +72,15 @@ exports.updateEstate = asyncHandler(async (req, res, next) => {
             new ErrorResponse(
                 `Estate with the id ${req.params.id} not found`,
                 404
+            )
+        );
+    }
+    //Make sure user is estate's owner
+    if (estate.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(
+            new ErrorResponse(
+                `User with the ID ${req.params.id} is not authorized to update this estate`,
+                401
             )
         );
     }
