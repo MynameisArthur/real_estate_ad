@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 //env vars
 dotenv.config({path: './config/config.env'});
 const morgan = require('morgan');
@@ -19,6 +20,8 @@ const auth = require('./routes/auth');
 const app = express();
 //Body parser
 app.use(express.json());
+//Cookie parser
+app.use(cookieParser());
 
 //dev loggin middleware
 if (process.env.NODE_ENV === 'development') {

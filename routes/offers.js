@@ -9,6 +9,8 @@ const {
 
 const Offer = require('../models/Offer');
 const advancedResults = require('../middleware/advancedResults');
+//import protect middleware for protected routes
+const {protect} = require('../middleware/auth');
 
 const router = express.Router({mergeParams: true});
 router
@@ -20,7 +22,11 @@ router
         }),
         getOffers
     )
-    .post(addOffer);
-router.route('/:id').get(getOffer).put(updateOffer).delete(deleteOffer);
+    .post(protect, addOffer);
+router
+    .route('/:id')
+    .get(getOffer)
+    .put(protect, updateOffer)
+    .delete(protect, deleteOffer);
 
 module.exports = router;
