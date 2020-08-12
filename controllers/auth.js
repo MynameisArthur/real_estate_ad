@@ -1,10 +1,11 @@
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
+const sendEmail = require('../utils/sendEmail');
 const User = require('../models/User');
 
 // @desc  Register user
 // @route POST /real_estate_ad/auth/register
-// Public
+// @access Public
 
 exports.register = asyncHandler(async (req, res, next) => {
     const {name, email, password, role} = req.body;
@@ -20,7 +21,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 
 // @desc  Login user
 // @route POST /real_estate_ad/auth/login
-// Public
+// @access Public
 
 exports.login = asyncHandler(async (req, res, next) => {
     const {email, password} = req.body;
@@ -43,6 +44,57 @@ exports.login = asyncHandler(async (req, res, next) => {
 
     sendTokenResponse(user, 200, res);
 });
+
+// @desc Get current logged in user
+// @route GET /real_estate_ad/auth/me
+// @access Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    res.status(200).json({
+        success: true,
+        data: user,
+    });
+});
+// @desc Forgot password
+// @route GET /real_estate_ad/auth/forgotpassword
+// @access Public
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({
+        email: req.body.email,
+    });
+    if (!user) {
+        return next(new ErrorResponse('There is no user with that email', 404));
+    }
+    //Get reset token
+    const resetToken = user.getResetPasswordToken();
+    await user.save({validateBeforeSave: false});
+    //Create rest url
+    const resetUrl = `${req.protocol}://${req.get(
+        'host'
+    )}/real_estate_ad/resetpassword/${resetToken}`;
+    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: 'Password reset token',
+            message,
+        });
+        res.status(200).json({success: true, data: 'Email sent'});
+    } catch (err) {
+        console.log(err);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+        await user.save({
+            validateBeforeSave: false,
+        });
+        return next(new ErrorResponse('Email could not be sent', 500));
+    }
+    res.status(200).json({
+        success: true,
+        data: user,
+    });
+});
+
 //get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
     //Create token
@@ -61,13 +113,3 @@ const sendTokenResponse = (user, statusCode, res) => {
         token,
     });
 };
-// @desc Get current logged in user
-// @route GET /real_estate_ad/auth/me
-// Private
-exports.getMe = asyncHandler(async (req, res, next) => {
-    const user = await User.findById(req.user.id);
-    res.status(200).json({
-        success: true,
-        data: user,
-    });
-});

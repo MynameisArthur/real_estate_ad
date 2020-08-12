@@ -63,10 +63,7 @@ exports.createEstate = asyncHandler(async (req, res, next) => {
 //@access Private
 
 exports.updateEstate = asyncHandler(async (req, res, next) => {
-    const estate = await Estate.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true,
-    });
+    let estate = await Estate.findById(req.params.id);
     if (!estate) {
         return next(
             new ErrorResponse(
@@ -84,6 +81,10 @@ exports.updateEstate = asyncHandler(async (req, res, next) => {
             )
         );
     }
+    estate = await Estate.findOneAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+    });
     res.status(201).json({
         success: true,
         data: estate,
@@ -101,6 +102,15 @@ exports.deleteEstate = asyncHandler(async (req, res, next) => {
             new ErrorResponse(
                 `Estate with the id ${req.params.id} not found`,
                 404
+            )
+        );
+    }
+    //Make sure user is estate's owner
+    if (estate.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(
+            new ErrorResponse(
+                `User with the ID ${req.params.id} is not authorized to delete this estate`,
+                401
             )
         );
     }
@@ -145,6 +155,15 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
             new ErrorResponse(
                 `Estate with the id ${req.params.id} not found`,
                 404
+            )
+        );
+    }
+    //Make sure user is estate's owner
+    if (estate.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(
+            new ErrorResponse(
+                `User with the ID ${req.params.id} is not authorized to upload photo for this estate`,
+                401
             )
         );
     }
