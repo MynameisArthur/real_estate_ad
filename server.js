@@ -16,6 +16,7 @@ connectDB();
 const estates = require('./routes/estates');
 const offers = require('./routes/offers');
 const auth = require('./routes/auth');
+const users = require('./routes/users');
 
 const app = express();
 //Body parser
@@ -37,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/real_estate_ad/estates', estates);
 app.use('/real_estate_ad/offers', offers);
 app.use('/real_estate_ad/auth', auth);
+app.use('/real_estate_ad/users', users);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
