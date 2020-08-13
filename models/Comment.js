@@ -32,5 +32,7 @@ const CommentSchema = new mongoose.Schema({
         required: true,
     },
 });
+//Prevent user from submitting more than one comment per bootcamp
+CommentSchema.index({estate: 1, user: 1}, {unique: true});
 
 module.exports = mongoose.model('Comment', CommentSchema);

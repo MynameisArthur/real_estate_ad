@@ -46,3 +46,28 @@ exports.getComment = asyncHandler(async (req, res, next) => {
         data: comment,
     });
 });
+
+//@desc Add comment
+//@route POST /real_estate_ad/estate/:estateId/comments
+//@access Private
+
+exports.addComment = asyncHandler(async (req, res, next) => {
+    req.body.estate = req.params.estateId;
+    req.body.user = req.user.id;
+
+    const estate = await Estate.findById(req.params.estateId);
+    if (!estate) {
+        return next(
+            new ErrorResponse(
+                `No estate with the ID of ${req.params.estateId}`,
+                404
+            )
+        );
+    }
+    const comment = await Comment.create(req.body);
+
+    res.status(201).json({
+        success: true,
+        data: comment,
+    });
+});
