@@ -3,6 +3,7 @@ const asyncHandler = require('../middleware/async');
 
 const Comment = require('../models/Comment');
 const Estate = require('../models/Estate');
+const {request} = require('express');
 
 //@desc Get comments
 //@route GET /real_estate_ad/comments
@@ -69,5 +70,56 @@ exports.addComment = asyncHandler(async (req, res, next) => {
     res.status(201).json({
         success: true,
         data: comment,
+    });
+});
+
+//@desc Update comment
+//@route PUT /real_estate_ad/comments/:id
+//@access Private
+
+exports.updateComment = asyncHandler(async (req, res, next) => {
+    let comment = await Comment.findById(req.params.id);
+    if (!comment) {
+        return next(
+            new ErrorResponse(`No comment with the ID of ${req.params.id}`, 404)
+        );
+    }
+
+    //Make sure comment belongs to user or user is admin
+    if (comment.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(new ErrorResponse(`Not authorized to update comment`, 401));
+    }
+    comment = await Comment.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+    });
+
+    res.status(200).json({
+        success: true,
+        data: comment,
+    });
+});
+
+//@desc Delete comment
+//@route DELETE /real_estate_ad/comments/:id
+//@access Private
+
+exports.deleteComment = asyncHandler(async (req, res, next) => {
+    const comment = await Comment.findById(req.params.id);
+    if (!comment) {
+        return next(
+            new ErrorResponse(`No comment with the ID of ${req.params.id}`, 404)
+        );
+    }
+
+    //Make sure comment belongs to user or user is admin
+    if (comment.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(new ErrorResponse(`Not authorized to delete comment`, 401));
+    }
+    await comment.remove();
+
+    res.status(200).json({
+        success: true,
+        data: {},
     });
 });

@@ -3,6 +3,8 @@ const {
     getComments,
     getComment,
     addComment,
+    updateComment,
+    deleteComment,
 } = require('../controllers/comments');
 
 const Comment = require('../models/Comment');
@@ -20,6 +22,10 @@ router
         getComments
     )
     .post(protect, authorize('user', 'admin'), addComment);
-router.route('/:id').get(getComment);
+router
+    .route('/:id')
+    .get(getComment)
+    .put(protect, authorize('user', 'admin'), updateComment)
+    .delete(protect, authorize('user', 'admin'), deleteComment);
 
 module.exports = router;
