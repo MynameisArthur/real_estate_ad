@@ -6,7 +6,7 @@ const errorHandler = (err, req, res, next) => {
     console.log(err);
     //Mongoose bad ObjectId
     if (err.name === 'CastError') {
-        const message = `Estate with the id ${err.value} not found`;
+        const message = `Resource with the id ${err.value} not found`;
         error = new ErrorResponse(message, 404);
     }
     //Mongoose duplicate key

@@ -1,5 +1,5 @@
 const express = require('express');
-const {getComments} = require('../controllers/comments');
+const {getComments, getComment} = require('../controllers/comments');
 
 const Comment = require('../models/Comment');
 const advancedResults = require('../middleware/advancedResults');
@@ -13,5 +13,6 @@ router.route('/').get(
     }),
     getComments
 );
+router.route('/:id').get(getComment);
 
 module.exports = router;
