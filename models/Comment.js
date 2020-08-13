@@ -35,4 +35,35 @@ const CommentSchema = new mongoose.Schema({
 //Prevent user from submitting more than one comment per bootcamp
 CommentSchema.index({estate: 1, user: 1}, {unique: true});
 
+//Static method to get avg rating and save
+CommentSchema.statics.getAverageRating = async function (estateId) {
+    const obj = await this.aggregate([
+        {
+            $match: {estate: estateId},
+        },
+        {
+            $group: {
+                _id: '$estate',
+                averageRating: {$avg: '$rating'},
+            },
+        },
+    ]);
+    try {
+        await this.model('Estate').findByIdAndUpdate(estateId, {
+            averageRating: obj[0].averageRating,
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
+//Call getAverageRating after save
+CommentSchema.post('save', function () {
+    this.constructor.getAverageRating(this.estate);
+});
+
+//Call getAverageRating before remove
+CommentSchema.pre('remove', function () {
+    this.constructor.getAverageRating(this.estate);
+});
+
 module.exports = mongoose.model('Comment', CommentSchema);
