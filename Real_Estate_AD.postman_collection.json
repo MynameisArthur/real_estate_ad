@@ -1,0 +1,1124 @@
+{
+	"info": {
+		"_postman_id": "d5622d70-b6a1-4526-b8e2-4505e1d8ca86",
+		"name": "Real_Estate_AD",
+		"description": "Backend API form Real Estate AD application to manage real estate, users, reviews and authentication.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "real_estates",
+			"item": [
+				{
+					"name": "Get All Estates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates"
+							]
+						},
+						"description": "Fetch all estates from database. Includes pagination, filtering etc."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Estate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"1"
+							]
+						},
+						"description": "Gets signle real estate by ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Create new estate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"House\",\r\n    \"description\": \"4 bedroom house with medium yard, garage and survilance system. Nice neighbourhood, 15 minutes to downtown, close to kindergarten and schools\",\r\n    \"phone\": \"(222) 222-2222\",\r\n    \"email\": \"house6@gmail.com\",\r\n    \"address\": \"120 Pawtucket St, Lowell, MA 01854\",\r\n    \"houseArea\": 100,\r\n    \"yardArea\": 400,\r\n    \"bedrooms\": 4,\r\n    \"bathrooms\": 2,\r\n    \"features\": [\"garage\", \"surveilance system\"],\r\n    \"photos\": [],\r\n    \"startingPrice\": 500000,\r\n    \"highestBid\": 500000\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates"
+							]
+						},
+						"description": "Add new real estate to db. Must be autheticated (only Publisher or Admin)."
+					},
+					"response": []
+				},
+				{
+					"name": "Update estate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"photos\": []\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/5d713a66ec8f2b88b8f830b8",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"5d713a66ec8f2b88b8f830b8"
+							]
+						},
+						"description": "Update single estate in db."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete estate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"1"
+							]
+						},
+						"description": "Delete estate from db."
+					},
+					"response": []
+				},
+				{
+					"name": "Upload photo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Arthur/Assets/Images/cleopatra.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/5f32905f435fe1a108991a29/photo",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"5f32905f435fe1a108991a29",
+								"photo"
+							]
+						},
+						"description": "Route to upload an estate photo"
+					},
+					"response": []
+				},
+				{
+					"name": "Get estates by radius",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/radius/02215-1405/100/miles",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"radius",
+								"02215-1405",
+								"100",
+								"miles"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Estates CRUD functionality",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "offers",
+			"item": [
+				{
+					"name": "Get All Offers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/offers",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"offers"
+							]
+						},
+						"description": "Gets all offers from db."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Offers for Estate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/5d713995b721c3bb38c1f5d0/offers",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"5d713995b721c3bb38c1f5d0",
+								"offers"
+							]
+						},
+						"description": "Gets all offers for estate with specified id"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Offer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/offers/5d725a4a7b292f5f8ceff789",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"offers",
+								"5d725a4a7b292f5f8ceff789"
+							]
+						},
+						"description": "Get a single offer by it's id."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Estate Offer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Offer #10\",\r\n    \"description\": \"My final offer is 530k\",\r\n    \"amountOffered\": 530000\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/5d725a037b292f5f8ceff787/offers",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"5d725a037b292f5f8ceff787",
+								"offers"
+							]
+						},
+						"description": "Creates new offer for an estate of given id"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Offer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"I want this\",\r\n    \"amountOffered\": 658000\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/offers/5d725c84c4ded7bcb480eaa0",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"offers",
+								"5d725c84c4ded7bcb480eaa0"
+							]
+						},
+						"description": "Updates offer"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Offer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/offers/5d725c84c4ded7bcb480eaa0",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"offers",
+								"5d725c84c4ded7bcb480eaa0"
+							]
+						},
+						"description": "Deletes offer"
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD operations for offers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "22ec4eaf-8372-4c43-a2b0-1fe995172a1a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f1c2e7f6-574a-4484-b71b-361d093fa8b4",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5d702f46-5d37-402b-a3c3-e41eb7e54e1b",
+								"exec": [
+									"pm.environment.set(\"TOKEN\",pm.response.json().token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"fikouek\",\r\n    \"email\": \"fikouek@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"role\": \"publisher\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Add user to database with encrypted password"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eab926a9-211a-4598-a21c-b902c00d5ba5",
+								"exec": [
+									"pm.environment.set(\"TOKEN\",pm.response.json().token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"email\": \"john@gmail.com\",\r\n    \"password\": \"123456\"\r\n    \r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login user to application"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Logged In User via Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmMzE1YmJiYjc2N2I3YTc2YzJmZjc4ZCIsImlhdCI6MTU5NzEzNjE4NywiZXhwIjoxNTk5NzI4MTg3fQ.qL5a1Nxhmxkb6ALSAdX_2rgF_n8uGj74BvzfDjPs6Iw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/me",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"me"
+							]
+						},
+						"description": "Gets logged in user"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "eab926a9-211a-4598-a21c-b902c00d5ba5",
+								"exec": [
+									"pm.environment.set(\"TOKEN\",pm.response.json().token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"email\": \"john@gmail.com\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/forgotpassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"forgotpassword"
+							]
+						},
+						"description": "Generate password token and send email."
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"1234567\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/resetpassword/0986548de7a08b360de857c5596c0cc3e479270e",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"resetpassword",
+								"0986548de7a08b360de857c5596c0cc3e479270e"
+							]
+						},
+						"description": "Resets user password using token"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"john@gmail.com\",\r\n    \"name\": \"John Doe\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/updatedetails",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"updatedetails"
+							]
+						},
+						"description": "Update logged in user name and email"
+					},
+					"response": []
+				},
+				{
+					"name": "Update password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"1234567\",\r\n    \"newPassword\": \"123456\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/updatepassword",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"updatepassword"
+							]
+						},
+						"description": "Update logged in user password, send in the body currentPassword andnewPassword"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/auth/logout",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Logout user from app"
+					},
+					"response": []
+				}
+			],
+			"description": "Routes for user authentication including register, login, reset password, etc.",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/users",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"users"
+							]
+						},
+						"description": "Gest all users (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get single user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/users/5c8a1d5b0190b214360dc038",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"users",
+								"5c8a1d5b0190b214360dc038"
+							]
+						},
+						"description": "Gets user of specified ID (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Arthur\",\r\n    \"email\": \"arthur@gmail.com\",\r\n    \"password\": \"123456\"\r\n}\r\n    "
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/users/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"users",
+								""
+							]
+						},
+						"description": "Creates new user in db (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Arthurrrr\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/users/5f33ee33d0016f07686c8731",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"users",
+								"5f33ee33d0016f07686c8731"
+							]
+						},
+						"description": "Updates user in database (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/users/5f33ee33d0016f07686c8731",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"users",
+								"5f33ee33d0016f07686c8731"
+							]
+						},
+						"description": "Deletes user of given ID (admin)"
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD functionality for users only available to admins",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Get all comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/comments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"comments"
+							]
+						},
+						"description": "Get all comments from database and populate with estate's name and description"
+					},
+					"response": []
+				},
+				{
+					"name": "Get comments for estate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/5d713a66ec8f2b88b8f830b8/comments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"5d713a66ec8f2b88b8f830b8",
+								"comments"
+							]
+						},
+						"description": "Gets all comments for specified estate"
+					},
+					"response": []
+				},
+				{
+					"name": "Get single comment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/comments/5d7a514b5d2c12c7449be022",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"comments",
+								"5d7a514b5d2c12c7449be022"
+							]
+						},
+						"description": "Gets single comment from db"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Comment ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Nice estate\",\r\n    \"text\": \"I like this place, looks very comfy and safe\",\r\n    \"rating\": 8\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/estates/5d713a66ec8f2b88b8f830b8/comments",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"estates",
+								"5d713a66ec8f2b88b8f830b8",
+								"comments"
+							]
+						},
+						"description": "Adds comment for an estate"
+					},
+					"response": []
+				},
+				{
+					"name": "Update comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"aaaaaaaa\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/comments/5f352c6013a8e6b251a5dfef",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"comments",
+								"5f352c6013a8e6b251a5dfef"
+							]
+						},
+						"description": "Updates comment of given ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/real_estate_ad/comments/5f352c6013a8e6b251a5dfef",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"real_estate_ad",
+								"comments",
+								"5f352c6013a8e6b251a5dfef"
+							]
+						},
+						"description": "Deletes comment of given ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Comments routes",
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "31babb81-fed4-41c2-8de5-bd058da3bc3a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f6d73577-6e5a-418c-be1c-69abff880494",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
