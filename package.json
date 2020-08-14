@@ -5,7 +5,9 @@
     "main": "server.js",
     "scripts": {
         "start": "SET NODE_ENV=production & node server",
-        "dev": "nodemon server"
+        "server": "nodemon server",
+        "client": "npm start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "author": "Arthur Domański",
     "license": "MIT",
@@ -28,5 +30,8 @@
         "nodemailer": "^6.4.11",
         "slugify": "^1.4.5",
         "xss-clean": "^0.1.1"
+    },
+    "devDependencies": {
+        "concurrently": "^5.3.0"
     }
 }
