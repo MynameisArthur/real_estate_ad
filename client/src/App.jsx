@@ -6,6 +6,7 @@ import Landing from './components/Landing/Landing';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import Estates from './components/Estates/Estates';
+import Alert from './components/Alert/Alert';
 //Redux
 import {Provider} from 'react-redux';
 import store from './store';
@@ -18,6 +19,7 @@ const App = () => {
                     <Navbar />
                     <Route exact path='/' component={Landing} />
                     <section className='container'>
+                        <Alert />
                         <Switch>
                             <Route exact path='/estates' component={Estates} />
                             <Route
