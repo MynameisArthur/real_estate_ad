@@ -13,6 +13,7 @@ const Login = () => {
     };
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log('SUCCESS!');
     };
 
     return (
@@ -44,7 +45,7 @@ const Login = () => {
                 <input type='submit' value='Login' />
             </form>
             <p>
-                Already have an account? <Link to='/login'>Sign in</Link>
+                Don't have an account? <Link to='/register'>Sign up</Link>
             </p>
         </>
     );
