@@ -40,6 +40,7 @@ const Register = ({setAlert, register}) => {
                         name='name'
                         value={name}
                         onChange={(e) => handleChange(e)}
+                        required
                     />
                 </div>
                 <div className='form-group'>
@@ -49,6 +50,7 @@ const Register = ({setAlert, register}) => {
                         name='email'
                         value={email}
                         onChange={(e) => handleChange(e)}
+                        required
                     />
                 </div>
                 <div className='form-group'>
@@ -58,6 +60,8 @@ const Register = ({setAlert, register}) => {
                         name='password'
                         value={password}
                         onChange={(e) => handleChange(e)}
+                        required
+                        minLength='6'
                     />
                 </div>
                 <div className='form-group'>
@@ -67,6 +71,8 @@ const Register = ({setAlert, register}) => {
                         name='password2'
                         value={password2}
                         onChange={(e) => handleChange(e)}
+                        required
+                        minLength='6'
                     />
                 </div>
                 <input type='submit' value='Register' />
