@@ -25,8 +25,8 @@ a {
 }
 body {
     margin: 0;
-    font-family: $font-primary;
+    font-family: var(--font-primary);
 }
 p {
-    font-family: $font-secondary;
+    font-family: var(--font-secondary);
 }

@@ -12,8 +12,10 @@ const Estates = ({estates: {count, data}, getEstates}) => {
     return (
         <div>
             <h3>Estates</h3>
-            <p>{count}</p>
-            <ul>{data && data.map((item) => <div>{item.name}</div>)}</ul>
+            <div className='estate-list'>
+                {data &&
+                    data.map((item) => <Estate key={item.id} estate={item} />)}
+            </div>
         </div>
     );
 };
