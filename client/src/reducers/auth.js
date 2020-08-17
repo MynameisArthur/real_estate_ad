@@ -14,6 +14,7 @@ export default function (state = initialState, action) {
     const {type, payload} = action;
     switch (type) {
         case registerTypes.REGISTER_SUCCESS:
+        case authTypes.LOGIN_SUCCESS:
             localStorage.setItem('token', payload.token);
             return {
                 ...state,
@@ -23,6 +24,8 @@ export default function (state = initialState, action) {
             };
         case registerTypes.REGISTER_FAIL:
         case authTypes.AUTH_ERROR:
+        case authTypes.LOGIN_FAIL:
+        case authTypes.LOGOUT:
             localStorage.removeItem('token');
             return {
                 ...state,

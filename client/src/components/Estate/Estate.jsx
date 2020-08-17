@@ -12,7 +12,7 @@ const Estate = ({estate}) => {
                     <li key={`${estate._id}_${index + 1}`}>
                         <img
                             src={photo}
-                            alt={`${estate.name}-photo#${index + 1}`}
+                            alt={`${estate.name}-view#${index + 1}`}
                         />
                     </li>
                 ))}
