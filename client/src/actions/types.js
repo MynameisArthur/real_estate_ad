@@ -13,6 +13,10 @@ export const AuthActionTypes = {
     LOGIN_FAIL: 'LOGIN_FAIL',
     LOGOUT: 'LOGOUT',
 };
+export const ProfileActionTypes = {
+    GET_PROFILE: 'GET_PROFILE',
+    PROFILE_ERROR: 'PROFILE_ERROR',
+};
 export const EstateActionTypes = {
     GET_ESTATES: 'GET_ESTATES',
     ESTATE_ERROR: 'ESTATE_ERROR',

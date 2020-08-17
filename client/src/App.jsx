@@ -8,10 +8,12 @@ import Register from './components/Register/Register';
 import Estates from './components/Estates/Estates';
 import Alert from './components/Alert/Alert';
 import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/Routing/PrivateRoute';
 //Redux
 import {Provider} from 'react-redux';
 import store from './store';
 import {loadUser} from './actions/auth';
+import Dashboard from './components/Dashboard/Dashboard';
 
 if (localStorage.token) {
     setAuthToken(localStorage.token);
@@ -37,6 +39,10 @@ const App = () => {
                                 component={Register}
                             />
                             <Route exact path='/login' component={Login} />
+                            <PrivateRoute
+                                path='/dashboard'
+                                component={Dashboard}
+                            />
                         </Switch>
                     </section>
                 </Router>
