@@ -4,12 +4,15 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getEstates} from '../../actions/estate';
 import Estate from '../Estate/Estate';
+import Spinner from '../Spinner/Spinner';
 
-const Estates = ({estates: {count, data}, getEstates}) => {
+const Estates = ({estates: {count, data}, loading, getEstates}) => {
     useEffect(() => {
         getEstates();
     }, [getEstates]);
-    return (
+    return loading ? (
+        <Spinner />
+    ) : (
         <div>
             <h3>Estates</h3>
             <div className='estate-list'>
@@ -23,10 +26,12 @@ const Estates = ({estates: {count, data}, getEstates}) => {
 Estates.propTypes = {
     estates: PropTypes.object.isRequired,
     getEstates: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
     estates: state.estate.estates,
+    loading: state.estate.loading,
 });
 
 export default connect(mapStateToProps, {getEstates})(Estates);

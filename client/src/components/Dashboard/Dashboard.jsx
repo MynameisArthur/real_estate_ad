@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import './Dashboard.scss';
 import {connect} from 'react-redux';
 import {getCurrentProfile} from '../../actions/profile';
+import Spinner from '../Spinner/Spinner';
 
-const Dashboard = ({profile: {profile}, auth, getCurrentProfile}) => {
+const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
     useEffect(() => {
         getCurrentProfile(auth);
     }, []);
 
-    return (
+    return loading && profile === null ? (
+        <Spinner />
+    ) : (
         <div className='dashboard-container'>
             {auth.user && <p>{auth.user.data.name}'s dashboard</p>}
             {profile && (
