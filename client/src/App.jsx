@@ -9,6 +9,7 @@ import Estates from './components/Estates/Estates';
 import Alert from './components/Alert/Alert';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
+import AddEstate from './components/AddEstate/AddEstate';
 //Redux
 import {Provider} from 'react-redux';
 import store from './store';
@@ -43,6 +44,7 @@ const App = () => {
                                 path='/dashboard'
                                 component={Dashboard}
                             />
+                            <Route path='/addEstate' component={AddEstate} />
                         </Switch>
                     </section>
                 </Router>

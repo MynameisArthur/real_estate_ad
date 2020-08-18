@@ -39,18 +39,6 @@ exports.getEstate = asyncHandler(async (req, res, next) => {
 exports.createEstate = asyncHandler(async (req, res, next) => {
     //Add user to req body
     req.body.user = req.user.id;
-    //Check for published estate
-    const publishedEstate = await Estate.findOne({user: req.user.id});
-    //if the user is not admin, he/she can only add 1 estate
-    if (publishedEstate && req.user.role !== 'admin') {
-        return next(
-            new ErrorResponse(
-                `The user with ID ${req.user.id} has already published an estate`,
-                400
-            )
-        );
-    }
-
     const estate = await Estate.create(req.body);
     res.status(201).json({
         success: true,

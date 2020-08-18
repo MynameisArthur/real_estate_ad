@@ -20,3 +20,24 @@ export const getEstates = () => async (dispatch) => {
         });
     }
 };
+
+export const submitEstate = (data) => async (dispatch) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const body = JSON.stringify(data);
+    try {
+        const res = await axios.post('/real_estate_ad/estates', body, config);
+        dispatch({type: types.ADD_ESTATE, payload: res.data});
+    } catch (err) {
+        const errors = err.response.data.error.split(',');
+        if (errors) {
+            errors.forEach((error) => dispatch(setAlert(error, 'danger')));
+        }
+        dispatch({
+            type: types.ESTATE_ERROR,
+        });
+    }
+};

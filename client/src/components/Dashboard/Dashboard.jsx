@@ -4,10 +4,11 @@ import './Dashboard.scss';
 import {connect} from 'react-redux';
 import {getCurrentProfile} from '../../actions/profile';
 import Spinner from '../Spinner/Spinner';
+import {Link} from 'react-router-dom';
 
 const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
     useEffect(() => {
-        getCurrentProfile(auth);
+        getCurrentProfile();
     }, []);
 
     return loading && profile === null ? (
@@ -17,11 +18,14 @@ const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
             {auth.user && <p>{auth.user.data.name}'s dashboard</p>}
             {profile && (
                 <div className='users-estates'>
-                    {profile.estates.length > 0 && (
-                        <p>{profile.estates[0].name}</p>
+                    {profile.data.estates.length > 0 && (
+                        <p>{profile.data.estates[0].name}</p>
                     )}
                 </div>
             )}
+            <div className='dashboard-btn'>
+                <Link to='/addEstate'>Add Estate</Link>
+            </div>
         </div>
     );
 };

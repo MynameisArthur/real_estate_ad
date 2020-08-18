@@ -20,4 +20,5 @@ export const ProfileActionTypes = {
 export const EstateActionTypes = {
     GET_ESTATES: 'GET_ESTATES',
     ESTATE_ERROR: 'ESTATE_ERROR',
+    ADD_ESTATE: 'ADD_ESTATE',
 };
