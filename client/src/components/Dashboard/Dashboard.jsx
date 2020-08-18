@@ -4,15 +4,21 @@ import './Dashboard.scss';
 import {connect} from 'react-redux';
 import {getCurrentProfile} from '../../actions/profile';
 
-const Dashboard = ({profile, auth, getCurrentProfile}) => {
+const Dashboard = ({profile: {profile}, auth, getCurrentProfile}) => {
     useEffect(() => {
         getCurrentProfile(auth);
     }, []);
 
     return (
         <div className='dashboard-container'>
-            <p>dashboard</p>
-            <p>{profile && JSON.stringify(profile)}</p>
+            {auth.user && <p>{auth.user.data.name}'s dashboard</p>}
+            {profile && (
+                <div className='users-estates'>
+                    {profile.estates.length > 0 && (
+                        <p>{profile.estates[0].name}</p>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
