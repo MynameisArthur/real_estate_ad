@@ -22,6 +22,10 @@ const OfferSchema = new mongoose.Schema({
         ref: 'Estate',
         required: true,
     },
+    user: {
+        type: String,
+        required: true,
+    },
 });
 
 module.exports = mongoose.model('Offer', OfferSchema);

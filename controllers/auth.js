@@ -2,6 +2,9 @@ const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
 const sendEmail = require('../utils/sendEmail');
 const User = require('../models/User');
+const Estate = require('../models/Estate');
+const Offer = require('../models/Offer');
+const Comment = require('../models/Comment');
 const crypto = require('crypto');
 
 // @desc  Register user
@@ -68,6 +71,19 @@ exports.getMe = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: user,
+    });
+});
+// @desc Get current logged in user
+// @route GET /real_estate_ad/auth/myProfile
+// @access Private
+exports.getMyProfile = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+    const estates = await Estate.find({user: user._id});
+    const offers = await Offer.find({user: user._id});
+    const comments = await Comment.find({user: user._id});
+    res.status(200).json({
+        success: true,
+        data: {user, estates, offers, comments},
     });
 });
 // @desc Forgot password

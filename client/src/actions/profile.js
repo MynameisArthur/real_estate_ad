@@ -10,6 +10,7 @@ export const getCurrentProfile = (auth) => async (dispatch) => {
         const estates = await axios.get(`/real_estate_ad/estates?user=${_id}`);
         const offers = await axios.get(`/real_estate_ad/offers?_id=${_id}`);
         const comments = await axios.get(`/real_estate_ad/comments?_id=${_id}`);
+        console.log('estates');
         const profile = {
             user,
             estates: estates.data.data,
