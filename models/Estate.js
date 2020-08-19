@@ -131,6 +131,14 @@ EstateSchema.pre('save', async function (next) {
     next();
 });
 
+//If photos were included
+EstateSchema.pre('save', async function (next) {
+    if (this.photos.length > 0) {
+        this.photos = this.photos.map((photo) => photo.name);
+    }
+    next();
+});
+
 //Cascade delete offers when an estate is deleted
 EstateSchema.pre('remove', async function (next) {
     console.log(`Offers being removed from estate ${this._id}`);

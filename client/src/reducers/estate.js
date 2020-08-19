@@ -20,6 +20,10 @@ export default function (state = initialState, action) {
                 ...state,
                 estate: payload,
             };
+        case types.UPLOAD_PHOTO:
+            return {
+                ...state,
+            };
         case types.ESTATE_ERROR:
             return {
                 ...state,

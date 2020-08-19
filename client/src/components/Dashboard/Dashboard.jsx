@@ -5,22 +5,33 @@ import {connect} from 'react-redux';
 import {getCurrentProfile} from '../../actions/profile';
 import Spinner from '../Spinner/Spinner';
 import {Link} from 'react-router-dom';
+import MyEstate from '../Estate/MyEstate';
+import Estate from '../Estate/Estate';
 
 const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
     useEffect(() => {
         getCurrentProfile();
     }, []);
-
+    // const {estates} = profile.data || null;
     return loading && profile === null ? (
         <Spinner />
     ) : (
         <div className='dashboard-container'>
-            {auth.user && <p>{auth.user.data.name}'s dashboard</p>}
+            {auth.user && (
+                <h2 className='section-title'>
+                    {auth.user.data.name}'s dashboard
+                </h2>
+            )}
             {profile && (
                 <div className='users-estates'>
-                    {profile.data.estates.length > 0 && (
-                        <p>{profile.data.estates[0].name}</p>
-                    )}
+                    {profile.data.estates.length > 0 &&
+                        profile.data.estates.map((estate) => (
+                            <MyEstate
+                                key={estate._id}
+                                estate={estate}
+                                WrappedComponent={Estate}
+                            />
+                        ))}
                 </div>
             )}
             <div className='dashboard-btn'>

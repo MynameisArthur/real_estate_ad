@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {EstateActionTypes as types} from './types';
 import {setAlert} from './alert';
+import Estate from '../components/Estate/Estate';
 
 export const getEstates = () => async (dispatch) => {
     try {
@@ -27,7 +28,9 @@ export const submitEstate = (data) => async (dispatch) => {
             'Content-Type': 'application/json',
         },
     };
-    const body = JSON.stringify(data);
+    const estate = data;
+    estate.features = estate.features.trim().split(',');
+    const body = JSON.stringify(estate);
     try {
         const res = await axios.post('/real_estate_ad/estates', body, config);
         dispatch({type: types.ADD_ESTATE, payload: res.data});
@@ -36,6 +39,20 @@ export const submitEstate = (data) => async (dispatch) => {
         if (errors) {
             errors.forEach((error) => dispatch(setAlert(error, 'danger')));
         }
+        dispatch({
+            type: types.ESTATE_ERROR,
+        });
+    }
+};
+
+export const uploadPhoto = (estateId, file) => async (dispatch) => {
+    try {
+        const res = await axios.put(
+            `/real_estate_ad/estates/${estateId}/photo`,
+            file
+        );
+        dispatch({type: types.UPLOAD_PHOTO, payload: res.data});
+    } catch (err) {
         dispatch({
             type: types.ESTATE_ERROR,
         });

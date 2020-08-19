@@ -39,6 +39,7 @@ exports.getEstate = asyncHandler(async (req, res, next) => {
 exports.createEstate = asyncHandler(async (req, res, next) => {
     //Add user to req body
     req.body.user = req.user.id;
+
     const estate = await Estate.create(req.body);
     res.status(201).json({
         success: true,

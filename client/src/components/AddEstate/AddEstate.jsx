@@ -41,7 +41,11 @@ const AddEstate = ({submitEstate}) => {
         submitEstate(formData);
     };
     return (
-        <form onSubmit={(e) => onSubmit(e)} className='form'>
+        <form
+            onSubmit={(e) => onSubmit(e)}
+            className='form'
+            encType='multipart/form-data'
+        >
             <div className='form-group'>
                 <label>
                     Estate name
@@ -152,17 +156,6 @@ const AddEstate = ({submitEstate}) => {
                         type='number'
                         name='bathrooms'
                         value={bathrooms}
-                        onChange={(e) => handleChange(e)}
-                    />
-                </label>
-            </div>
-            <div className='form-group'>
-                <label>
-                    Photos
-                    <input
-                        type='file'
-                        name='photos'
-                        value={photos}
                         onChange={(e) => handleChange(e)}
                     />
                 </label>
