@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {EstateActionTypes as types} from './types';
 import {setAlert} from './alert';
-import Estate from '../components/Estate/Estate';
 
 export const getEstates = () => async (dispatch) => {
     try {
@@ -22,7 +21,9 @@ export const getEstates = () => async (dispatch) => {
     }
 };
 
-export const submitEstate = (data) => async (dispatch) => {
+export const submitEstate = (data, history, edit = false) => async (
+    dispatch
+) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -32,15 +33,18 @@ export const submitEstate = (data) => async (dispatch) => {
     estate.features = estate.features.trim().split(',');
     const body = JSON.stringify(estate);
     try {
-        const res = await axios.post('/real_estate_ad/estates', body, config);
-        dispatch({type: types.ADD_ESTATE, payload: res.data});
-    } catch (err) {
-        const errors = err.response.data.error.split(',');
-        if (errors) {
-            errors.forEach((error) => dispatch(setAlert(error, 'danger')));
+        await axios.post('/real_estate_ad/estates', body, config);
+        dispatch(setAlert(edit ? 'Estate updated' : 'Estate created'));
+        if (!edit) {
+            // dispatch({type: types.ADD_ESTATE, payload: res.data});
+            history.push('/dashboard');
         }
+        // dispatch({type: types.EDIT_ESTATE, payload: res.data});
+    } catch (err) {
+        dispatch(setAlert(err, 'danger'));
         dispatch({
             type: types.ESTATE_ERROR,
+            payload: err,
         });
     }
 };

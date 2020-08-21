@@ -15,11 +15,11 @@ export default function (state = initialState, action) {
                 estates: payload,
                 loading: false,
             };
-        case types.ADD_ESTATE:
-            return {
-                ...state,
-                estate: payload,
-            };
+        // case types.ADD_ESTATE:
+        //     return {
+        //         ...state,
+        //         estate: payload,
+        //     };
         case types.UPLOAD_PHOTO:
             return {
                 ...state,

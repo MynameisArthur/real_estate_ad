@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {submitEstate} from '../../actions/estate';
-import './AddEstate.scss';
-const AddEstate = ({submitEstate}) => {
+import {Link, withRouter} from 'react-router-dom';
+import './EstateForm.scss';
+const EstateForm = ({submitEstate, history}) => {
     const initialData = {
         name: '',
         description: '',
@@ -38,7 +39,7 @@ const AddEstate = ({submitEstate}) => {
     };
     const onSubmit = async (e) => {
         e.preventDefault();
-        submitEstate(formData);
+        submitEstate(formData, history);
     };
     return (
         <form
@@ -177,8 +178,8 @@ const AddEstate = ({submitEstate}) => {
     );
 };
 
-AddEstate.propTypes = {
+EstateForm.propTypes = {
     submitEstate: PropTypes.func.isRequired,
 };
 
-export default connect(null, {submitEstate})(AddEstate);
+export default connect(null, {submitEstate})(withRouter(EstateForm));

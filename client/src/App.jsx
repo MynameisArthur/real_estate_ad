@@ -9,7 +9,7 @@ import Estates from './components/Estates/Estates';
 import Alert from './components/Alert/Alert';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
-import AddEstate from './components/AddEstate/AddEstate';
+import EstateForm from './components/EstateForm/EstateForm';
 //Redux
 import {Provider} from 'react-redux';
 import store from './store';
@@ -46,7 +46,7 @@ const App = () => {
                             />
                             <PrivateRoute
                                 path='/addEstate'
-                                component={AddEstate}
+                                component={EstateForm}
                             />
                         </Switch>
                     </section>

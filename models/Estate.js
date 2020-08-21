@@ -60,7 +60,10 @@ const EstateSchema = new mongoose.Schema(
             min: [1, 'Rating must be at least 1'],
             max: [10, 'Rating must be no more than 10'],
         },
-        startingPrice: Number,
+        startingPrice: {
+            type: Number,
+            required: [true, 'Please specify property starting price'],
+        },
         highestBid: Number,
         houseArea: {
             type: Number,

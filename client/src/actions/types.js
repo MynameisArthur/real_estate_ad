@@ -23,4 +23,5 @@ export const EstateActionTypes = {
     ESTATE_ERROR: 'ESTATE_ERROR',
     ADD_ESTATE: 'ADD_ESTATE',
     UPLOAD_PHOTO: 'UPLOAD_PHOTO',
+    EDIT_ESTATE: 'EDIT_ESTATE',
 };
