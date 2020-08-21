@@ -44,7 +44,10 @@ const App = () => {
                                 path='/dashboard'
                                 component={Dashboard}
                             />
-                            <Route path='/addEstate' component={AddEstate} />
+                            <PrivateRoute
+                                path='/addEstate'
+                                component={AddEstate}
+                            />
                         </Switch>
                     </section>
                 </Router>

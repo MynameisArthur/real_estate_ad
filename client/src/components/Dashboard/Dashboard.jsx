@@ -10,7 +10,9 @@ import Estate from '../Estate/Estate';
 
 const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
     useEffect(() => {
-        getCurrentProfile();
+        if (auth.isAuthenticated) {
+            getCurrentProfile();
+        }
     }, []);
     // const {estates} = profile.data || null;
     return loading && profile === null ? (

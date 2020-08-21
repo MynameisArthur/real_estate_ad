@@ -10,10 +10,10 @@ const Estate = ({estate}) => {
             <ul className='estate-photos'>
                 {estate.photos.map((photo, index) => (
                     <li key={`${estate._id}_${index + 1}`}>
-                        <img
+                        {/* <img
                             src={photo}
                             alt={`${estate.name}-view#${index + 1}`}
-                        />
+                        /> */}
                     </li>
                 ))}
             </ul>

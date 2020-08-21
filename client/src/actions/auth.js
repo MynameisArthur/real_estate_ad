@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
     RegisterActionTypes as registerTypes,
     AuthActionTypes as authTypes,
+    ProfileActionTypes as profileTypes,
 } from './types';
 import {setAlert} from './alert';
 import setAuthToken from '../utils/setAuthToken';
@@ -37,12 +38,12 @@ export const register = ({name, email, password}) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
     if (localStorage.token) {
         setAuthToken(localStorage.token);
-    }
-    try {
-        const res = await axios.get('/real_estate_ad/auth/me');
-        dispatch({type: authTypes.USER_LOADED, payload: res.data});
-    } catch (err) {
-        dispatch({type: authTypes.AUTH_ERROR});
+        try {
+            const res = await axios.get('/real_estate_ad/auth/me');
+            dispatch({type: authTypes.USER_LOADED, payload: res.data});
+        } catch (err) {
+            dispatch({type: authTypes.AUTH_ERROR});
+        }
     }
 };
 
@@ -74,5 +75,6 @@ export const login = (email, password) => async (dispatch) => {
 };
 //Logout / clear profile
 export const logout = () => (dispatch) => {
+    dispatch({type: profileTypes.CLEAR_PROFILE});
     dispatch({type: authTypes.LOGOUT});
 };

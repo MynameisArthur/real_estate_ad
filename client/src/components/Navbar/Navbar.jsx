@@ -37,7 +37,7 @@ const Navbar = ({auth: {isAuthenticated, loading}, logout}) => {
     return (
         <nav className='main-nav'>
             <Link to='/'>Home</Link>
-            {!loading && <>{isAuthenticated ? authLinks : guestLinks}</>}
+            {isAuthenticated ? authLinks : guestLinks}
         </nav>
     );
 };
