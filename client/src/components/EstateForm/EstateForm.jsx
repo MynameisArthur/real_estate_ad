@@ -1,10 +1,49 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {submitEstate} from '../../actions/estate';
-import {Link, withRouter} from 'react-router-dom';
+import {submitEstate, getEstate} from '../../actions/estate';
+import {withRouter, useParams} from 'react-router-dom';
 import './EstateForm.scss';
-const EstateForm = ({submitEstate, history}) => {
+const EstateForm = ({edit, submitEstate, getEstate, history}) => {
+    const {id} = useParams();
+    const loadEstate = async () => {
+        const estate = await getEstate(id);
+        const {
+            name,
+            description,
+            phone,
+            email,
+            address,
+            startingPrice,
+            houseArea,
+            yardArea,
+            bedrooms,
+            bathrooms,
+            photos,
+            features,
+        } = estate.data.data;
+        setFormData({
+            ...formData,
+            name,
+            description,
+            phone,
+            email,
+            address,
+            startingPrice,
+            houseArea,
+            yardArea,
+            bedrooms,
+            bathrooms,
+            photos,
+            features,
+        });
+    };
+    useEffect(() => {
+        if (edit) {
+            loadEstate();
+        }
+    }, []);
+
     const initialData = {
         name: '',
         description: '',
@@ -39,6 +78,7 @@ const EstateForm = ({submitEstate, history}) => {
     };
     const onSubmit = async (e) => {
         e.preventDefault();
+
         submitEstate(formData, history);
     };
     return (
@@ -180,6 +220,7 @@ const EstateForm = ({submitEstate, history}) => {
 
 EstateForm.propTypes = {
     submitEstate: PropTypes.func.isRequired,
+    getEstate: PropTypes.func.isRequired,
 };
 
-export default connect(null, {submitEstate})(withRouter(EstateForm));
+export default connect(null, {submitEstate, getEstate})(withRouter(EstateForm));

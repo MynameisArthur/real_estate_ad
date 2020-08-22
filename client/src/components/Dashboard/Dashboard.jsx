@@ -24,6 +24,9 @@ const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
                     {auth.user.data.name}'s dashboard
                 </h2>
             )}
+            <div className='dashboard-btn'>
+                <Link to='/addEstate'>Add Estate</Link>
+            </div>
             {profile && (
                 <div className='users-estates'>
                     {profile.data.estates.length > 0 &&
@@ -36,9 +39,6 @@ const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
                         ))}
                 </div>
             )}
-            <div className='dashboard-btn'>
-                <Link to='/addEstate'>Add Estate</Link>
-            </div>
         </div>
     );
 };

@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {uploadPhoto} from '../../actions/estate';
+import {Link} from 'react-router-dom';
+import './Estate.scss';
 const MyEstate = ({WrappedComponent, uploadPhoto, ...props}) => {
     const [formData, setFormData] = useState({
         photos: [],
@@ -14,8 +16,7 @@ const MyEstate = ({WrappedComponent, uploadPhoto, ...props}) => {
     };
 
     return (
-        <div>
-            <h4>This is MyEstate</h4>
+        <div className='my-estate'>
             <WrappedComponent {...props} />
             <form
                 onSubmit={(e) => onSubmit(e)}
@@ -31,6 +32,9 @@ const MyEstate = ({WrappedComponent, uploadPhoto, ...props}) => {
                 </div>
                 <button type='submit'>Upload Photo</button>
             </form>
+            <Link to={`/editEstate/${props.estate._id}`} className='btn'>
+                Edit Estate
+            </Link>
         </div>
     );
 };

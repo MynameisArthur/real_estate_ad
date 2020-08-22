@@ -15,6 +15,12 @@ export default function (state = initialState, action) {
                 estates: payload,
                 loading: false,
             };
+        case types.GET_SINGLE_ESTATE:
+            return {
+                ...state,
+                estate: payload,
+                loading: false,
+            };
         // case types.ADD_ESTATE:
         //     return {
         //         ...state,

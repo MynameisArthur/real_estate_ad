@@ -20,6 +20,7 @@ export const ProfileActionTypes = {
 };
 export const EstateActionTypes = {
     GET_ESTATES: 'GET_ESTATES',
+    GET_SINGLE_ESTATE: 'GET_SINGLE_ESTATE',
     ESTATE_ERROR: 'ESTATE_ERROR',
     ADD_ESTATE: 'ADD_ESTATE',
     UPLOAD_PHOTO: 'UPLOAD_PHOTO',

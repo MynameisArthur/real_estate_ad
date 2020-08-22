@@ -6,3 +6,13 @@
         font-size: 1.6rem;
     }
 }
+.dashboard-btn {
+    text-align: center;
+    color: var(--color-secondary);
+    background-color: var(--color-primary);
+    padding: 1em 1.5em;
+    border-radius: 0.2rem;
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 700;
+}
