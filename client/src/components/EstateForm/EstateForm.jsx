@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {submitEstate, getEstate} from '../../actions/estate';
+import {addEstate, getEstate, updateEstate} from '../../actions/estate';
 import {withRouter, useParams} from 'react-router-dom';
 import './EstateForm.scss';
-const EstateForm = ({edit, submitEstate, getEstate, history}) => {
+const EstateForm = ({edit, addEstate, updateEstate, getEstate, history}) => {
     const {id} = useParams();
     const loadEstate = async () => {
         const estate = await getEstate(id);
@@ -13,7 +13,6 @@ const EstateForm = ({edit, submitEstate, getEstate, history}) => {
             description,
             phone,
             email,
-            address,
             startingPrice,
             houseArea,
             yardArea,
@@ -23,19 +22,18 @@ const EstateForm = ({edit, submitEstate, getEstate, history}) => {
             features,
         } = estate.data.data;
         setFormData({
-            ...formData,
             name,
             description,
             phone,
             email,
-            address,
             startingPrice,
             houseArea,
             yardArea,
             bedrooms,
             bathrooms,
             photos,
-            features,
+            features: features.join(),
+            address: estate.data.data.location.formattedAddress,
         });
     };
     useEffect(() => {
@@ -78,8 +76,11 @@ const EstateForm = ({edit, submitEstate, getEstate, history}) => {
     };
     const onSubmit = async (e) => {
         e.preventDefault();
-
-        submitEstate(formData, history);
+        if (edit) {
+            updateEstate({...formData, id}, history);
+        } else {
+            addEstate(formData, history);
+        }
     };
     return (
         <form
@@ -219,8 +220,11 @@ const EstateForm = ({edit, submitEstate, getEstate, history}) => {
 };
 
 EstateForm.propTypes = {
-    submitEstate: PropTypes.func.isRequired,
+    addEstate: PropTypes.func.isRequired,
+    updateEstate: PropTypes.func.isRequired,
     getEstate: PropTypes.func.isRequired,
 };
 
-export default connect(null, {submitEstate, getEstate})(withRouter(EstateForm));
+export default connect(null, {addEstate, updateEstate, getEstate})(
+    withRouter(EstateForm)
+);
