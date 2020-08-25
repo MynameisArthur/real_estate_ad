@@ -14,7 +14,6 @@ const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
             getCurrentProfile();
         }
     }, []);
-    // const {estates} = profile.data || null;
     return loading && profile === null ? (
         <Spinner />
     ) : (

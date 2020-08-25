@@ -22,6 +22,7 @@ const EstateForm = ({edit, addEstate, updateEstate, getEstate, history}) => {
             features,
         } = estate.data.data;
         setFormData({
+            ...formData,
             name,
             description,
             phone,

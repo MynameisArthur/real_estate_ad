@@ -3,6 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const Estate = require('../models/Estate');
 const asyncHandler = require('../middleware/async');
 const geocoder = require('../utils/geocoder');
+const slugify = require('slugify');
 
 //@desc Get all estates
 //@route GET /real_estate_ad/estates
@@ -70,7 +71,24 @@ exports.updateEstate = asyncHandler(async (req, res, next) => {
             )
         );
     }
-    estate = await Estate.findOneAndUpdate(req.params.id, req.body, {
+    const updatedData = req.body;
+    //Geocode and create location field
+    const loc = await geocoder.geocode(updatedData.address);
+    updatedData.location = {
+        type: 'Point',
+        coordinates: [loc[0].longitude, loc[0].latitude],
+        formattedAddress: loc[0].formattedAddress,
+        street: loc[0].streetName,
+        city: loc[0].city,
+        state: loc[0].stateCode,
+        zipcode: loc[0].zipcode,
+        country: loc[0].countryCode,
+    };
+    //Don't save address in DB
+    updatedData.address = undefined;
+    //create slug
+    updatedData.slug = slugify(updatedData.name, {lower: true});
+    estate = await estate.update(updatedData, {
         new: true,
         runValidators: true,
     });

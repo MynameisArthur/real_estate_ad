@@ -35,7 +35,6 @@ const EstateSchema = new mongoose.Schema(
         },
         address: {
             type: String,
-            required: [true, 'Please add an address'],
         },
         location: {
             // GeoJSON point
