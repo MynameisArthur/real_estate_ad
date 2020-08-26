@@ -38,14 +38,20 @@ exports.getEstate = asyncHandler(async (req, res, next) => {
 //@access Private
 
 exports.createEstate = asyncHandler(async (req, res, next) => {
-    //Add user to req body
-    req.body.user = req.user.id;
+    if (req.body.address) {
+        //Add user to req body
+        req.body.user = req.user.id;
 
-    const estate = await Estate.create(req.body);
-    res.status(201).json({
-        success: true,
-        data: estate,
-    });
+        const estate = await Estate.create(req.body);
+        res.status(201).json({
+            success: true,
+            data: estate,
+        });
+    } else {
+        return next(
+            new ErrorResponse(`You need to specify address of your estate`, 400)
+        );
+    }
 });
 
 //@desc Update estate
@@ -69,6 +75,11 @@ exports.updateEstate = asyncHandler(async (req, res, next) => {
                 `User with the ID ${req.params.id} is not authorized to update this estate`,
                 401
             )
+        );
+    }
+    if (!req.body.address) {
+        return next(
+            new ErrorResponse(`You need to specify address of your estate`, 400)
         );
     }
     const updatedData = req.body;
