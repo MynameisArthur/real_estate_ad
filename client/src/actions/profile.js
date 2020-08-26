@@ -19,3 +19,15 @@ export const getCurrentProfile = () => async (dispatch) => {
         });
     }
 };
+export const deleteEstate = (estateId) => async (dispatch) => {
+    try {
+        await axios.delete(`/real_estate_ad/estates/${estateId}`);
+        dispatch({type: profileTypes.DELETE_ESTATE});
+        dispatch(setAlert('Estate deleted'));
+        dispatch(getCurrentProfile());
+    } catch (err) {
+        dispatch({
+            type: profileTypes.PROFILE_ERROR,
+        });
+    }
+};

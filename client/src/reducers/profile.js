@@ -26,6 +26,10 @@ export default function (state = initialState, action) {
                 profile: null,
                 loading: false,
             };
+        case profileTypes.DELETE_ESTATE:
+            return {
+                ...state,
+            };
         default:
             return state;
     }

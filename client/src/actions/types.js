@@ -17,6 +17,7 @@ export const ProfileActionTypes = {
     GET_PROFILE: 'GET_PROFILE',
     PROFILE_ERROR: 'PROFILE_ERROR',
     CLEAR_PROFILE: 'CLEAR_PROFILE',
+    DELETE_ESTATE: 'DELETE_ESTATE',
 };
 export const EstateActionTypes = {
     GET_ESTATES: 'GET_ESTATES',

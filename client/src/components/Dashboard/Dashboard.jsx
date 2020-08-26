@@ -34,6 +34,7 @@ const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
                                 key={estate._id}
                                 estate={estate}
                                 WrappedComponent={Estate}
+                                reloadProfile={getCurrentProfile}
                             />
                         ))}
                 </div>

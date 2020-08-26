@@ -1,8 +1,8 @@
 .estate-list {
     border-top: 1px solid var(--color-primary);
     border-bottom: 1px solid var(--color-primary);
-    margin: auto;
-    margin-top: 10vh;
+    margin: 10vh auto;
     display: flex;
     flex-wrap: wrap;
+    width: 90%;
 }

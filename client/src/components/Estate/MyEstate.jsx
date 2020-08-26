@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {uploadPhoto} from '../../actions/estate';
-import {Link} from 'react-router-dom';
+import {deleteEstate} from '../../actions/profile';
+
+import {Link, withRouter} from 'react-router-dom';
 import './Estate.scss';
-const MyEstate = ({WrappedComponent, uploadPhoto, ...props}) => {
+import PropTypes from 'prop-types';
+
+const MyEstate = ({WrappedComponent, uploadPhoto, deleteEstate, ...props}) => {
+    const id = props.estate._id;
     const [formData, setFormData] = useState({
         photos: [],
     });
@@ -12,7 +17,10 @@ const MyEstate = ({WrappedComponent, uploadPhoto, ...props}) => {
     };
     const onSubmit = async (e) => {
         e.preventDefault();
-        uploadPhoto(props.estate._id, formData);
+        uploadPhoto(id, formData);
+    };
+    const handleDelete = (e) => {
+        deleteEstate(id);
     };
 
     return (
@@ -32,11 +40,19 @@ const MyEstate = ({WrappedComponent, uploadPhoto, ...props}) => {
                 </div>
                 <button type='submit'>Upload Photo</button>
             </form>
-            <Link to={`/editEstate/${props.estate._id}`} className='btn'>
+            <Link to={`/editEstate/${id}`} className='btn'>
                 Edit Estate
             </Link>
+            <button onClick={handleDelete} className='btn danger'>
+                Delete Estate
+            </button>
         </div>
     );
 };
 
-export default connect(null, {uploadPhoto})(MyEstate);
+MyEstate.propTypes = {
+    uploadPhoto: PropTypes.func.isRequired,
+    deleteEstate: PropTypes.func.isRequired,
+};
+
+export default connect(null, {uploadPhoto, deleteEstate})(withRouter(MyEstate));

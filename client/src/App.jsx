@@ -44,12 +44,14 @@ const App = () => {
                                 path='/dashboard'
                                 component={Dashboard}
                             />
-                            <PrivateRoute path='/addEstate'>
-                                <EstateForm edit={false} />
-                            </PrivateRoute>
-                            <PrivateRoute path='/editEstate/:id'>
-                                <EstateForm edit={true} />
-                            </PrivateRoute>
+                            <PrivateRoute
+                                path='/addEstate'
+                                component={() => <EstateForm edit={false} />}
+                            />
+                            <PrivateRoute
+                                path='/editEstate/:id'
+                                component={() => <EstateForm edit={true} />}
+                            />
                         </Switch>
                     </section>
                 </Router>
