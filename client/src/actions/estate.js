@@ -1,21 +1,21 @@
 import axios from 'axios';
 import {EstateActionTypes as types} from './types';
 import {setAlert} from './alert';
-
+import {getCurrentProfile} from './profile';
 export const getEstates = () => async (dispatch) => {
     try {
         const res = await axios.get('/real_estate_ad/estates');
         dispatch({type: types.GET_ESTATES, payload: res.data});
     } catch (err) {
-        const errors = err.response.data.error.split(',');
-        if (errors) {
-            errors.forEach((error) => dispatch(setAlert(error, 'danger')));
-        }
+        // const errors = err.response.data.error.split(',');
+        // if (errors) {
+        //     errors.forEach((error) => dispatch(setAlert(error, 'danger')));
+        // }
         dispatch({
             type: types.ESTATE_ERROR,
             payload: {
-                msg: err.response.statusText,
-                status: err.response.status,
+                msg: err.response,
+                status: err.response,
             },
         });
     }
@@ -92,6 +92,22 @@ export const uploadPhoto = (estateId, file) => async (dispatch) => {
             file
         );
         dispatch({type: types.UPLOAD_PHOTO, payload: res.data});
+    } catch (err) {
+        dispatch({
+            type: types.ESTATE_ERROR,
+        });
+    }
+};
+export const deleteEstate = (estateId, source) => async (dispatch) => {
+    try {
+        await axios.delete(`/real_estate_ad/estates/${estateId}`);
+        dispatch({type: types.DELETE_ESTATE});
+        dispatch(setAlert('Estate deleted'));
+        if (source === '/dashboard') {
+            dispatch(getCurrentProfile());
+        } else if (source === '/estates') {
+            dispatch(getEstates());
+        }
     } catch (err) {
         dispatch({
             type: types.ESTATE_ERROR,

@@ -10,6 +10,8 @@ import Alert from './components/Alert/Alert';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
 import EstateForm from './components/EstateForm/EstateForm';
+import Offer from './components/Offer/Offer';
+import Comment from './components/Comment/Comment';
 //Redux
 import {Provider} from 'react-redux';
 import store from './store';
@@ -51,6 +53,16 @@ const App = () => {
                             <PrivateRoute
                                 path='/editEstate/:id'
                                 component={() => <EstateForm edit={true} />}
+                            />
+                            <Route
+                                exact
+                                path='/estate/:id/comment'
+                                component={Comment}
+                            />
+                            <Route
+                                exact
+                                path='/estate/:id/offer'
+                                component={Offer}
                             />
                         </Switch>
                     </section>

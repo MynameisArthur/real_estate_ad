@@ -23,9 +23,12 @@ const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
                     {auth.user.data.name}'s dashboard
                 </h2>
             )}
-            <div className='dashboard-btn'>
-                <Link to='/addEstate'>Add Estate</Link>
-            </div>
+            {auth.user.data.role !== 'user' && (
+                <div className='dashboard-btn'>
+                    <Link to='/addEstate'>Add Estate</Link>
+                </div>
+            )}
+
             {profile && (
                 <div className='users-estates'>
                     {profile.data.estates.length > 0 &&

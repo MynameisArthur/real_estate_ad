@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 import {uploadPhoto} from '../../actions/estate';
-import {deleteEstate} from '../../actions/profile';
-
-import {Link, withRouter} from 'react-router-dom';
+import {deleteEstate} from '../../actions/estate';
+import {withRouter} from 'react-router-dom';
 import './Estate.scss';
 import PropTypes from 'prop-types';
 
@@ -19,10 +18,6 @@ const MyEstate = ({WrappedComponent, uploadPhoto, deleteEstate, ...props}) => {
         e.preventDefault();
         uploadPhoto(id, formData);
     };
-    const handleDelete = (e) => {
-        deleteEstate(id);
-    };
-
     return (
         <div className='my-estate'>
             <WrappedComponent {...props} />
@@ -40,12 +35,6 @@ const MyEstate = ({WrappedComponent, uploadPhoto, deleteEstate, ...props}) => {
                 </div>
                 <button type='submit'>Upload Photo</button>
             </form>
-            <Link to={`/editEstate/${id}`} className='btn'>
-                Edit Estate
-            </Link>
-            <button onClick={handleDelete} className='btn danger'>
-                Delete Estate
-            </button>
         </div>
     );
 };
