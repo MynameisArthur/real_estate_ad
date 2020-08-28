@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import './Dashboard.scss';
 import {connect} from 'react-redux';
@@ -8,53 +8,55 @@ import {Link} from 'react-router-dom';
 import MyEstate from '../Estate/MyEstate';
 import Estate from '../Estate/Estate';
 
-const Dashboard = ({profile: {profile, loading}, auth, getCurrentProfile}) => {
+const Dashboard = ({getCurrentProfile}) => {
+    const [userProfile, setUserProfile] = useState({
+        name: 'user',
+        role: '',
+        estates: [],
+        loading: true,
+    });
+    const loadData = async () => {
+        const profile = await getCurrentProfile();
+        const {user, estates} = profile.data.data;
+        setUserProfile({
+            name: user.name,
+            role: user.role,
+            estates,
+            loading: false,
+        });
+    };
+
     useEffect(() => {
-        if (auth.isAuthenticated) {
-            getCurrentProfile();
-        }
-    }, []);
-    return loading && profile === null ? (
+        loadData();
+    }, [getCurrentProfile]);
+    const {name, role, estates, loading} = userProfile;
+    return loading ? (
         <Spinner />
     ) : (
         <div className='dashboard-container'>
-            {auth.user && (
-                <h2 className='section-title'>
-                    {auth.user.data.name}'s dashboard
-                </h2>
-            )}
-            {auth.user.data.role !== 'user' && (
+            <h2 className='section-title'>{name}'s dashboard</h2>
+            {role !== 'user' && (
                 <div className='dashboard-btn'>
                     <Link to='/addEstate'>Add Estate</Link>
                 </div>
             )}
-
-            {profile && (
-                <div className='users-estates'>
-                    {profile.data.estates.length > 0 &&
-                        profile.data.estates.map((estate) => (
-                            <MyEstate
-                                key={estate._id}
-                                estate={estate}
-                                WrappedComponent={Estate}
-                                reloadProfile={getCurrentProfile}
-                            />
-                        ))}
-                </div>
-            )}
+            <div className='users-estates'>
+                {estates.length > 0 &&
+                    estates.map((estate) => (
+                        <MyEstate
+                            key={estate._id}
+                            estate={estate}
+                            WrappedComponent={Estate}
+                            reloadProfile={getCurrentProfile}
+                        />
+                    ))}
+            </div>
         </div>
     );
 };
 
 Dashboard.propTypes = {
-    profile: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
     getCurrentProfile: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    profile: state.profile,
-    auth: state.auth,
-});
-
-export default connect(mapStateToProps, {getCurrentProfile})(Dashboard);
+export default connect(null, {getCurrentProfile})(Dashboard);

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 const Estate = ({userId, estate, deleteEstate, location}) => {
     const handleDelete = () => {
+        //location.pathname is a prop from withRouter which gives me current url eg./dashboard
         deleteEstate(estate._id, location.pathname);
     };
     let buttons;
@@ -58,7 +59,7 @@ const Estate = ({userId, estate, deleteEstate, location}) => {
 Estate.propTypes = {
     userId: PropTypes.string,
     deleteEstate: PropTypes.func.isRequired,
-    location: PropTypes.string,
+    location: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
