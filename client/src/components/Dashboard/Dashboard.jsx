@@ -17,7 +17,6 @@ const Dashboard = ({getCurrentProfile}) => {
     });
     const loadData = async () => {
         const profile = await getCurrentProfile();
-
         const {user, estates} = profile.data.data;
         setUserProfile({
             name: user.name,
@@ -26,7 +25,6 @@ const Dashboard = ({getCurrentProfile}) => {
             loading: false,
         });
     };
-
     useEffect(() => {
         loadData();
     }, []);
