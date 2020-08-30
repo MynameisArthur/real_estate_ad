@@ -17,6 +17,7 @@ const Dashboard = ({getCurrentProfile}) => {
     });
     const loadData = async () => {
         const profile = await getCurrentProfile();
+
         const {user, estates} = profile.data.data;
         setUserProfile({
             name: user.name,
@@ -28,7 +29,7 @@ const Dashboard = ({getCurrentProfile}) => {
 
     useEffect(() => {
         loadData();
-    }, [getCurrentProfile]);
+    }, []);
     const {name, role, estates, loading} = userProfile;
     return loading ? (
         <Spinner />

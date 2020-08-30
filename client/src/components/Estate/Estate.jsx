@@ -5,10 +5,10 @@ import {Link, withRouter} from 'react-router-dom';
 import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 
-const Estate = ({userId, estate, deleteEstate, location}) => {
+const Estate = ({userId, estate, deleteEstate, location, history}) => {
     const handleDelete = () => {
         //location.pathname is a prop from withRouter which gives me current url eg./dashboard
-        deleteEstate(estate._id, location.pathname);
+        deleteEstate(estate._id, location.pathname, history);
     };
     let buttons;
     if (userId && estate.user !== userId) {

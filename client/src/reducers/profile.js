@@ -1,6 +1,6 @@
 import {ProfileActionTypes as profileTypes} from '../actions/types';
 const initialState = {
-    profile: null,
+    userProfile: null,
     loading: true,
     error: {},
 };
@@ -11,7 +11,7 @@ export default function (state = initialState, action) {
         case profileTypes.GET_PROFILE:
             return {
                 ...state,
-                profile: payload,
+                userProfile: payload,
                 loading: false,
             };
         case profileTypes.PROFILE_ERROR:
@@ -23,12 +23,8 @@ export default function (state = initialState, action) {
         case profileTypes.CLEAR_PROFILE:
             return {
                 ...state,
-                profile: null,
+                userProfile: null,
                 loading: false,
-            };
-        case profileTypes.DELETE_ESTATE:
-            return {
-                ...state,
             };
         default:
             return state;

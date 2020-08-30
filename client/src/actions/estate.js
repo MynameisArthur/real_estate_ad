@@ -7,10 +7,6 @@ export const getEstates = () => async (dispatch) => {
         const res = await axios.get('/real_estate_ad/estates');
         dispatch({type: types.GET_ESTATES, payload: res.data});
     } catch (err) {
-        // const errors = err.response.data.error.split(',');
-        // if (errors) {
-        //     errors.forEach((error) => dispatch(setAlert(error, 'danger')));
-        // }
         dispatch({
             type: types.ESTATE_ERROR,
             payload: {
@@ -98,13 +94,13 @@ export const uploadPhoto = (estateId, file) => async (dispatch) => {
         });
     }
 };
-export const deleteEstate = (estateId, source) => async (dispatch) => {
+export const deleteEstate = (estateId, source, history) => async (dispatch) => {
     try {
         await axios.delete(`/real_estate_ad/estates/${estateId}`);
         dispatch({type: types.DELETE_ESTATE});
         dispatch(setAlert('Estate deleted'));
         if (source === '/dashboard') {
-            dispatch(getCurrentProfile());
+            history.push('/');
         } else if (source === '/estates') {
             dispatch(getEstates());
         }
