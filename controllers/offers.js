@@ -52,6 +52,7 @@ exports.getOffer = asyncHandler(async (req, res, next) => {
 
 exports.addOffer = asyncHandler(async (req, res, next) => {
     req.body.estate = req.params.estateId;
+    req.body.user = req.user.id;
     const estate = await Estate.findById(req.params.estateId);
 
     if (!estate) {

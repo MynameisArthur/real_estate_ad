@@ -4,7 +4,7 @@ import {setAlert} from './alert';
 
 export const getOffersForEstate = () => async (dispatch) => {};
 
-export const addOffer = (estateId, data) => async (dispatch) => {
+export const addOffer = (estateId, data, history) => async (dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
