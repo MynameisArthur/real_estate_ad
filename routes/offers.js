@@ -21,7 +21,7 @@ router
         }),
         getOffers
     )
-    .post(protect, authorize('publisher', 'admin'), addOffer);
+    .post(protect, authorize('user', 'publisher', 'admin'), addOffer);
 router
     .route('/:id')
     .get(getOffer)

@@ -9,32 +9,69 @@ import PropTypes from 'prop-types';
 const Offer = ({estate, addOffer, getEstate, history}) => {
     const {id} = useParams();
     const [offerDetails, setOfferDetails] = useState({
-        amount: 0,
+        amountOffered: 0,
+        title: '',
+        description: '',
     });
     const loadData = async () => {
         const res = await getEstate(id);
-        console.log(res.data);
+        if (res.data.offers.length > 0) {
+            const highest = Math.max(
+                ...res.data.offers.map((offer) => offer.amountOffered)
+            );
+            setOfferDetails({
+                title: '',
+                description: '',
+                amountOffered: highest,
+            });
+        } else {
+            setOfferDetails({
+                title: '',
+                description: '',
+                amountOffered: res.data.startingPrice,
+            });
+        }
     };
     useEffect(() => {
         loadData();
     }, []);
     const onSubmit = (e) => {
         e.preventDefault();
-        addOffer(id, amount, history);
+        addOffer(id, offerDetails, history);
     };
     const handleChange = (e) => {
         setOfferDetails({...offerDetails, [e.target.name]: e.target.value});
     };
-    const {amount} = offerDetails;
+    const {amountOffered, description, title} = offerDetails;
     return (
         <form onSubmit={(e) => onSubmit(e)} className='form'>
             <div className='form-group'>
                 <label>
+                    Title
+                    <input
+                        type='text'
+                        name='title'
+                        value={title}
+                        onChange={(e) => handleChange(e)}
+                        required
+                    />
+                </label>
+                <div className='form-group'>
+                    <label>
+                        Description
+                        <textarea
+                            name='description'
+                            value={description}
+                            onChange={(e) => handleChange(e)}
+                        />
+                    </label>
+                </div>
+                <label>
                     Money offered
                     <input
                         type='number'
-                        name='amount'
-                        value={amount}
+                        name='amountOffered'
+                        value={amountOffered}
                         onChange={(e) => handleChange(e)}
                         required
                     />
