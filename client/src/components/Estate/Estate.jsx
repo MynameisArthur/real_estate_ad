@@ -46,6 +46,11 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
                         {estate.offers.length} offers
                     </span>
                 )}
+                {estate.comments && estate.comments.length > 0 && (
+                    <span className='estate-description_comments'>
+                        {estate.comments.length} comments
+                    </span>
+                )}
             </div>
             <div className='estate-address'>
                 {estate.location.formattedAddress}

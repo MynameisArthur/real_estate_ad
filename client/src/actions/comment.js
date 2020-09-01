@@ -1,10 +1,8 @@
+import {CommentActionTypes as types} from './types';
 import axios from 'axios';
-import {OfferActionTypes as types} from './types';
 import {setAlert} from './alert';
 
-export const getOffersForEstate = () => async (dispatch) => {};
-
-export const addOffer = (estateId, data, history) => async (dispatch) => {
+export const addComment = (estateId, data, history) => async (dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -13,7 +11,7 @@ export const addOffer = (estateId, data, history) => async (dispatch) => {
     const body = JSON.stringify(data);
     try {
         await axios.post(
-            `/real_estate_ad/estates/${estateId}/offers`,
+            `/real_estate_ad/estates/${estateId}/comments`,
             body,
             config
         );
@@ -22,7 +20,7 @@ export const addOffer = (estateId, data, history) => async (dispatch) => {
     } catch (err) {
         dispatch(setAlert(err, 'danger'));
         dispatch({
-            type: types.OFFER_ERROR,
+            type: types.COMMENT_ERROR,
             payload: err.msg,
         });
     }

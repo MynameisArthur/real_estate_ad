@@ -79,7 +79,7 @@ exports.addOffer = asyncHandler(async (req, res, next) => {
         await estate.update({highestBid: req.body.amountOffered});
     }
 
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         data: offer,
     });

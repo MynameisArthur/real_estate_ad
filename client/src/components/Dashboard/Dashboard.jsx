@@ -34,6 +34,9 @@ const Dashboard = ({getCurrentProfile}) => {
     ) : (
         <div className='dashboard-container'>
             <h2 className='section-title'>{name}'s dashboard</h2>
+            <div>
+                <strong>role:</strong> {role}
+            </div>
             {role !== 'user' && (
                 <div className='dashboard-btn'>
                     <Link to='/addEstate'>Add Estate</Link>

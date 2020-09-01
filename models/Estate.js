@@ -142,8 +142,11 @@ EstateSchema.pre('save', async function (next) {
 
 //Cascade delete offers when an estate is deleted
 EstateSchema.pre('remove', async function (next) {
-    console.log(`Offers being removed from estate ${this._id}`);
+    console.log(`Offers and Comments being removed from estate ${this._id}`);
     await this.model('Offer').deleteMany({
+        estate: this._id,
+    });
+    await this.model('Comment').deleteMany({
         estate: this._id,
     });
     next();
@@ -151,6 +154,12 @@ EstateSchema.pre('remove', async function (next) {
 //Reverse populate with virtuals
 EstateSchema.virtual('offers', {
     ref: 'Offer',
+    localField: '_id',
+    foreignField: 'estate',
+    justOne: false,
+});
+EstateSchema.virtual('comments', {
+    ref: 'Comment',
     localField: '_id',
     foreignField: 'estate',
     justOne: false,

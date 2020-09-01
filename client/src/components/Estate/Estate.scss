@@ -25,7 +25,8 @@
     & > * {
         margin: 1em 0;
     }
-    &_offers {
+    &_offers,
+    &_comments {
         font-family: 'Montserrat', sans-serif;
         padding: 0.5em 1em;
         border-radius: 0.2em;
