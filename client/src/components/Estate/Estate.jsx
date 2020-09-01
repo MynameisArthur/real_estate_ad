@@ -5,7 +5,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 
-const Estate = ({userId, estate, deleteEstate, location, history}) => {
+const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
     const handleDelete = () => {
         //location.pathname is a prop from withRouter which gives me current url eg./dashboard
         deleteEstate(estate._id, location.pathname, history);
@@ -17,9 +17,11 @@ const Estate = ({userId, estate, deleteEstate, location, history}) => {
                 <Link to={`/estate/${estate._id}/comment`} className='btn'>
                     comment
                 </Link>
-                <Link to={`/estate/${estate._id}/offer`} className='btn'>
-                    offer
-                </Link>
+                {role !== 'user' && (
+                    <Link to={`/estate/${estate._id}/offer`} className='btn'>
+                        offer
+                    </Link>
+                )}
             </div>
         );
     } else if (userId && estate.user === userId) {
@@ -37,7 +39,14 @@ const Estate = ({userId, estate, deleteEstate, location, history}) => {
     return (
         <div className='estate-container'>
             <h3 className='estate-name'>{estate.name}</h3>
-            <p className='estate description'>{estate.description}</p>
+            <div className='estate-description'>
+                <p className='estate-description_text'>{estate.description}</p>
+                {estate.offers && estate.offers.length > 0 && (
+                    <span className='estate-description_offers'>
+                        {estate.offers.length} offers
+                    </span>
+                )}
+            </div>
             <div className='estate-address'>
                 {estate.location.formattedAddress}
             </div>
@@ -60,10 +69,12 @@ Estate.propTypes = {
     userId: PropTypes.string,
     deleteEstate: PropTypes.func.isRequired,
     location: PropTypes.object,
+    role: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
     userId: state.auth.isAuthenticated ? state.auth.user.data._id : null,
+    role: state.auth.isAuthenticated ? state.auth.user.data.role : 'user',
 });
 
 export default connect(mapStateToProps, {deleteEstate})(withRouter(Estate));

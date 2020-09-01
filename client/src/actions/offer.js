@@ -23,7 +23,7 @@ export const addOffer = (estateId, data, history) => async (dispatch) => {
         dispatch(setAlert(err, 'danger'));
         dispatch({
             type: types.OFFER_ERROR,
-            payload: err,
+            payload: err.msg,
         });
     }
 };

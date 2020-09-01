@@ -6,7 +6,7 @@ import {addOffer} from '../../actions/offer';
 import {getEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 
-const Offer = ({estate, addOffer, getEstate, history}) => {
+const Offer = ({estate, offer, addOffer, getEstate, history}) => {
     const {id} = useParams();
     const [offerDetails, setOfferDetails] = useState({
         amountOffered: 0,
@@ -87,10 +87,13 @@ const Offer = ({estate, addOffer, getEstate, history}) => {
 Offer.propTypes = {
     addOffer: PropTypes.func.isRequired,
     getEstate: PropTypes.func.isRequired,
+    offer: PropTypes.object.isRequired,
+    estate: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     estate: state.estate,
+    offer: state.offer,
 });
 
 export default connect(mapStateToProps, {addOffer, getEstate})(
