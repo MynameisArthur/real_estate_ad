@@ -3,7 +3,6 @@ import './Estate.scss';
 import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 import {deleteEstate} from '../../actions/estate';
-
 import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
 

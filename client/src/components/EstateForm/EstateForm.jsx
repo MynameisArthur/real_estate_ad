@@ -213,6 +213,15 @@ const EstateForm = ({edit, addEstate, updateEstate, getEstate, history}) => {
                     />
                 </label>
             </div>
+            <button
+                className='btn'
+                onClick={(e) => {
+                    e.preventDefault();
+                    history.go(-1);
+                }}
+            >
+                &larr; Go Back
+            </button>
             <button type='submit' className='btn btn-addEstate'>
                 Submit Estate
             </button>

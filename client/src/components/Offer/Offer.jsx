@@ -77,6 +77,15 @@ const Offer = ({estate, offer, addOffer, getEstate, history}) => {
                     />
                 </label>
             </div>
+            <button
+                className='btn'
+                onClick={(e) => {
+                    e.preventDefault();
+                    history.go(-1);
+                }}
+            >
+                &larr; Go Back
+            </button>
             <button type='submit' className='btn btn-addOffer'>
                 Submit Offer
             </button>
