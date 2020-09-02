@@ -15,3 +15,7 @@ export const setAlert = (msg, alertType, timeout = 5000) => (dispatch) => {
         timeout
     );
 };
+
+export const showPrompt = ({msg}) => (dispatch) => {
+    dispatch({type: types.SHOW_PROMPT, payload: msg});
+};
