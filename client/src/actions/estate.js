@@ -71,7 +71,8 @@ export const updateEstate = (data, history) => async (dispatch) => {
     try {
         await axios.put(`/real_estate_ad/estates/${estate.id}`, body, config);
         dispatch(setAlert('Estate updated'));
-        history.push('/dashboard');
+        // history.push('/dashboard');
+        history.go(-1);
     } catch (err) {
         // dispatch(setAlert(err, 'danger'));
         dispatch({

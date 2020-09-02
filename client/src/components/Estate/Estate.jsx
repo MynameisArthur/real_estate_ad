@@ -11,17 +11,35 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
         deleteEstate(estate._id, location.pathname, history);
     };
     let buttons;
-    if (userId && estate.user !== userId) {
+    if (role === 'admin') {
         buttons = (
             <div className='links'>
+                <Link to={`/editEstate/${estate._id}`} className='btn'>
+                    Edit Estate
+                </Link>
+                <button onClick={handleDelete} className='btn danger'>
+                    Delete Estate
+                </button>
                 <Link to={`/estate/${estate._id}/comment`} className='btn'>
                     comment
                 </Link>
-                {role !== 'user' && (
-                    <Link to={`/estate/${estate._id}/offer`} className='btn'>
-                        offer
+                <Link to={`/estate/${estate._id}/offer`} className='btn'>
+                    offer
+                </Link>
+            </div>
+        );
+    } else if (userId && estate.user !== userId) {
+        buttons = (
+            <div className='links'>
+                {role !== 'publisher' && (
+                    <Link to={`/estate/${estate._id}/comment`} className='btn'>
+                        comment
                     </Link>
                 )}
+
+                <Link to={`/estate/${estate._id}/offer`} className='btn'>
+                    offer
+                </Link>
             </div>
         );
     } else if (userId && estate.user === userId) {

@@ -31,7 +31,7 @@ router
 
 router
     .route('/')
-    .get(advancedResults(Estate, 'offers'), getEstates)
+    .get(advancedResults(Estate, ['offers', 'comments']), getEstates)
     .post(protect, authorize('publisher', 'admin'), createEstate);
 router
     .route('/:id')

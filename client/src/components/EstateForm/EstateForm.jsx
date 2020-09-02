@@ -20,7 +20,7 @@ const EstateForm = ({edit, addEstate, updateEstate, getEstate, history}) => {
             bathrooms,
             photos,
             features,
-        } = estate.data.data;
+        } = estate.data;
         setFormData({
             ...formData,
             name,
@@ -34,7 +34,7 @@ const EstateForm = ({edit, addEstate, updateEstate, getEstate, history}) => {
             bathrooms,
             photos,
             features: features.join(),
-            address: estate.data.data.location.formattedAddress,
+            address: estate.data.location.formattedAddress,
         });
     };
     useEffect(() => {
