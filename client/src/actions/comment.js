@@ -15,13 +15,13 @@ export const addComment = (estateId, data, history) => async (dispatch) => {
             body,
             config
         );
-        dispatch(setAlert('Offer added'));
-        history.push('/estates');
+        dispatch(setAlert('Comment added'));
+        history.go(-1);
     } catch (err) {
-        dispatch(setAlert(err, 'danger'));
+        // dispatch(setAlert(err, 'danger'));
         dispatch({
             type: types.COMMENT_ERROR,
-            payload: err.msg,
+            payload: err,
         });
     }
 };

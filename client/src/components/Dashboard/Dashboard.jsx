@@ -44,13 +44,14 @@ const Dashboard = ({getCurrentProfile}) => {
             )}
             <div className='users-estates'>
                 {estates.length > 0 &&
-                    estates.map((estate) => (
-                        <MyEstate
-                            key={estate._id}
-                            estate={estate}
-                            WrappedComponent={Estate}
-                            reloadProfile={getCurrentProfile}
-                        />
+                    estates.map((item) => (
+                        <Estate key={item._id} estate={item} />
+                        // <MyEstate
+                        //     key={item._id}
+                        //     estate={item}
+                        //     WrappedComponent={Estate}
+                        //     reloadProfile={getCurrentProfile}
+                        // />
                     ))}
             </div>
         </div>
