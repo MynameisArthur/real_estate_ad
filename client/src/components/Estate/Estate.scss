@@ -16,11 +16,6 @@
         margin: 0 5px 0 0;
     }
 }
-.my-estate {
-    max-width: 90%;
-    padding: 2em 4em;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
 .estate-description {
     & > * {
         margin: 1em 0;
@@ -33,5 +28,21 @@
         background: #000;
         color: #ffffff;
         margin-right: 0.5em;
+    }
+}
+.estate-details {
+    margin-top: 5em;
+    font-size: 1.6rem;
+    div,
+    span {
+        font-family: var(--font-primary);
+    }
+    span {
+        margin-right: 1em;
+    }
+    section {
+        margin: 1em 0;
+        border-bottom: 1px solid rgba(#fff, 0.1);
+        padding: 1em 0;
     }
 }

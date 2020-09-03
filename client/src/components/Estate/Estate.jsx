@@ -82,7 +82,9 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
                     toggleShow={hidePrompt}
                 />
             )}
-            <h3 className='estate-name'>{estate.name}</h3>
+            <h3 className='estate-name'>
+                <Link to={`/estate/${estate._id}`}>{estate.name}</Link>
+            </h3>
             <div className='estate-description'>
                 <p className='estate-description_text'>{estate.description}</p>
                 {estate.offers && estate.offers.length > 0 && (

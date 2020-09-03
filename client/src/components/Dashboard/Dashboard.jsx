@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {getCurrentProfile} from '../../actions/profile';
 import Spinner from '../Spinner/Spinner';
 import {Link} from 'react-router-dom';
-import MyEstate from '../Estate/MyEstate';
+import MyEstate from '../Estate/EstateDetails';
 import Estate from '../Estate/Estate';
 
 const Dashboard = ({getCurrentProfile}) => {
@@ -46,12 +46,6 @@ const Dashboard = ({getCurrentProfile}) => {
                 {estates.length > 0 &&
                     estates.map((item) => (
                         <Estate key={item._id} estate={item} />
-                        // <MyEstate
-                        //     key={item._id}
-                        //     estate={item}
-                        //     WrappedComponent={Estate}
-                        //     reloadProfile={getCurrentProfile}
-                        // />
                     ))}
             </div>
         </div>

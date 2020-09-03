@@ -10,6 +10,7 @@ import Alert from './components/Alert/Alert';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
 import EstateForm from './components/EstateForm/EstateForm';
+import EstateDetails from './components/Estate/EstateDetails';
 import Offer from './components/Offer/Offer';
 import Comment from './components/Comment/Comment';
 //Redux
@@ -63,6 +64,11 @@ const App = () => {
                                 exact
                                 path='/estate/:id/offer'
                                 component={Offer}
+                            />
+                            <Route
+                                exact
+                                path='/estate/:id'
+                                component={EstateDetails}
                             />
                         </Switch>
                     </section>
