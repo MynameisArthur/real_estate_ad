@@ -1,4 +1,3 @@
-import {setAlert} from './alert';
 import {ProfileActionTypes as profileTypes} from './types';
 import axios from 'axios';
 

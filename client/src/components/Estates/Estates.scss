@@ -1,7 +1,9 @@
+.estates-container {
+    margin: 10vh 0;
+}
 .estate-list {
     border-top: 1px solid var(--color-primary);
     border-bottom: 1px solid var(--color-primary);
-    margin: 10vh 0;
     display: flex;
     flex-wrap: wrap;
     width: 90%;

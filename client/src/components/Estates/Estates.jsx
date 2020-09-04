@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {getEstates} from '../../actions/estate';
 import Estate from '../Estate/Estate';
 import Spinner from '../Spinner/Spinner';
+import Search from '../Search/Search';
 
 const Estates = ({estates: {count, data}, loading, getEstates}) => {
     useEffect(() => {
@@ -13,8 +14,9 @@ const Estates = ({estates: {count, data}, loading, getEstates}) => {
     return loading ? (
         <Spinner />
     ) : (
-        <div>
+        <div className='estates-container'>
             <h3>Estates</h3>
+            <Search />
             <div className='estate-list'>
                 {data &&
                     data.map((item) => <Estate key={item.id} estate={item} />)}

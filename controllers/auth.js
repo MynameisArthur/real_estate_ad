@@ -78,7 +78,10 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.getMyProfile = asyncHandler(async (req, res, next) => {
     const user = await User.findById(req.user.id);
-    const estates = await Estate.find({user: user._id});
+    const estates = await Estate.find({user: user._id}).populate([
+        'comments',
+        'offers',
+    ]);
     const offers = await Offer.find({user: user._id});
     const comments = await Comment.find({user: user._id});
     res.status(200).json({

@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {getCurrentProfile} from '../../actions/profile';
 import Spinner from '../Spinner/Spinner';
 import {Link} from 'react-router-dom';
-import MyEstate from '../Estate/EstateDetails';
 import Estate from '../Estate/Estate';
 
 const Dashboard = ({getCurrentProfile}) => {

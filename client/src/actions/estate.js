@@ -1,10 +1,28 @@
 import axios from 'axios';
 import {EstateActionTypes as types} from './types';
 import {setAlert, showPrompt} from './alert';
-import {getCurrentProfile} from './profile';
+
 export const getEstates = () => async (dispatch) => {
     try {
         const res = await axios.get('/real_estate_ad/estates');
+        dispatch({type: types.GET_ESTATES, payload: res.data});
+    } catch (err) {
+        dispatch({
+            type: types.ESTATE_ERROR,
+            payload: {
+                msg: err.response,
+                status: err.response,
+            },
+        });
+    }
+};
+
+export const findEstatesInRadius = (data) => async (dispatch) => {
+    const {zipcode, distance, unit} = data;
+    try {
+        const res = await axios.get(
+            `/real_estate_ad/estates/radius/${zipcode}/${distance}/${unit}`
+        );
         dispatch({type: types.GET_ESTATES, payload: res.data});
     } catch (err) {
         dispatch({
