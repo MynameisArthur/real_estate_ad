@@ -5,7 +5,7 @@ import {withRouter, useParams} from 'react-router-dom';
 import './Estate.scss';
 import PropTypes from 'prop-types';
 
-const EstateDetails = ({getEstate}) => {
+const EstateDetails = ({getEstate, history}) => {
     const {id} = useParams();
     const [estate, setEstate] = useState({});
     const {
@@ -24,19 +24,23 @@ const EstateDetails = ({getEstate}) => {
         features,
         offers,
         comments,
+        highestBid,
     } = estate;
 
     const loadEstate = async (id) => {
         const response = await getEstate(id);
         const address = response.data.location.formattedAddress;
         const {offers, features, comments} = response.data;
-
+        const highestBid = Math.max(
+            ...offers.map((offer) => offer.amountOffered)
+        );
         setEstate({
             ...response.data,
             address,
             offers,
             features,
             comments,
+            highestBid,
         });
     };
     useEffect(() => {
@@ -75,6 +79,9 @@ const EstateDetails = ({getEstate}) => {
                     </span>
                     <span>
                         <strong>starting price: </strong>${startingPrice}
+                    </span>
+                    <span>
+                        <strong>highest bid: </strong>${highestBid}
                     </span>
                     <span>
                         <strong>bedrooms: </strong>
@@ -149,6 +156,15 @@ const EstateDetails = ({getEstate}) => {
                         ))}
                 </ul>
             </section>
+            <button
+                className='btn'
+                onClick={(e) => {
+                    e.preventDefault();
+                    history.go(-1);
+                }}
+            >
+                &larr; Go Back
+            </button>
         </div>
     );
 };

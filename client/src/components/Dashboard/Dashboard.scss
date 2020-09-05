@@ -1,9 +1,15 @@
 .dashboard-container {
     width: 100%;
+    min-height: 50vh;
     overflow: hidden;
     p {
         margin: 10px 0;
         font-size: 1.6rem;
+    }
+
+    h3,
+    h4 {
+        text-transform: uppercase;
     }
 }
 .dashboard-btn {
@@ -15,4 +21,20 @@
     display: inline-block;
     text-transform: uppercase;
     font-weight: 700;
+}
+.dashboard-navigation {
+    margin: 5em 0;
+    padding: 0;
+    display: flex;
+}
+.selected {
+    background-color: #000;
+    color: #ffffff;
+}
+.user-comments_comment,
+.user-offers_offer {
+    padding: 1.5em 1em;
+    background-color: #ccc;
+    color: #232323;
+    font-size: 1.6rem;
 }
