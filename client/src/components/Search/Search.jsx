@@ -1,31 +1,34 @@
 import React, {useState} from 'react';
 import './Search.scss';
 
-const Search = () => {
-    const [formData, setFormData] = useState({
+const Search = ({search}) => {
+    const initialState = {
         distance: 0,
         zipcode: '',
         unit: 'miles',
-    });
+    };
+    const [formData, setFormData] = useState(initialState);
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('submit');
+        search(formData);
+        setFormData(initialState);
     };
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
     };
-    const {zipcode, distance, unit} = formData;
+    const {zipcode, distance} = formData;
     return (
         <div className='search-container'>
             <form onSubmit={handleSubmit}>
                 <div className='form-group'>
                     <label>
-                        Zipcode
+                        City,state/Zipcode
                         <input
                             type='text'
                             name='zipcode'
                             value={zipcode}
                             onChange={(e) => handleChange(e)}
+                            required
                         />
                     </label>
                 </div>
@@ -63,6 +66,9 @@ const Search = () => {
                         />
                     </label>
                 </div>
+                <button type='submit' className='btn'>
+                    Search
+                </button>
             </form>
         </div>
     );

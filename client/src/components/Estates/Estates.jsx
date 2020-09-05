@@ -2,12 +2,17 @@ import React, {useEffect} from 'react';
 import './Estates.scss';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getEstates} from '../../actions/estate';
+import {getEstates, findEstatesInRadius} from '../../actions/estate';
 import Estate from '../Estate/Estate';
 import Spinner from '../Spinner/Spinner';
 import Search from '../Search/Search';
 
-const Estates = ({estates: {count, data}, loading, getEstates}) => {
+const Estates = ({
+    estates: {count, data},
+    loading,
+    getEstates,
+    findEstatesInRadius,
+}) => {
     useEffect(() => {
         getEstates();
     }, [getEstates]);
@@ -16,7 +21,10 @@ const Estates = ({estates: {count, data}, loading, getEstates}) => {
     ) : (
         <div className='estates-container'>
             <h3>Estates</h3>
-            <Search />
+            <Search search={(formData) => findEstatesInRadius(formData)} />
+            <button onClick={getEstates} className='btn'>
+                Show All
+            </button>
             <div className='estate-list'>
                 {data &&
                     data.map((item) => <Estate key={item.id} estate={item} />)}
@@ -28,6 +36,7 @@ const Estates = ({estates: {count, data}, loading, getEstates}) => {
 Estates.propTypes = {
     estates: PropTypes.object.isRequired,
     getEstates: PropTypes.func.isRequired,
+    findEstatesInRadius: PropTypes.func.isRequired,
     loading: PropTypes.bool,
 };
 
@@ -36,4 +45,6 @@ const mapStateToProps = (state) => ({
     loading: state.estate.loading,
 });
 
-export default connect(mapStateToProps, {getEstates})(Estates);
+export default connect(mapStateToProps, {getEstates, findEstatesInRadius})(
+    Estates
+);
