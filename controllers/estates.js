@@ -1,5 +1,5 @@
-const path = require('path');
 const ErrorResponse = require('../utils/errorResponse');
+const handlePhotos = require('../utils/handlePhotos');
 const Estate = require('../models/Estate');
 const asyncHandler = require('../middleware/async');
 const geocoder = require('../utils/geocoder');
@@ -189,16 +189,27 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
             )
         );
     }
+
     if (!req.files) {
         return next(new ErrorResponse(`Please upload a file`, 400));
     }
-    const file = req.files.file;
+
+    // if only 1 file was uploaded, make it an array
+    const images =
+        req.files.file.length > 1 ? req.files.file : [req.files.file];
+
     //Make sure the image is a photo
-    if (!file.mimetype.startsWith('image')) {
-        return next(new ErrorResponse(`Please upload an image file`, 400));
+    if (!images.every((image) => image.mimetype.startsWith('image'))) {
+        return next(
+            new ErrorResponse(
+                `It seems one of the files is not an image. Make sure all of the uploaded files are images.`,
+                400
+            )
+        );
     }
+
     //Check filesize
-    if (file.size > process.env.MAX_FILE_UPLOAD) {
+    if (images.some((image) => image.size > process.env.MAX_FILE_UPLOAD)) {
         return next(
             new ErrorResponse(
                 `Please upload an image less than ${process.env.MAX_FILE_UPLOAD} bytes`,
@@ -206,33 +217,20 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
             )
         );
     }
-
     const {photos} = await estate;
     if (photos.length >= 8) {
         return next(
             new ErrorResponse(
-                `You can upload up to 8 photos for one estate`,
+                `You can upload up to 8 images for one estate`,
                 400
             )
         );
     }
-    //Create custom file name
-    file.name = `photo_${estate._id}_${photos.length + 1}${
-        path.parse(file.name).ext
-    }`;
-    file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
-        if (err) {
-            console.error(err);
-            return next(new ErrorResponse(`Problem with file upload`, 500));
-        }
 
-        photos.push(file.name);
-        await estate.updateOne({
-            photos,
-        });
-        res.status(200).json({
-            success: true,
-            data: file.name,
-        });
+    handlePhotos(estate, images, photos);
+
+    res.status(200).json({
+        success: true,
+        data: photos,
     });
 });

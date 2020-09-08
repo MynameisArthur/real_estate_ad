@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './Offer.scss';
-import {useParams, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {addOffer} from '../../actions/offer';
 import {getEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 
-const Offer = ({estate, offer, addOffer, getEstate, history}) => {
-    const {id} = useParams();
+const Offer = ({estate, offer, addOffer, getEstate, history, match}) => {
+    const {id} = match.params;
     const [offerDetails, setOfferDetails] = useState({
         amountOffered: 0,
         title: '',

@@ -2,10 +2,17 @@ import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {addEstate, getEstate, updateEstate} from '../../actions/estate';
-import {withRouter, useParams} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import './EstateForm.scss';
-const EstateForm = ({edit, addEstate, updateEstate, getEstate, history}) => {
-    const {id} = useParams();
+const EstateForm = ({
+    edit,
+    addEstate,
+    updateEstate,
+    getEstate,
+    history,
+    match,
+}) => {
+    const {id} = match.params;
     const loadEstate = async () => {
         const estate = await getEstate(id);
         const {
@@ -209,6 +216,17 @@ const EstateForm = ({edit, addEstate, updateEstate, getEstate, history}) => {
                     <textarea
                         name='features'
                         value={features}
+                        onChange={(e) => handleChange(e)}
+                    />
+                </label>
+            </div>
+            <div className='form-group'>
+                <label>
+                    Photos
+                    <input
+                        type='file'
+                        name='photos'
+                        value={photos}
                         onChange={(e) => handleChange(e)}
                     />
                 </label>

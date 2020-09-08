@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {getEstate} from '../../actions/estate';
-import {withRouter, useParams} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import './Estate.scss';
 import PropTypes from 'prop-types';
 import Spinner from '../Spinner/Spinner';
 
-const EstateDetails = ({getEstate, history}) => {
-    const {id} = useParams();
+const EstateDetails = ({getEstate, history, match}) => {
+    const {id} = match.params;
     const [estate, setEstate] = useState({loading: true});
     const {
         name,

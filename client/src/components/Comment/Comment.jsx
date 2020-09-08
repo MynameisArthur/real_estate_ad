@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import './Comment.scss';
-import {useParams, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {addComment} from '../../actions/comment';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-const Comment = ({error, addComment, history}) => {
-    const {id} = useParams();
+const Comment = ({error, addComment, history, match}) => {
+    const {id} = match.params;
     const initialState = {
         title: '',
         text: '',

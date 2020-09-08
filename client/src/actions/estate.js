@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {EstateActionTypes as types} from './types';
-import {setAlert, showPrompt} from './alert';
+import {setAlert} from './alert';
 
 export const getEstates = () => async (dispatch) => {
     try {
