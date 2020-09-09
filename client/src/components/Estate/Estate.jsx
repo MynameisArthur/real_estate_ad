@@ -19,7 +19,7 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
             //location.pathname is a prop from withRouter which gives me current url eg./dashboard
             deleteEstate(estate._id, location.pathname, history);
         }
-    }, []);
+    }, [confirm]);
     const handleDelete = () => {
         setPrompt({...prompt, show: true, promptMsg: 'delete estate'});
     };
@@ -110,7 +110,7 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
                 {estate.photos.map((photo, index) => (
                     <li key={`${estate._id}_${index + 1}`}>
                         {/* <img
-                            src={photo}
+                            src={`/uploads/${photo}`}
                             alt={`${estate.name}-view#${index + 1}`}
                         /> */}
                     </li>
