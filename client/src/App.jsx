@@ -32,10 +32,10 @@ const App = () => {
             <Provider store={store}>
                 <Router>
                     <Navbar />
-                    <Route exact path='/' component={Landing} />
                     <section className='container'>
                         <Alert />
                         <Switch>
+                            <Route exact path='/' component={Landing} />
                             <Route exact path='/estates' component={Estates} />
                             <Route
                                 exact

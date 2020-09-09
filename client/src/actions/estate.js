@@ -66,7 +66,7 @@ export const addEstate = (data, history) => async (dispatch) => {
     const body = JSON.stringify(estate);
     try {
         await axios.post('/real_estate_ad/estates', body, config);
-        // dispatch(setAlert('Estate created', 'success'));
+        dispatch(setAlert('Estate created', 'success'));
         history.push('/dashboard');
     } catch (err) {
         dispatch(setAlert(err, 'danger'));
@@ -88,7 +88,7 @@ export const updateEstate = (data, history) => async (dispatch) => {
     const body = JSON.stringify(estate);
     try {
         await axios.put(`/real_estate_ad/estates/${estate.id}`, body, config);
-        // dispatch(setAlert('Estate updated', 'success'));
+        await dispatch(setAlert('Estate updated', 'success'));
         history.go(-1);
     } catch (err) {
         dispatch({
@@ -120,8 +120,9 @@ export const deleteEstate = (estateId, source, history) => async (dispatch) => {
     try {
         await axios.delete(`/real_estate_ad/estates/${estateId}`);
         dispatch({type: types.DELETE_ESTATE});
-        // dispatch(setAlert('Estate deleted','success'));
-        if (source === '/dashboard') {
+        await dispatch(setAlert('Estate deleted', 'danger'));
+
+        if (source === '/dashboard/estates') {
             history.push('/');
         } else if (source === '/estates') {
             dispatch(getEstates());

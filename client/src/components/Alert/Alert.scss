@@ -1,0 +1,14 @@
+.alert {
+    top: 15em;
+    padding: 0.5em 1em;
+    color: #ffffff;
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    &-success {
+        background-color: green;
+    }
+    &-danger {
+        background-color: red;
+    }
+}

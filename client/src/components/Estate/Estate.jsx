@@ -6,8 +6,17 @@ import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
 import UploadPhotosForm from '../EstateForm/UploadPhotosForm';
+import Alert from '../Alert/Alert';
 
-const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
+const Estate = ({
+    userId,
+    role,
+    estate,
+    deleteEstate,
+    location,
+    history,
+    alerts,
+}) => {
     const [prompt, setPrompt] = useState({
         show: false,
         confirm: false,
@@ -86,6 +95,7 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
                     toggleShow={hidePrompt}
                 />
             )}
+            {/* {alerts.length > 0 && <Alert alerts={alerts} />} */}
             <h3 className='estate-name'>
                 <Link to={`/estate/${estate._id}`}>{estate.name}</Link>
             </h3>
@@ -126,11 +136,13 @@ Estate.propTypes = {
     deleteEstate: PropTypes.func.isRequired,
     location: PropTypes.object,
     role: PropTypes.string,
+    alerts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     userId: state.auth.isAuthenticated ? state.auth.user.data._id : null,
     role: state.auth.isAuthenticated ? state.auth.user.data.role : 'user',
+    alerts: state.alert,
 });
 
 export default connect(mapStateToProps, {deleteEstate})(withRouter(Estate));
