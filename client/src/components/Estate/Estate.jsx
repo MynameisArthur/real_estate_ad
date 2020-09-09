@@ -5,6 +5,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
+import UploadPhotosForm from '../EstateForm/UploadPhotosForm';
 
 const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
     const [prompt, setPrompt] = useState({
@@ -62,14 +63,17 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
         );
     } else if (userId && estate.user === userId) {
         buttons = (
-            <div className='links'>
-                <Link to={`/editEstate/${estate._id}`} className='btn'>
-                    Edit Estate
-                </Link>
-                <button onClick={handleDelete} className='btn danger'>
-                    Delete Estate
-                </button>
-            </div>
+            <>
+                <div className='links'>
+                    <Link to={`/editEstate/${estate._id}`} className='btn'>
+                        Edit Estate
+                    </Link>
+                    <button onClick={handleDelete} className='btn danger'>
+                        Delete Estate
+                    </button>
+                </div>
+                <UploadPhotosForm id={estate._id} />
+            </>
         );
     }
 
@@ -101,6 +105,7 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
             <div className='estate-address'>
                 {estate.location.formattedAddress}
             </div>
+
             <ul className='estate-photos'>
                 {estate.photos.map((photo, index) => (
                     <li key={`${estate._id}_${index + 1}`}>

@@ -4,6 +4,7 @@ const initialState = {
     estate: null,
     errors: null,
     loading: true,
+    photos: [],
 };
 
 export default function (state = initialState, action) {
@@ -24,6 +25,7 @@ export default function (state = initialState, action) {
         case types.UPLOAD_PHOTO:
             return {
                 ...state,
+                photos: payload,
             };
         case types.ESTATE_ERROR:
             return {

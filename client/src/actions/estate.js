@@ -89,10 +89,8 @@ export const updateEstate = (data, history) => async (dispatch) => {
     try {
         await axios.put(`/real_estate_ad/estates/${estate.id}`, body, config);
         dispatch(setAlert('Estate updated'));
-        // history.push('/dashboard');
         history.go(-1);
     } catch (err) {
-        // dispatch(setAlert(err, 'danger'));
         dispatch({
             type: types.ESTATE_ERROR,
             payload: err,
@@ -104,7 +102,12 @@ export const uploadPhoto = (estateId, file) => async (dispatch) => {
     try {
         const res = await axios.put(
             `/real_estate_ad/estates/${estateId}/photo`,
-            file
+            file,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
         );
         dispatch({type: types.UPLOAD_PHOTO, payload: res.data});
     } catch (err) {

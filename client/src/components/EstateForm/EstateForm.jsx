@@ -220,17 +220,7 @@ const EstateForm = ({
                     />
                 </label>
             </div>
-            <div className='form-group'>
-                <label>
-                    Photos
-                    <input
-                        type='file'
-                        name='photos'
-                        value={photos}
-                        onChange={(e) => handleChange(e)}
-                    />
-                </label>
-            </div>
+
             <button
                 className='btn'
                 onClick={(e) => {

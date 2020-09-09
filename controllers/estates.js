@@ -45,7 +45,6 @@ exports.createEstate = asyncHandler(async (req, res, next) => {
     if (req.body.address) {
         //Add user to req body
         req.body.user = req.user.id;
-
         const estate = await Estate.create(req.body);
         res.status(201).json({
             success: true,
@@ -229,7 +228,7 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
 
     handlePhotos(estate, images, photos);
 
-    res.status(200).json({
+    res.status(204).json({
         success: true,
         data: photos,
     });
