@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {EstateActionTypes as types} from './types';
+import {dispatchEstateError as error} from '../utils/dispatchEstateError';
 import {setAlert} from './alert';
 
 export const getEstates = () => async (dispatch) => {
@@ -7,13 +8,7 @@ export const getEstates = () => async (dispatch) => {
         const res = await axios.get('/real_estate_ad/estates');
         dispatch({type: types.GET_ESTATES, payload: res.data});
     } catch (err) {
-        dispatch({
-            type: types.ESTATE_ERROR,
-            payload: {
-                msg: err.response,
-                status: err.response,
-            },
-        });
+        error(dispatch, err);
     }
 };
 
@@ -25,13 +20,7 @@ export const findEstatesInRadius = (data) => async (dispatch) => {
         );
         dispatch({type: types.GET_ESTATES, payload: res.data});
     } catch (err) {
-        dispatch({
-            type: types.ESTATE_ERROR,
-            payload: {
-                msg: err.response,
-                status: err.response,
-            },
-        });
+        error(dispatch, err);
     }
 };
 
@@ -43,15 +32,11 @@ export const getEstate = (id) => async (dispatch) => {
     } catch (err) {
         const errors = err.response.data.error.split(',');
         if (errors) {
-            errors.forEach((error) => dispatch(setAlert(error, 'danger')));
+            errors.forEach((error) =>
+                dispatch(setAlert(error, 'danger', 3000))
+            );
         }
-        dispatch({
-            type: types.ESTATE_ERROR,
-            payload: {
-                msg: err.response.statusText,
-                status: err.response.status,
-            },
-        });
+        error(dispatch, err);
     }
 };
 
@@ -66,14 +51,11 @@ export const addEstate = (data, history) => async (dispatch) => {
     const body = JSON.stringify(estate);
     try {
         await axios.post('/real_estate_ad/estates', body, config);
-        dispatch(setAlert('Estate created', 'success'));
+        dispatch(setAlert('Estate created', 'success', 2000));
         history.push('/dashboard');
     } catch (err) {
         dispatch(setAlert(err, 'danger'));
-        dispatch({
-            type: types.ESTATE_ERROR,
-            payload: err,
-        });
+        error(dispatch, err);
     }
 };
 
@@ -88,13 +70,10 @@ export const updateEstate = (data, history) => async (dispatch) => {
     const body = JSON.stringify(estate);
     try {
         await axios.put(`/real_estate_ad/estates/${estate.id}`, body, config);
-        await dispatch(setAlert('Estate updated', 'success'));
+        await dispatch(setAlert('Estate updated', 'success', 2000));
         history.go(-1);
     } catch (err) {
-        dispatch({
-            type: types.ESTATE_ERROR,
-            payload: err,
-        });
+        error(dispatch, err);
     }
 };
 
@@ -112,16 +91,14 @@ export const uploadPhoto = (estateId, file, history) => async (dispatch) => {
         await dispatch({type: types.UPLOAD_PHOTO, payload: res.data});
         return await axios.get(`/real_estate_ad/estates/${estateId}`);
     } catch (err) {
-        dispatch({
-            type: types.ESTATE_ERROR,
-        });
+        error(dispatch, err);
     }
 };
 export const deleteEstate = (estateId, source, history) => async (dispatch) => {
     try {
         await axios.delete(`/real_estate_ad/estates/${estateId}`);
         dispatch({type: types.DELETE_ESTATE});
-        await dispatch(setAlert('Estate deleted', 'danger'));
+        await dispatch(setAlert('Estate deleted', 'danger', 2000));
 
         if (source === '/dashboard/estates') {
             history.push('/');
@@ -129,8 +106,6 @@ export const deleteEstate = (estateId, source, history) => async (dispatch) => {
             dispatch(getEstates());
         }
     } catch (err) {
-        dispatch({
-            type: types.ESTATE_ERROR,
-        });
+        error(dispatch, err);
     }
 };

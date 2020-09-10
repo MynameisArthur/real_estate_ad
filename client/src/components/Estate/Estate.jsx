@@ -7,20 +7,36 @@ import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
 import UploadPhotosForm from '../EstateForm/UploadPhotosForm';
 
-const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
+const Estate = ({
+    userId,
+    role,
+    estate: {
+        _id,
+        user,
+        offers,
+        comments,
+        photos,
+        name,
+        description,
+        location: {formattedAddress},
+    },
+    deleteEstate,
+    location,
+    history,
+}) => {
     const [prompt, setPrompt] = useState({
         show: false,
         confirm: false,
         promptMsg: '',
     });
-    const [photos, setPhotos] = useState(estate.photos);
+    const [pictures, setPictures] = useState(photos);
     const {show, confirm, promptMsg} = prompt;
     useEffect(() => {
         if (confirm) {
             //location.pathname is a prop from withRouter which gives me current url eg./dashboard
-            deleteEstate(estate._id, location.pathname, history);
+            deleteEstate(_id, location.pathname, history);
         }
-    }, [confirm, photos]);
+    }, [confirm, pictures]);
     const handleDelete = () => {
         setPrompt({...prompt, show: true, promptMsg: 'delete estate'});
     };
@@ -31,53 +47,53 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
         setPrompt({...prompt, show: false});
     };
     const updatePhotos = (data) => {
-        setPhotos([...data]);
+        setPictures([...data]);
     };
     let buttons;
     if (role === 'admin') {
         buttons = (
             <div className='links'>
-                <Link to={`/editEstate/${estate._id}`} className='btn'>
+                <Link to={`/editEstate/${_id}`} className='btn'>
                     Edit Estate
                 </Link>
                 <button onClick={handleDelete} className='btn danger'>
                     Delete Estate
                 </button>
-                <Link to={`/estate/${estate._id}/comment`} className='btn'>
+                <Link to={`/estate/${_id}/comment`} className='btn'>
                     comment
                 </Link>
-                <Link to={`/estate/${estate._id}/offer`} className='btn'>
+                <Link to={`/estate/${_id}/offer`} className='btn'>
                     offer
                 </Link>
-                <UploadPhotosForm id={estate._id} updatePhotos={updatePhotos} />
+                <UploadPhotosForm id={_id} updatePhotos={updatePhotos} />
             </div>
         );
-    } else if (userId && estate.user !== userId) {
+    } else if (userId && user !== userId) {
         buttons = (
             <div className='links'>
                 {role !== 'publisher' && (
-                    <Link to={`/estate/${estate._id}/comment`} className='btn'>
+                    <Link to={`/estate/${_id}/comment`} className='btn'>
                         comment
                     </Link>
                 )}
 
-                <Link to={`/estate/${estate._id}/offer`} className='btn'>
+                <Link to={`/estate/${_id}/offer`} className='btn'>
                     offer
                 </Link>
             </div>
         );
-    } else if (userId && estate.user === userId) {
+    } else if (userId && user === userId) {
         buttons = (
             <>
                 <div className='links'>
-                    <Link to={`/editEstate/${estate._id}`} className='btn'>
+                    <Link to={`/editEstate/${_id}`} className='btn'>
                         Edit Estate
                     </Link>
                     <button onClick={handleDelete} className='btn danger'>
                         Delete Estate
                     </button>
                 </div>
-                <UploadPhotosForm id={estate._id} updatePhotos={updatePhotos} />
+                <UploadPhotosForm id={_id} updatePhotos={updatePhotos} />
             </>
         );
     }
@@ -92,31 +108,29 @@ const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
                 />
             )}
             <h3 className='estate-name'>
-                <Link to={`/estate/${estate._id}`}>{estate.name}</Link>
+                <Link to={`/estate/${_id}`}>{name}</Link>
             </h3>
             <div className='estate-description'>
-                <p className='estate-description_text'>{estate.description}</p>
-                {estate.offers && estate.offers.length > 0 && (
+                <p className='estate-description_text'>{description}</p>
+                {offers && offers.length > 0 && (
                     <span className='estate-description_offers'>
-                        {estate.offers.length} offers
+                        {offers.length} offers
                     </span>
                 )}
-                {estate.comments && estate.comments.length > 0 && (
+                {comments && comments.length > 0 && (
                     <span className='estate-description_comments'>
-                        {estate.comments.length} comments
+                        {comments.length} comments
                     </span>
                 )}
             </div>
-            <div className='estate-address'>
-                {estate.location.formattedAddress}
-            </div>
+            <div className='estate-address'>{formattedAddress}</div>
 
             <ul className='estate-photos'>
-                {photos.map((photo, index) => (
-                    <li key={`${estate._id}_${index + 1}`}>
+                {pictures.map((photo, index) => (
+                    <li key={`${_id}_${index + 1}`}>
                         <img
                             src={`/uploads/${photo}`}
-                            alt={`${estate.name}-view#${index + 1}`}
+                            alt={`${name}-view#${index + 1}`}
                         />
                     </li>
                 ))}

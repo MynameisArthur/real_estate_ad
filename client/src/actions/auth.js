@@ -64,10 +64,6 @@ export const login = (email, password) => async (dispatch) => {
         dispatch({type: authTypes.LOGIN_SUCCESS, payload: res.data});
         dispatch(loadUser());
     } catch (err) {
-        // const errors = err.response.data.error.split(',');
-        // if (errors) {
-        //     errors.forEach((error) => dispatch(setAlert(error, 'danger')));
-        // }
         dispatch({
             type: authTypes.LOGIN_FAIL,
         });

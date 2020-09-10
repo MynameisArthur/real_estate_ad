@@ -12,7 +12,7 @@ const UploadPhotosForm = ({id, uploadPhoto, updatePhotos}) => {
         const formData = new FormData();
         photos.forEach((item) => formData.append('file', item));
         const allPhotos = await uploadPhoto(id, formData);
-        //function updating parent component - Estate
+        //function updating parent component - Estate, so after addition of new pictures it rerenders itself
         updatePhotos(allPhotos.data.data.photos);
     };
 
