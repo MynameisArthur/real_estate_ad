@@ -2,16 +2,18 @@ import React, {useState} from 'react';
 import './EstateForm.scss';
 import {connect} from 'react-redux';
 import {uploadPhoto} from '../../actions/estate';
-import axios from 'axios';
 
-const UploadPhotosForm = ({id, uploadPhoto}) => {
+const UploadPhotosForm = ({id, uploadPhoto, updatePhotos}) => {
     const [photos, setPhotos] = useState('');
     const [photosNames, setPhotosNames] = useState([]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         photos.forEach((item) => formData.append('file', item));
-        uploadPhoto(id, formData);
+        const allPhotos = await uploadPhoto(id, formData);
+        //function updating parent component - Estate
+        updatePhotos(allPhotos.data.data.photos);
     };
 
     const handleChange = (e) => {
@@ -37,6 +39,7 @@ const UploadPhotosForm = ({id, uploadPhoto}) => {
                             name='photos'
                             onChange={handleChange}
                             multiple
+                            required
                         />
                     </label>
                 </div>

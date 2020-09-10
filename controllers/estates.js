@@ -226,10 +226,11 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
         );
     }
 
-    handlePhotos(estate, images, photos);
+    const newPhotos = handlePhotos(estate, images, photos);
 
     res.status(204).json({
         success: true,
         data: photos,
+        newPhotos,
     });
 });

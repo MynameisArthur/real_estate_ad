@@ -98,7 +98,7 @@ export const updateEstate = (data, history) => async (dispatch) => {
     }
 };
 
-export const uploadPhoto = (estateId, file) => async (dispatch) => {
+export const uploadPhoto = (estateId, file, history) => async (dispatch) => {
     try {
         const res = await axios.put(
             `/real_estate_ad/estates/${estateId}/photo`,
@@ -109,7 +109,8 @@ export const uploadPhoto = (estateId, file) => async (dispatch) => {
                 },
             }
         );
-        dispatch({type: types.UPLOAD_PHOTO, payload: res.data});
+        await dispatch({type: types.UPLOAD_PHOTO, payload: res.data});
+        return await axios.get(`/real_estate_ad/estates/${estateId}`);
     } catch (err) {
         dispatch({
             type: types.ESTATE_ERROR,

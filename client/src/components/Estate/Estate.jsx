@@ -6,29 +6,21 @@ import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
 import UploadPhotosForm from '../EstateForm/UploadPhotosForm';
-import Alert from '../Alert/Alert';
 
-const Estate = ({
-    userId,
-    role,
-    estate,
-    deleteEstate,
-    location,
-    history,
-    alerts,
-}) => {
+const Estate = ({userId, role, estate, deleteEstate, location, history}) => {
     const [prompt, setPrompt] = useState({
         show: false,
         confirm: false,
         promptMsg: '',
     });
+    const [photos, setPhotos] = useState(estate.photos);
     const {show, confirm, promptMsg} = prompt;
     useEffect(() => {
         if (confirm) {
             //location.pathname is a prop from withRouter which gives me current url eg./dashboard
             deleteEstate(estate._id, location.pathname, history);
         }
-    }, [confirm]);
+    }, [confirm, photos]);
     const handleDelete = () => {
         setPrompt({...prompt, show: true, promptMsg: 'delete estate'});
     };
@@ -37,6 +29,9 @@ const Estate = ({
     };
     const hidePrompt = () => {
         setPrompt({...prompt, show: false});
+    };
+    const updatePhotos = (data) => {
+        setPhotos([...data]);
     };
     let buttons;
     if (role === 'admin') {
@@ -54,6 +49,7 @@ const Estate = ({
                 <Link to={`/estate/${estate._id}/offer`} className='btn'>
                     offer
                 </Link>
+                <UploadPhotosForm id={estate._id} updatePhotos={updatePhotos} />
             </div>
         );
     } else if (userId && estate.user !== userId) {
@@ -81,7 +77,7 @@ const Estate = ({
                         Delete Estate
                     </button>
                 </div>
-                <UploadPhotosForm id={estate._id} />
+                <UploadPhotosForm id={estate._id} updatePhotos={updatePhotos} />
             </>
         );
     }
@@ -95,7 +91,6 @@ const Estate = ({
                     toggleShow={hidePrompt}
                 />
             )}
-            {/* {alerts.length > 0 && <Alert alerts={alerts} />} */}
             <h3 className='estate-name'>
                 <Link to={`/estate/${estate._id}`}>{estate.name}</Link>
             </h3>
@@ -117,12 +112,12 @@ const Estate = ({
             </div>
 
             <ul className='estate-photos'>
-                {estate.photos.map((photo, index) => (
+                {photos.map((photo, index) => (
                     <li key={`${estate._id}_${index + 1}`}>
-                        {/* <img
+                        <img
                             src={`/uploads/${photo}`}
                             alt={`${estate.name}-view#${index + 1}`}
-                        /> */}
+                        />
                     </li>
                 ))}
             </ul>
@@ -136,13 +131,11 @@ Estate.propTypes = {
     deleteEstate: PropTypes.func.isRequired,
     location: PropTypes.object,
     role: PropTypes.string,
-    alerts: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     userId: state.auth.isAuthenticated ? state.auth.user.data._id : null,
     role: state.auth.isAuthenticated ? state.auth.user.data.role : 'user',
-    alerts: state.alert,
 });
 
 export default connect(mapStateToProps, {deleteEstate})(withRouter(Estate));
