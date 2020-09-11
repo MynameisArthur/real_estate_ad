@@ -7,6 +7,7 @@ const {
     deleteEstate,
     getEstatesInRadius,
     estatePhotoUpload,
+    deletePhoto,
 } = require('../controllers/estates');
 
 const Estate = require('../models/Estate');
@@ -28,6 +29,9 @@ router.route('/radius/:zipcode/:distance/:unit').get(getEstatesInRadius);
 router
     .route('/:id/photo')
     .put(protect, authorize('publisher', 'admin'), estatePhotoUpload);
+router
+    .route('/:id/photo/:photoId')
+    .delete(protect, authorize('publisher', 'admin'), deletePhoto);
 
 router
     .route('/')

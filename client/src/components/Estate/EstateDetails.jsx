@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import './Estate.scss';
 import PropTypes from 'prop-types';
 import Spinner from '../Spinner/Spinner';
+import Picture from '../Picture/Picture';
 
 const EstateDetails = ({getEstate, history, match}) => {
     const {id} = match.params;
@@ -27,12 +28,13 @@ const EstateDetails = ({getEstate, history, match}) => {
         comments,
         highestBid,
         loading,
+        photos,
     } = estate;
 
     const loadEstate = async (id) => {
         const response = await getEstate(id);
         const address = response.data.location.formattedAddress;
-        const {offers, features, comments} = response.data;
+        const {offers, features, comments, photos} = response.data;
         const highestBid = Math.max(
             ...offers.map((offer) => offer.amountOffered)
         );
@@ -43,6 +45,7 @@ const EstateDetails = ({getEstate, history, match}) => {
             features,
             comments,
             highestBid,
+            photos,
             loading: false,
         });
     };
@@ -163,6 +166,17 @@ const EstateDetails = ({getEstate, history, match}) => {
                                     </li>
                                 ))}
                         </ul>
+                    </section>
+                    <section className='estate-details_photos'>
+                        {photos.map((photo, index) => (
+                            <li key={`${id}_${index + 1}`}>
+                                <Picture
+                                    photo={photo}
+                                    index={index}
+                                    name={name}
+                                />
+                            </li>
+                        ))}
                     </section>
                     <button
                         className='btn'

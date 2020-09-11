@@ -21,6 +21,10 @@ const Estates = ({
     ) : (
         <div className='estates-container'>
             <h3>Estates</h3>
+            <p>
+                <strong>All estates : </strong>
+                {count}
+            </p>
             <Search search={(formData) => findEstatesInRadius(formData)} />
             <button onClick={getEstates} className='btn'>
                 Show All

@@ -1,5 +1,5 @@
 const ErrorResponse = require('../utils/errorResponse');
-const handlePhotos = require('../utils/handlePhotos');
+const {handlePhotos, photoChecks} = require('../utils/photoUtils');
 const Estate = require('../models/Estate');
 const asyncHandler = require('../middleware/async');
 const geocoder = require('../utils/geocoder');
@@ -171,23 +171,7 @@ exports.getEstatesInRadius = asyncHandler(async (req, res, next) => {
 
 exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
     const estate = await Estate.findById(req.params.id);
-    if (!estate) {
-        return next(
-            new ErrorResponse(
-                `Estate with the id ${req.params.id} not found`,
-                404
-            )
-        );
-    }
-    //Make sure user is estate's owner
-    if (estate.user.toString() !== req.user.id && req.user.role !== 'admin') {
-        return next(
-            new ErrorResponse(
-                `User with the ID ${req.params.id} is not authorized to upload photo for this estate`,
-                401
-            )
-        );
-    }
+    photoChecks(req, estate);
 
     if (!req.files) {
         return next(new ErrorResponse(`Please upload a file`, 400));
@@ -216,7 +200,7 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
             )
         );
     }
-    const {photos} = await estate;
+    const {photos} = estate;
     if (photos.length >= 8) {
         return next(
             new ErrorResponse(
@@ -232,5 +216,23 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
         success: true,
         data: photos,
         newPhotos,
+    });
+});
+
+//@desc Delete given photo
+//@route PUT /real_estate_ad/estates/:id/photo/:photoId
+//@access Private
+
+exports.deletePhoto = asyncHandler(async (req, res, next) => {
+    const {id, photoId} = req.params;
+    const estate = await Estate.findById(id);
+    photoChecks(req, estate);
+    const updatedPhotos = estate.photos.filter((photo) => photo != photoId);
+    await estate.update({
+        updatedPhotos,
+    });
+    res.status(200).json({
+        success: true,
+        removed: photoId,
     });
 });

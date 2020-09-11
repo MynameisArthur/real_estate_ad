@@ -1,0 +1,27 @@
+.estate-picture {
+    position: relative;
+    outline: 2px solid yellowgreen;
+    display: inline-block;
+    & > img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+    button {
+        position: absolute;
+        display: block;
+        top: 0.5em;
+        right: 0.5em;
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+            width: 50%;
+            object-fit: cover;
+        }
+    }
+}

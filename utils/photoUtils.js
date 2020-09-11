@@ -22,5 +22,25 @@ const handlePhotos = async (estate, images, photos) => {
         photos,
     });
 };
+// helper function that checks if estate exists and user has permission
+const photoChecks = async (req, estate) => {
+    if (!estate) {
+        return next(
+            new ErrorResponse(
+                `Estate with the id ${req.params.id} not found`,
+                404
+            )
+        );
+    }
+    //Make sure user is estate's owner
+    if (estate.user.toString() !== req.user.id && req.user.role !== 'admin') {
+        return next(
+            new ErrorResponse(
+                `User with the ID ${req.params.id} is not authorized to upload or delete photo for this estate`,
+                401
+            )
+        );
+    }
+};
 
-module.exports = handlePhotos;
+module.exports = {handlePhotos, photoChecks};

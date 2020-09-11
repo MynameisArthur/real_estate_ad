@@ -23,6 +23,7 @@ export default function (state = initialState, action) {
                 loading: false,
             };
         case types.UPLOAD_PHOTO:
+        case types.DELETE_PHOTO:
             return {
                 ...state,
                 photos: payload,

@@ -6,6 +6,7 @@ import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
 import UploadPhotosForm from '../EstateForm/UploadPhotosForm';
+import Picture from '../Picture/Picture';
 
 const Estate = ({
     userId,
@@ -126,14 +127,14 @@ const Estate = ({
             <div className='estate-address'>{formattedAddress}</div>
 
             <ul className='estate-photos'>
-                {pictures.map((photo, index) => (
-                    <li key={`${_id}_${index + 1}`}>
-                        <img
-                            src={`/uploads/${photo}`}
-                            alt={`${name}-view#${index + 1}`}
-                        />
-                    </li>
-                ))}
+                {pictures.map((photo, index) => {
+                    const picProps = {photo, _id, index, name};
+                    return (
+                        <li key={`${_id}_${index + 1}`}>
+                            <Picture {...picProps} />
+                        </li>
+                    );
+                })}
             </ul>
             {buttons}
         </div>

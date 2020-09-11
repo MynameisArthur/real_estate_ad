@@ -17,7 +17,7 @@ export const addOffer = (estateId, data, history) => async (dispatch) => {
             body,
             config
         );
-        dispatch(setAlert('Offer added'));
+        dispatch(setAlert('Offer added', 'success', 2000));
         history.go(-1);
     } catch (err) {
         dispatch(setAlert(err, 'danger'));

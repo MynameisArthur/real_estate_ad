@@ -77,7 +77,7 @@ export const updateEstate = (data, history) => async (dispatch) => {
     }
 };
 
-export const uploadPhoto = (estateId, file, history) => async (dispatch) => {
+export const uploadPhoto = (estateId, file) => async (dispatch) => {
     try {
         const res = await axios.put(
             `/real_estate_ad/estates/${estateId}/photo`,
@@ -94,6 +94,19 @@ export const uploadPhoto = (estateId, file, history) => async (dispatch) => {
         error(dispatch, err);
     }
 };
+
+export const deletePhoto = (estateId, photoId) => async (dispatch) => {
+    try {
+        const res = await axios.delete(
+            `/real_estate_ad/estates/${estateId}/photo/${photoId}`
+        );
+        await dispatch({type: types.DELETE_PHOTO, payload: res.data});
+        return await axios.get(`/real_estate_ad/estates/${estateId}`);
+    } catch (err) {
+        error(dispatch, err);
+    }
+};
+
 export const deleteEstate = (estateId, source, history) => async (dispatch) => {
     try {
         await axios.delete(`/real_estate_ad/estates/${estateId}`);
