@@ -21,6 +21,7 @@ const handlePhotos = async (estate, images, photos) => {
     await estate.updateOne({
         photos,
     });
+    return images.map((img) => img.name);
 };
 // helper function that checks if estate exists and user has permission
 const photoChecks = async (req, estate) => {

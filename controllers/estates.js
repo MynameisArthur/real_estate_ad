@@ -210,12 +210,11 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
         );
     }
 
-    const newPhotos = handlePhotos(estate, images, photos);
+    await handlePhotos(estate, images, photos);
 
-    res.status(204).json({
+    res.status(201).json({
         success: true,
         data: photos,
-        newPhotos,
     });
 });
 
@@ -225,14 +224,17 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
 
 exports.deletePhoto = asyncHandler(async (req, res, next) => {
     const {id, photoId} = req.params;
-    const estate = await Estate.findById(id);
+    let estate = await Estate.findById(id);
     photoChecks(req, estate);
-    const updatedPhotos = estate.photos.filter((photo) => photo != photoId);
-    await estate.update({
-        updatedPhotos,
+    const filteredPhotos = estate.photos.filter((photo) => photo != photoId);
+    const updatedData = estate;
+    updatedData.photos = filteredPhotos;
+    estate = await estate.updateOne(updatedData, {
+        new: true,
+        runValidators: true,
     });
     res.status(200).json({
         success: true,
-        removed: photoId,
+        updatedEstate: filteredPhotos,
     });
 });

@@ -89,7 +89,7 @@ export const uploadPhoto = (estateId, file) => async (dispatch) => {
             }
         );
         await dispatch({type: types.UPLOAD_PHOTO, payload: res.data});
-        return await axios.get(`/real_estate_ad/estates/${estateId}`);
+        return res.data;
     } catch (err) {
         error(dispatch, err);
     }
@@ -101,7 +101,7 @@ export const deletePhoto = (estateId, photoId) => async (dispatch) => {
             `/real_estate_ad/estates/${estateId}/photo/${photoId}`
         );
         await dispatch({type: types.DELETE_PHOTO, payload: res.data});
-        return await axios.get(`/real_estate_ad/estates/${estateId}`);
+        return photoId;
     } catch (err) {
         error(dispatch, err);
     }

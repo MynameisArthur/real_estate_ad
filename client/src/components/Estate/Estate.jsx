@@ -47,8 +47,15 @@ const Estate = ({
     const hidePrompt = () => {
         setPrompt({...prompt, show: false});
     };
-    const updatePhotos = (data) => {
-        setPictures([...data]);
+    const updatePhotos = (data, del = false) => {
+        //if function call is from deleting photos
+        if (del) {
+            data = pictures.filter((picture) => picture != data);
+            setPictures(data);
+        } else {
+            // if function call is from uploading photos
+            setPictures([...data]);
+        }
     };
     let buttons;
     if (role === 'admin') {
@@ -131,7 +138,10 @@ const Estate = ({
                     const picProps = {photo, _id, index, name};
                     return (
                         <li key={`${_id}_${index + 1}`}>
-                            <Picture {...picProps} />
+                            <Picture
+                                {...picProps}
+                                updatePhotos={updatePhotos}
+                            />
                         </li>
                     );
                 })}

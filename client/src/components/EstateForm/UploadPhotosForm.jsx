@@ -6,14 +6,28 @@ import {uploadPhoto} from '../../actions/estate';
 const UploadPhotosForm = ({id, uploadPhoto, updatePhotos}) => {
     const [photos, setPhotos] = useState('');
     const [photosNames, setPhotosNames] = useState([]);
+    const [key, setKey] = useState(Math.random());
+    //helper function that cleans input
+    const resetInput = () => {
+        let newKey;
+        //generate newKey
+        do {
+            newKey = Math.random();
+        } while (newKey === key);
+        //change key in input so react rerenders it thus reseting FileList
+        setKey(newKey);
+        setPhotosNames([]);
+        setPhotos('');
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         photos.forEach((item) => formData.append('file', item));
-        const allPhotos = await uploadPhoto(id, formData);
+        const newPhotos = await uploadPhoto(id, formData);
         //function updating parent component - Estate, so after addition of new pictures it rerenders itself
-        updatePhotos(allPhotos.data.data.photos);
+        await updatePhotos(newPhotos.data);
+        resetInput();
     };
 
     const handleChange = (e) => {
@@ -36,10 +50,11 @@ const UploadPhotosForm = ({id, uploadPhoto, updatePhotos}) => {
                         ADD PHOTOS +
                         <input
                             type='file'
-                            name='photos'
+                            name='fileUpload'
                             onChange={handleChange}
                             multiple
                             required
+                            key={key}
                         />
                     </label>
                 </div>

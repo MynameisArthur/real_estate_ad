@@ -4,10 +4,11 @@ import close from './close.svg';
 import {deletePhoto} from '../../actions/estate';
 import {connect} from 'react-redux';
 
-const Picture = ({photo, index, name, _id, deletePhoto}) => {
-    const handleClick = (e) => {
+const Picture = ({photo, index, name, _id, deletePhoto, updatePhotos}) => {
+    const handleClick = async (e) => {
         e.preventDefault();
-        deletePhoto(_id, photo);
+        const deletedPhoto = await deletePhoto(_id, photo);
+        updatePhotos(deletedPhoto, true);
     };
     return (
         <div className='estate-picture'>
