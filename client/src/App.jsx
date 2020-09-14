@@ -58,7 +58,11 @@ const App = () => {
                             <Route
                                 exact
                                 path='/estate/:id/comment'
-                                component={Comment}
+                                component={() => <Comment edit={false} />}
+                            />
+                            <PrivateRoute
+                                path='/estate/:id/comment/:commentId'
+                                component={() => <Comment edit={true} />}
                             />
                             <Route
                                 exact

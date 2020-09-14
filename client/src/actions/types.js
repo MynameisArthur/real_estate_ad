@@ -37,6 +37,7 @@ export const OfferActionTypes = {
 };
 export const CommentActionTypes = {
     GET_COMMENTS_FOR_ESTATE: 'GET_COMMENTS_FOR_ESTATE',
+    LOAD_COMMENT: 'LOAD_COMMENT',
     ADD_COMMENT: 'ADD_COMMENT',
     DELETE_COMMENT: 'DELETE_COMMENT',
     UPDATE_COMMENT: 'UPDATE_COMMENT',

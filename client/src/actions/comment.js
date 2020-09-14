@@ -1,27 +1,45 @@
-import {CommentActionTypes as types} from './types';
 import axios from 'axios';
 import {setAlert} from './alert';
+import {dispatchCommentError as error} from '../utils/dispatchErrors';
 
-export const addComment = (estateId, data, history) => async (dispatch) => {
+//depending on boolean "edit" either: edits existing comment or adds new one
+export const modifyComment = (estateId, data, history, edit) => async (
+    dispatch
+) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
         },
     };
     const body = JSON.stringify(data);
+    let message = 'Comment added';
     try {
-        await axios.post(
-            `/real_estate_ad/estates/${estateId}/comments`,
-            body,
-            config
-        );
-        dispatch(setAlert('Comment added'));
+        // if edit=false add new comment
+        if (!edit) {
+            await axios.post(
+                `/real_estate_ad/estates/${estateId}/comments`,
+                body,
+                config
+            );
+        } else {
+            // if edit=true update comment
+            await axios.put(
+                `/real_estate_ad/comments/${data._id}`,
+                body,
+                config
+            );
+            message = 'Comment updated';
+        }
+        dispatch(setAlert(message));
         history.go(-1);
     } catch (err) {
-        // dispatch(setAlert(err, 'danger'));
-        dispatch({
-            type: types.COMMENT_ERROR,
-            payload: err,
-        });
+        error(dispatch, err);
+    }
+};
+export const getSingleComment = (commentId) => async (dispatch) => {
+    try {
+        return await axios.get(`/real_estate_ad/comments/${commentId}`);
+    } catch (err) {
+        error(dispatch, err);
     }
 };

@@ -50,7 +50,7 @@ const Estate = ({
     const updatePhotos = (data, del = false) => {
         //if function call is from deleting photos
         if (del) {
-            data = pictures.filter((picture) => picture != data);
+            data = pictures.filter((picture) => picture !== data);
             setPictures(data);
         } else {
             // if function call is from uploading photos

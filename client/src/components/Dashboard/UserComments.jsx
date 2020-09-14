@@ -14,6 +14,9 @@ const UserComments = ({comments}) => {
                         <Link to={`/estate/${item.estate}`}>
                             Go to estate &rarr;
                         </Link>
+                        <Link to={`/estate/${item.estate}/comment/${item._id}`}>
+                            Edit Comment
+                        </Link>
                     </div>
                 ))}
         </div>

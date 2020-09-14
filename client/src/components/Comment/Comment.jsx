@@ -1,12 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Comment.scss';
 import {withRouter} from 'react-router-dom';
-import {addComment} from '../../actions/comment';
+import {modifyComment, getSingleComment} from '../../actions/comment';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-const Comment = ({error, addComment, history, match}) => {
-    const {id} = match.params;
+const Comment = ({
+    error,
+    modifyComment,
+    getSingleComment,
+    history,
+    match,
+    edit,
+}) => {
+    const {id, commentId} = match.params;
     const initialState = {
         title: '',
         text: '',
@@ -16,11 +23,20 @@ const Comment = ({error, addComment, history, match}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        addComment(id, commentDetails, history);
+        modifyComment(id, commentDetails, history, edit);
     };
     const handleChange = (e) => {
         setCommentDetails({...commentDetails, [e.target.name]: e.target.value});
     };
+    const loadComment = async (commentId) => {
+        const comment = await getSingleComment(commentId);
+        setCommentDetails(comment.data.data);
+    };
+    useEffect(() => {
+        if (edit) {
+            loadComment(commentId);
+        }
+    }, []);
     const {title, text, rating} = commentDetails;
     return (
         <>
@@ -86,12 +102,15 @@ const Comment = ({error, addComment, history, match}) => {
 };
 
 Comment.propTypes = {
-    addComment: PropTypes.func.isRequired,
+    modifyComment: PropTypes.func.isRequired,
     error: PropTypes.object,
+    edit: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     error: state.comment.error,
 });
 
-export default connect(mapStateToProps, {addComment})(withRouter(Comment));
+export default connect(mapStateToProps, {modifyComment, getSingleComment})(
+    withRouter(Comment)
+);
