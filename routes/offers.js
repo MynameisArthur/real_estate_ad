@@ -25,7 +25,7 @@ router
 router
     .route('/:id')
     .get(getOffer)
-    .put(protect, authorize('publisher', 'admin'), updateOffer)
-    .delete(protect, authorize('publisher', 'admin'), deleteOffer);
+    .put(protect, authorize('user', 'publisher', 'admin'), updateOffer)
+    .delete(protect, authorize('user', 'publisher', 'admin'), deleteOffer);
 
 module.exports = router;

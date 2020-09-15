@@ -55,7 +55,7 @@ const App = () => {
                                 path='/editEstate/:id'
                                 component={() => <EstateForm edit={true} />}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path='/estate/:id/comment'
                                 component={() => <Comment edit={false} />}
@@ -64,10 +64,15 @@ const App = () => {
                                 path='/estate/:id/comment/:commentId'
                                 component={() => <Comment edit={true} />}
                             />
-                            <Route
+                            <PrivateRoute
                                 exact
                                 path='/estate/:id/offer'
-                                component={Offer}
+                                component={() => <Offer edit={false} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path='/estate/:id/offer/:offerId'
+                                component={() => <Offer edit={true} />}
                             />
                             <Route
                                 exact

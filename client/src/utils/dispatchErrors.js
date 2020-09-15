@@ -1,20 +1,25 @@
 import {
-    EstateActionTypes as estateTypes,
-    OfferActionTypes as offerTypes,
+    EstateActionTypes,
+    CommentActionTypes,
+    OfferActionTypes,
 } from '../actions/types';
 
-export const dispatchEstateError = (dispatch, err) => {
+export const dispatchError = (dispatch, err, type = 'estate') => {
+    let types = null;
+    switch (type) {
+        case 'offer':
+            types = OfferActionTypes;
+            break;
+        case 'comment':
+            types = CommentActionTypes;
+            break;
+        case 'estate':
+        default:
+            types = EstateActionTypes;
+    }
+
     return dispatch({
-        type: estateTypes.ESTATE_ERROR,
-        payload: {
-            msg: err.response,
-            status: err.response,
-        },
-    });
-};
-export const dispatchCommentError = (dispatch, err) => {
-    return dispatch({
-        type: offerTypes.COMMENT_ERROR,
+        type: types[`${type.toUpperCase()}_ERROR`],
         payload: {
             msg: err.response,
             status: err.response,

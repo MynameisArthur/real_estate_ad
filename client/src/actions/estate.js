@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {EstateActionTypes as types} from './types';
-import {dispatchEstateError as error} from '../utils/dispatchErrors';
+import {dispatchError as error} from '../utils/dispatchErrors';
 import {setAlert} from './alert';
 
 export const getEstates = () => async (dispatch) => {

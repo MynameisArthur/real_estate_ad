@@ -14,6 +14,9 @@ const UserOffers = ({offers}) => {
                         <Link to={`/estate/${item.estate}`}>
                             Go to estate &rarr;
                         </Link>
+                        <Link to={`/estate/${item.estate}/offer/${item._id}`}>
+                            Edit Offer
+                        </Link>
                     </div>
                 ))}
         </div>

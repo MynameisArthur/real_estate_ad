@@ -1,29 +1,43 @@
 import axios from 'axios';
 import {OfferActionTypes as types} from './types';
 import {setAlert} from './alert';
+import {dispatchError as error} from '../utils/dispatchErrors';
 
-export const getOffersForEstate = () => async (dispatch) => {};
-
-export const addOffer = (estateId, data, history) => async (dispatch) => {
+export const modifyOffer = (estateId, data, history, edit) => async (
+    dispatch
+) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
         },
     };
     const body = JSON.stringify(data);
+    let message = 'Offer added';
     try {
-        await axios.post(
-            `/real_estate_ad/estates/${estateId}/offers`,
-            body,
-            config
-        );
-        dispatch(setAlert('Offer added', 'success', 2000));
+        // if edit=false add new offer
+        if (!edit) {
+            await axios.post(
+                `/real_estate_ad/estates/${estateId}/offers`,
+                body,
+                config
+            );
+        } else {
+            // if edit=true update offer
+            await axios.put(`/real_estate_ad/offers/${data._id}`, body, config);
+            message = 'Offer updated';
+        }
+        dispatch(setAlert(message, 'success', 2000));
         history.go(-1);
     } catch (err) {
         dispatch(setAlert(err, 'danger'));
-        dispatch({
-            type: types.OFFER_ERROR,
-            payload: err.msg,
-        });
+        error(dispatch, err, 'offer');
+    }
+};
+
+export const getSingleOffer = (offerId) => async (dispatch) => {
+    try {
+        return await axios.get(`/real_estate_ad/offers/${offerId}`);
+    } catch (err) {
+        error(dispatch, err, 'offer');
     }
 };

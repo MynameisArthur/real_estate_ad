@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {setAlert} from './alert';
-import {dispatchCommentError as error} from '../utils/dispatchErrors';
+import {dispatchError as error} from '../utils/dispatchErrors';
 
 //depending on boolean "edit" either: edits existing comment or adds new one
 export const modifyComment = (estateId, data, history, edit) => async (
@@ -33,13 +33,13 @@ export const modifyComment = (estateId, data, history, edit) => async (
         dispatch(setAlert(message));
         history.go(-1);
     } catch (err) {
-        error(dispatch, err);
+        error(dispatch, err, 'comment');
     }
 };
 export const getSingleComment = (commentId) => async (dispatch) => {
     try {
         return await axios.get(`/real_estate_ad/comments/${commentId}`);
     } catch (err) {
-        error(dispatch, err);
+        error(dispatch, err, 'comment');
     }
 };

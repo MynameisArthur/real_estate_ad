@@ -2,12 +2,21 @@ import React, {useState, useEffect} from 'react';
 import './Offer.scss';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {addOffer} from '../../actions/offer';
+import {modifyOffer, getSingleOffer} from '../../actions/offer';
 import {getEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 
-const Offer = ({estate, offer, addOffer, getEstate, history, match}) => {
-    const {id} = match.params;
+const Offer = ({
+    estate,
+    offer,
+    modifyOffer,
+    getSingleOffer,
+    getEstate,
+    history,
+    match,
+    edit,
+}) => {
+    const {id, offerId} = match.params;
     const [offerDetails, setOfferDetails] = useState({
         amountOffered: 0,
         title: '',
@@ -32,12 +41,20 @@ const Offer = ({estate, offer, addOffer, getEstate, history, match}) => {
             });
         }
     };
+    const loadMyOffer = async (offerId) => {
+        const offer = await getSingleOffer(offerId);
+        setOfferDetails(offer.data.data);
+    };
     useEffect(() => {
-        loadData();
+        if (edit) {
+            loadMyOffer(offerId);
+        } else {
+            loadData();
+        }
     }, []);
     const onSubmit = (e) => {
         e.preventDefault();
-        addOffer(id, offerDetails, history);
+        modifyOffer(id, offerDetails, history, edit);
     };
     const handleChange = (e) => {
         setOfferDetails({...offerDetails, [e.target.name]: e.target.value});
@@ -94,7 +111,8 @@ const Offer = ({estate, offer, addOffer, getEstate, history, match}) => {
 };
 
 Offer.propTypes = {
-    addOffer: PropTypes.func.isRequired,
+    modifyOffer: PropTypes.func.isRequired,
+    getSingleOffer: PropTypes.func.isRequired,
     getEstate: PropTypes.func.isRequired,
     offer: PropTypes.object.isRequired,
     estate: PropTypes.object.isRequired,
@@ -105,6 +123,8 @@ const mapStateToProps = (state) => ({
     offer: state.offer,
 });
 
-export default connect(mapStateToProps, {addOffer, getEstate})(
-    withRouter(Offer)
-);
+export default connect(mapStateToProps, {
+    modifyOffer,
+    getEstate,
+    getSingleOffer,
+})(withRouter(Offer));
