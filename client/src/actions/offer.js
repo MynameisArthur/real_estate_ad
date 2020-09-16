@@ -41,3 +41,10 @@ export const getSingleOffer = (offerId) => async (dispatch) => {
         error(dispatch, err, 'offer');
     }
 };
+export const deleteOffer = (offerId) => async (dispatch) => {
+    try {
+        return await axios.delete(`/real_estate_ad/offers/${offerId}`);
+    } catch (err) {
+        error(dispatch, err, 'offer');
+    }
+};
