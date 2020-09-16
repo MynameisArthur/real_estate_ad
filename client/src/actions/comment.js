@@ -43,3 +43,10 @@ export const getSingleComment = (commentId) => async (dispatch) => {
         error(dispatch, err, 'comment');
     }
 };
+export const deleteComment = (commentId) => async (dispatch) => {
+    try {
+        return await axios.delete(`/real_estate_ad/comments/${commentId}`);
+    } catch (err) {
+        error(dispatch, err, 'comment');
+    }
+};
