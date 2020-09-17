@@ -135,7 +135,7 @@ const Estate = ({
 
             <ul className='estate-photos'>
                 {pictures.map((photo, index) => {
-                    const picProps = {photo, _id, index, name};
+                    const picProps = {photo, _id, index, name, user};
                     return (
                         <li key={`${_id}_${index + 1}`}>
                             <Picture

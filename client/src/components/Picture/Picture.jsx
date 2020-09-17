@@ -4,20 +4,39 @@ import close from './close.svg';
 import {deletePhoto} from '../../actions/estate';
 import {connect} from 'react-redux';
 
-const Picture = ({photo, index, name, _id, deletePhoto, updatePhotos}) => {
+const Picture = ({
+    role,
+    userId,
+    photo,
+    index,
+    name,
+    user,
+    _id,
+    deletePhoto,
+    updatePhotos,
+}) => {
     const handleClick = async (e) => {
         e.preventDefault();
         const deletedPhoto = await deletePhoto(_id, photo);
         updatePhotos(deletedPhoto, true);
     };
+
     return (
         <div className='estate-picture'>
-            <button onClick={handleClick}>
-                <img src={close} alt='' />
-            </button>
-            {/* <img src={`/uploads/${photo}`} alt={`${name}-view#${index + 1}`} /> */}
+            {(role === 'publisher' && userId === user) || role === 'admin' ? (
+                <button onClick={handleClick}>
+                    <img src={close} alt='' />
+                </button>
+            ) : null}
+
+            <img src={`/uploads/${photo}`} alt={`${name}-view#${index + 1}`} />
         </div>
     );
 };
 
-export default connect(null, {deletePhoto})(Picture);
+const mapStateToProps = (state) => ({
+    role: state.auth.isAuthenticated ? state.auth.user.data.role : 'user',
+    userId: state.auth.isAuthenticated ? state.auth.user.data._id : null,
+});
+
+export default connect(mapStateToProps, {deletePhoto})(Picture);

@@ -35,9 +35,10 @@ const EstateDetails = ({getEstate, history, match}) => {
         const response = await getEstate(id);
         const address = response.data.location.formattedAddress;
         const {offers, features, comments, photos} = response.data;
-        const highestBid = Math.max(
-            ...offers.map((offer) => offer.amountOffered)
-        );
+        const highestBid =
+            offers.length > 0
+                ? Math.max(...offers.map((offer) => offer.amountOffered))
+                : 0;
         setEstate({
             ...response.data,
             address,
