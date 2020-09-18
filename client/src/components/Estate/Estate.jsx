@@ -133,7 +133,7 @@ const Estate = ({
             </div>
             <div className='estate-address'>{formattedAddress}</div>
 
-            <ul className='estate-photos'>
+            {/* <ul className='estate-photos'>
                 {pictures.map((photo, index) => {
                     const picProps = {photo, _id, index, name, user};
                     return (
@@ -145,7 +145,7 @@ const Estate = ({
                         </li>
                     );
                 })}
-            </ul>
+            </ul> */}
             {buttons}
         </div>
     );

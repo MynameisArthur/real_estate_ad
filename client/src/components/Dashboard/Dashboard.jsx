@@ -2,15 +2,15 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import './Dashboard.scss';
 import {connect} from 'react-redux';
-import {getCurrentProfile} from '../../actions/profile';
 import Spinner from '../Spinner/Spinner';
 import {Link, Switch, Route, NavLink, Redirect} from 'react-router-dom';
 
 import UserEstates from './UserEstates';
 import UserComments from './UserComments';
 import UserOffers from './UserOffers';
+import Register from '../Register/Register';
 
-const Dashboard = ({getCurrentProfile}) => {
+const Dashboard = ({profile}) => {
     const [userProfile, setUserProfile] = useState({
         name: 'user',
         role: '',
@@ -20,20 +20,21 @@ const Dashboard = ({getCurrentProfile}) => {
         loading: true,
     });
     const loadData = async () => {
-        const profile = await getCurrentProfile();
-        const {user, estates, offers, comments} = profile.data.data;
-        setUserProfile({
-            name: user.name,
-            role: user.role,
-            estates,
-            loading: false,
-            offers,
-            comments,
-        });
+        if (profile.userProfile) {
+            const {user, estates, offers, comments} = profile.userProfile.data;
+            setUserProfile({
+                name: user.name,
+                role: user.role,
+                estates,
+                loading: false,
+                offers,
+                comments,
+            });
+        }
     };
     useEffect(() => {
         loadData();
-    }, []);
+    }, [profile]);
     const {name, role, estates, loading, offers, comments} = userProfile;
     return loading ? (
         <Spinner />
@@ -76,6 +77,15 @@ const Dashboard = ({getCurrentProfile}) => {
                         My Offers <span>{offers.length}</span>
                     </NavLink>
                 </li>
+                <li>
+                    <NavLink
+                        to='/dashboard/user'
+                        className='btn'
+                        activeClassName='selected'
+                    >
+                        Edit User
+                    </NavLink>
+                </li>
             </ul>
             <Switch>
                 <Redirect exact from='/dashboard' to='/dashboard/estates' />
@@ -94,13 +104,22 @@ const Dashboard = ({getCurrentProfile}) => {
                     path='/dashboard/offers'
                     component={() => <UserOffers offers={offers} />}
                 />
+                <Route
+                    exact
+                    path='/dashboard/user'
+                    component={() => <Register owner={profile} edit={true} />}
+                />
             </Switch>
         </div>
     );
 };
 
 Dashboard.propTypes = {
-    getCurrentProfile: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, {getCurrentProfile})(Dashboard);
+const mapStateToProps = (state) => ({
+    profile: state.profile,
+});
+
+export default connect(mapStateToProps)(Dashboard);

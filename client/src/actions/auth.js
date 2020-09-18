@@ -6,6 +6,7 @@ import {
 } from './types';
 import {setAlert} from './alert';
 import setAuthToken from '../utils/setAuthToken';
+import {getCurrentProfile} from './profile';
 
 //Register User
 export const register = ({name, email, password}) => async (dispatch) => {
@@ -40,6 +41,7 @@ export const loadUser = () => async (dispatch) => {
         setAuthToken(localStorage.token);
         try {
             const res = await axios.get('/real_estate_ad/auth/me');
+            await dispatch(getCurrentProfile());
             dispatch({type: authTypes.USER_LOADED, payload: res.data});
         } catch (err) {
             dispatch({type: authTypes.AUTH_ERROR});

@@ -220,7 +220,19 @@ const EstateForm = ({
                     />
                 </label>
             </div>
-
+            {/* <ul className='estate-photos'>
+                {photos.map((photo, index) => {
+                    const picProps = {photo, _id, index, name, user};
+                    return (
+                        <li key={`${_id}_${index + 1}`}>
+                            <Picture
+                                {...picProps}
+                                updatePhotos={updatePhotos}
+                            />
+                        </li>
+                    );
+                })}
+            </ul> */}
             <button
                 className='btn'
                 onClick={(e) => {
