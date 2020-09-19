@@ -11,13 +11,13 @@ const Picture = ({
     index,
     name,
     user,
-    _id,
+    estateId,
     deletePhoto,
     updatePhotos,
 }) => {
     const handleClick = async (e) => {
         e.preventDefault();
-        const deletedPhoto = await deletePhoto(_id, photo);
+        const deletedPhoto = await deletePhoto(estateId, photo);
         updatePhotos(deletedPhoto, true);
     };
 
@@ -28,7 +28,6 @@ const Picture = ({
                     <img src={close} alt='' />
                 </button>
             ) : null}
-
             <img src={`/uploads/${photo}`} alt={`${name}-view#${index + 1}`} />
         </div>
     );

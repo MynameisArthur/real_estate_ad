@@ -1,5 +1,7 @@
 .estate-uploadPhotos {
     margin: 2em 0;
+    display: block;
+    width: 100%;
     outline: 1px dotted #ccc;
     & * {
         cursor: pointer;

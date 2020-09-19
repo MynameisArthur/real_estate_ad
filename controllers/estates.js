@@ -4,7 +4,7 @@ const Estate = require('../models/Estate');
 const asyncHandler = require('../middleware/async');
 const geocoder = require('../utils/geocoder');
 const slugify = require('slugify');
-
+const fs = require('fs');
 //@desc Get all estates
 //@route GET /real_estate_ad/estates
 //@access Public
@@ -224,17 +224,26 @@ exports.estatePhotoUpload = asyncHandler(async (req, res, next) => {
 
 exports.deletePhoto = asyncHandler(async (req, res, next) => {
     const {id, photoId} = req.params;
-    let estate = await Estate.findById(id);
-    photoChecks(req, estate);
-    const filteredPhotos = estate.photos.filter((photo) => photo != photoId);
-    const updatedData = estate;
-    updatedData.photos = filteredPhotos;
-    estate = await estate.updateOne(updatedData, {
-        new: true,
-        runValidators: true,
-    });
-    res.status(200).json({
-        success: true,
-        updatedEstate: filteredPhotos,
-    });
+    try {
+        let estate = await Estate.findById(id);
+        photoChecks(req, estate);
+        const filteredPhotos = estate.photos.filter(
+            (photo) => photo != photoId
+        );
+        const updatedData = estate;
+        updatedData.photos = filteredPhotos;
+        estate = await estate.updateOne(updatedData, {
+            new: true,
+            runValidators: true,
+        });
+        fs.unlink(`${process.env.FILE_UPLOAD_PATH}/${photoId}`, () => {
+            console.log(`Photo ${photoId} removed from public folder`);
+        });
+        res.status(200).json({
+            success: true,
+            updatedEstate: filteredPhotos,
+        });
+    } catch (err) {
+        console.log(err);
+    }
 });

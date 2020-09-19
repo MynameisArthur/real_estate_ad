@@ -5,7 +5,6 @@ import {Link, withRouter} from 'react-router-dom';
 import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
-import UploadPhotosForm from '../EstateForm/UploadPhotosForm';
 import Picture from '../Picture/Picture';
 
 const Estate = ({
@@ -47,16 +46,7 @@ const Estate = ({
     const hidePrompt = () => {
         setPrompt({...prompt, show: false});
     };
-    const updatePhotos = (data, del = false) => {
-        //if function call is from deleting photos
-        if (del) {
-            data = pictures.filter((picture) => picture !== data);
-            setPictures(data);
-        } else {
-            // if function call is from uploading photos
-            setPictures([...data]);
-        }
-    };
+
     let buttons;
     if (role === 'admin') {
         buttons = (
@@ -73,7 +63,6 @@ const Estate = ({
                 <Link to={`/estate/${_id}/offer`} className='btn'>
                     offer
                 </Link>
-                <UploadPhotosForm id={_id} updatePhotos={updatePhotos} />
             </div>
         );
     } else if (userId && user !== userId) {
@@ -101,11 +90,9 @@ const Estate = ({
                         Delete Estate
                     </button>
                 </div>
-                <UploadPhotosForm id={_id} updatePhotos={updatePhotos} />
             </>
         );
     }
-
     return (
         <div className='estate-container'>
             {show && (
@@ -133,19 +120,7 @@ const Estate = ({
             </div>
             <div className='estate-address'>{formattedAddress}</div>
 
-            {/* <ul className='estate-photos'>
-                {pictures.map((photo, index) => {
-                    const picProps = {photo, _id, index, name, user};
-                    return (
-                        <li key={`${_id}_${index + 1}`}>
-                            <Picture
-                                {...picProps}
-                                updatePhotos={updatePhotos}
-                            />
-                        </li>
-                    );
-                })}
-            </ul> */}
+            {photos.length && <Picture photo={photos[0]} />}
             {buttons}
         </div>
     );
