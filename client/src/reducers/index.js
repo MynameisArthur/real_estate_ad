@@ -5,5 +5,14 @@ import estate from './estate';
 import profile from './profile';
 import offer from './offer';
 import comment from './comment';
+import prompt from './prompt';
 
-export default combineReducers({alert, auth, estate, profile, offer, comment});
+export default combineReducers({
+    alert,
+    auth,
+    estate,
+    profile,
+    offer,
+    comment,
+    prompt,
+});

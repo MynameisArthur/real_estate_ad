@@ -6,6 +6,8 @@ import {deleteEstate} from '../../actions/estate';
 import PropTypes from 'prop-types';
 import Prompt from '../Prompt/Prompt';
 import Picture from '../Picture/Picture';
+import Buttons from '../Buttons/Buttons';
+import {setPrompt} from '../../actions/prompt';
 
 const Estate = ({
     userId,
@@ -24,13 +26,12 @@ const Estate = ({
     location,
     history,
 }) => {
-    const [prompt, setPrompt] = useState({
-        show: false,
-        confirm: false,
-        promptMsg: '',
-    });
+    // const [prompt, setPrompt] = useState({
+    //     show: false,
+    //     confirm: false,
+    //     promptMsg: '',
+    // });
     const [pictures, setPictures] = useState(photos);
-    const {show, confirm, promptMsg} = prompt;
     useEffect(() => {
         if (confirm) {
             //location.pathname is a prop from withRouter which gives me current url eg./dashboard
@@ -40,68 +41,15 @@ const Estate = ({
     const handleDelete = () => {
         setPrompt({...prompt, show: true, promptMsg: 'delete estate'});
     };
-    const handleConfirm = () => {
-        setPrompt({...prompt, confirm: true});
-    };
-    const hidePrompt = () => {
-        setPrompt({...prompt, show: false});
-    };
-
-    let buttons;
-    if (role === 'admin') {
-        buttons = (
-            <div className='links'>
-                <Link to={`/editEstate/${_id}`} className='btn'>
-                    Edit Estate
-                </Link>
-                <button onClick={handleDelete} className='btn danger'>
-                    Delete Estate
-                </button>
-                <Link to={`/estate/${_id}/comment`} className='btn'>
-                    comment
-                </Link>
-                <Link to={`/estate/${_id}/offer`} className='btn'>
-                    offer
-                </Link>
-            </div>
-        );
-    } else if (userId && user !== userId) {
-        buttons = (
-            <div className='links'>
-                {role !== 'publisher' && (
-                    <Link to={`/estate/${_id}/comment`} className='btn'>
-                        comment
-                    </Link>
-                )}
-
-                <Link to={`/estate/${_id}/offer`} className='btn'>
-                    offer
-                </Link>
-            </div>
-        );
-    } else if (userId && user === userId) {
-        buttons = (
-            <>
-                <div className='links'>
-                    <Link to={`/editEstate/${_id}`} className='btn'>
-                        Edit Estate
-                    </Link>
-                    <button onClick={handleDelete} className='btn danger'>
-                        Delete Estate
-                    </button>
-                </div>
-            </>
-        );
-    }
+    // const handleConfirm = () => {
+    //     setPrompt({...prompt, confirm: true});
+    // };
+    // const hidePrompt = () => {
+    //     setPrompt({...prompt, show: false});
+    // };
     return (
         <div className='estate-container'>
-            {show && (
-                <Prompt
-                    msg={promptMsg}
-                    toggleConfirm={handleConfirm}
-                    toggleShow={hidePrompt}
-                />
-            )}
+            {show && <Prompt type={'delete'} />}
             <h3 className='estate-name'>
                 <Link to={`/estate/${_id}`}>{name}</Link>
             </h3>
@@ -121,7 +69,7 @@ const Estate = ({
             <div className='estate-address'>{formattedAddress}</div>
 
             {photos.length && <Picture photo={photos[0]} />}
-            {buttons}
+            <Buttons props={{role, _id, handleDelete, user, userId}} />
         </div>
     );
 };

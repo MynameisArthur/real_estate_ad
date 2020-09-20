@@ -1,5 +1,14 @@
 import React from 'react';
 import './Prompt.scss';
+import {
+    showPrompt,
+    handleDelete,
+    handleConfirm,
+    hidePrompt,
+    setPrompt,
+} from '../../actions/prompt';
+import {connect} from 'react-redux';
+
 const Prompt = ({msg, toggleConfirm, toggleShow}) => {
     const handleConfirm = () => {
         toggleConfirm();
@@ -24,4 +33,12 @@ const Prompt = ({msg, toggleConfirm, toggleShow}) => {
     );
 };
 
-export default Prompt;
+const mapStateToProps = (state) => ({});
+
+export default connect(null, {
+    showPrompt,
+    handleDelete,
+    handleConfirm,
+    hidePrompt,
+    setPrompt,
+})(Prompt);

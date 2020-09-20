@@ -19,9 +19,9 @@ const Dashboard = ({profile}) => {
         comments: [],
         loading: true,
     });
-    const loadData = async () => {
+    const loadData = () => {
         if (profile.userProfile) {
-            const {user, estates, offers, comments} = profile.userProfile.data;
+            const {user, offers, estates, comments} = profile.userProfile.data;
             setUserProfile({
                 name: user.name,
                 role: user.role,

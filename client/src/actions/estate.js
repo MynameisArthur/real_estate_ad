@@ -2,6 +2,7 @@ import axios from 'axios';
 import {EstateActionTypes as types} from './types';
 import {dispatchError as error} from '../utils/dispatchErrors';
 import {setAlert} from './alert';
+import {getCurrentProfile} from './profile';
 
 export const getEstates = () => async (dispatch) => {
     try {
@@ -30,12 +31,12 @@ export const getEstate = (id) => async (dispatch) => {
         dispatch({type: types.GET_SINGLE_ESTATE, payload: res.data});
         return res.data;
     } catch (err) {
-        const errors = err.response.data.error.split(',');
-        if (errors) {
-            errors.forEach((error) =>
-                dispatch(setAlert(error, 'danger', 3000))
-            );
-        }
+        // const errors = err.response.data.error.split(',');
+        // if (errors) {
+        //     errors.forEach((error) =>
+        //         dispatch(setAlert(error, 'danger', 3000))
+        //     );
+        // }
         error(dispatch, err);
     }
 };
@@ -51,6 +52,7 @@ export const addEstate = (data, history) => async (dispatch) => {
     const body = JSON.stringify(estate);
     try {
         await axios.post('/real_estate_ad/estates', body, config);
+        await dispatch(getCurrentProfile());
         dispatch(setAlert('Estate created', 'success', 2000));
         history.push('/dashboard');
     } catch (err) {
@@ -71,6 +73,7 @@ export const updateEstate = (data, history) => async (dispatch) => {
     try {
         await axios.put(`/real_estate_ad/estates/${estate.id}`, body, config);
         await dispatch(setAlert('Estate updated', 'success', 2000));
+        await dispatch(getCurrentProfile());
         history.go(-1);
     } catch (err) {
         error(dispatch, err);
@@ -111,6 +114,7 @@ export const deleteEstate = (estateId, source, history) => async (dispatch) => {
     try {
         await axios.delete(`/real_estate_ad/estates/${estateId}`);
         dispatch({type: types.DELETE_ESTATE});
+        await dispatch(getCurrentProfile());
         await dispatch(setAlert('Estate deleted', 'danger', 2000));
 
         if (source === '/dashboard/estates') {

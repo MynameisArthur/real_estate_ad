@@ -13,6 +13,7 @@ const EstateForm = ({
     getEstate,
     history,
     match,
+    profile,
 }) => {
     const {id} = match.params;
     const [pictures, setPictures] = useState([]);
@@ -242,11 +243,13 @@ const EstateForm = ({
                     Submit Estate
                 </button>
             </form>
-            <EstatePhotos
-                pictures={pictures}
-                otherProps={{estateId: id, name, user}}
-                modifyPictures={setPictures}
-            />
+            {edit && (
+                <EstatePhotos
+                    pictures={pictures}
+                    otherProps={{estateId: id, name, user}}
+                    modifyPictures={setPictures}
+                />
+            )}
         </>
     );
 };
@@ -256,7 +259,9 @@ EstateForm.propTypes = {
     updateEstate: PropTypes.func.isRequired,
     getEstate: PropTypes.func.isRequired,
 };
-
-export default connect(null, {addEstate, updateEstate, getEstate})(
+const mapStateToProps = (state) => ({
+    profile: state.profile,
+});
+export default connect(mapStateToProps, {addEstate, updateEstate, getEstate})(
     withRouter(EstateForm)
 );

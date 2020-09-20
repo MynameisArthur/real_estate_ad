@@ -17,6 +17,7 @@ export const ProfileActionTypes = {
     GET_PROFILE: 'GET_PROFILE',
     PROFILE_ERROR: 'PROFILE_ERROR',
     CLEAR_PROFILE: 'CLEAR_PROFILE',
+    REFRESH_PROFILE: 'REFRESH_PROFILE',
 };
 export const EstateActionTypes = {
     GET_ESTATES: 'GET_ESTATES',
@@ -27,6 +28,7 @@ export const EstateActionTypes = {
     DELETE_PHOTO: 'DELETE_PHOTO',
     EDIT_ESTATE: 'EDIT_ESTATE',
     DELETE_ESTATE: 'DELETE_ESTATE',
+    SET_USER_ESTATES: 'SET_USER_ESTATES',
 };
 export const OfferActionTypes = {
     GET_OFFERS_FOR_ESTATE: 'GET_OFFERS_FOR_ESTATE',
@@ -42,4 +44,8 @@ export const CommentActionTypes = {
     DELETE_COMMENT: 'DELETE_COMMENT',
     UPDATE_COMMENT: 'UPDATE_COMMENT',
     COMMENT_ERROR: 'COMMENT_ERROR',
+};
+export const PromptActionTypes = {
+    DISPLAY_PROMPT: 'DISPLAY_PROMPT',
+    CONFIRM_PROMPT: 'CONFIRM_PROMPT',
 };

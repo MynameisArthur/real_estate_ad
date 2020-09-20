@@ -32,23 +32,22 @@ const EstateDetails = ({getEstate, history, match}) => {
     } = estate;
 
     const loadEstate = async (id) => {
-        const response = await getEstate(id);
-        const address = response.data.location.formattedAddress;
-        const {offers, features, comments, photos} = response.data;
-        const highestBid =
-            offers.length > 0
-                ? Math.max(...offers.map((offer) => offer.amountOffered))
-                : 0;
-        setEstate({
-            ...response.data,
-            address,
-            offers,
-            features,
-            comments,
-            highestBid,
-            photos,
-            loading: false,
-        });
+        const currentEstate = await getEstate(id);
+        if (currentEstate) {
+            const address = currentEstate.data.location.formattedAddress;
+            const {offers} = currentEstate.data;
+            const highestBid =
+                offers.length > 0
+                    ? Math.max(...offers.map((offer) => offer.amountOffered))
+                    : 0;
+            setEstate({
+                ...currentEstate.data,
+                address,
+                offers,
+                highestBid,
+                loading: false,
+            });
+        }
     };
     useEffect(() => {
         loadEstate(id);
@@ -196,6 +195,7 @@ const EstateDetails = ({getEstate, history, match}) => {
 
 EstateDetails.propTypes = {
     getEstate: PropTypes.func.isRequired,
+    currentEstate: PropTypes.object,
 };
 
 export default connect(null, {getEstate})(withRouter(EstateDetails));

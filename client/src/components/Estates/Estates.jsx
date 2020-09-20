@@ -38,7 +38,6 @@ const Estates = ({
 };
 
 Estates.propTypes = {
-    estates: PropTypes.object.isRequired,
     getEstates: PropTypes.func.isRequired,
     findEstatesInRadius: PropTypes.func.isRequired,
     loading: PropTypes.bool,
