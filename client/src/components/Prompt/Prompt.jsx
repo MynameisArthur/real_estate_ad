@@ -1,25 +1,20 @@
 import React from 'react';
 import './Prompt.scss';
-import {
-    showPrompt,
-    handleDelete,
-    handleConfirm,
-    hidePrompt,
-    setPrompt,
-} from '../../actions/prompt';
+import {confirmPrompt, cancelPrompt} from '../../actions/prompt';
 import {connect} from 'react-redux';
 
-const Prompt = ({msg, toggleConfirm, toggleShow}) => {
-    const handleConfirm = () => {
-        toggleConfirm();
-    };
+const Prompt = ({type, confirmPrompt, cancelPrompt, callback}) => {
     const handleCancel = () => {
-        toggleShow();
+        cancelPrompt();
+    };
+    const handleConfirm = async () => {
+        await callback();
+        confirmPrompt();
     };
     return (
         <div className='prompt'>
             <div className='prompt-container'>
-                <h3>Are you sure you want {msg}?</h3>
+                <h3>Are you sure you want {type}?</h3>
                 <div className='prompt-container_buttons'>
                     <button style={{color: 'lightblue'}} onClick={handleCancel}>
                         CANCEL
@@ -36,9 +31,6 @@ const Prompt = ({msg, toggleConfirm, toggleShow}) => {
 const mapStateToProps = (state) => ({});
 
 export default connect(null, {
-    showPrompt,
-    handleDelete,
-    handleConfirm,
-    hidePrompt,
-    setPrompt,
+    confirmPrompt,
+    cancelPrompt,
 })(Prompt);

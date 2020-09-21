@@ -48,4 +48,5 @@ export const CommentActionTypes = {
 export const PromptActionTypes = {
     DISPLAY_PROMPT: 'DISPLAY_PROMPT',
     CONFIRM_PROMPT: 'CONFIRM_PROMPT',
+    CANCEL_PROMPT: 'CANCEL_PROMPT',
 };

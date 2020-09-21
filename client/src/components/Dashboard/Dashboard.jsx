@@ -46,7 +46,7 @@ const Dashboard = ({profile}) => {
             </div>
             {role !== 'user' && (
                 <div className='dashboard-btn'>
-                    <Link to='/addEstate'>Add Estate</Link>
+                    <Link to='/addEstate'>New Estate</Link>
                 </div>
             )}
             <ul className='dashboard-navigation'>

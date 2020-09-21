@@ -240,7 +240,7 @@ const EstateForm = ({
                     &larr; Go Back
                 </button>
                 <button type='submit' className='btn btn-addEstate'>
-                    Submit Estate
+                    {edit ? 'Update Estate' : 'Add Estate'}
                 </button>
             </form>
             {edit && (

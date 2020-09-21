@@ -8,7 +8,8 @@ export default function (state = initialState, action) {
         case types.DISPLAY_PROMPT:
             return {
                 ...state,
-                ...payload,
+                show: true,
+                promptMsg: payload,
             };
         case types.CONFIRM_PROMPT:
             return {
@@ -16,6 +17,8 @@ export default function (state = initialState, action) {
                 show: false,
                 confirm: true,
             };
+        case types.CANCEL_PROMPT:
+            return initialState;
         default:
             return state;
     }
