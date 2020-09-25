@@ -16,6 +16,7 @@ const EstateList = ({
     getEstates,
     findEstatesInRadius,
     selectedEstate,
+    deleteEstate,
     location,
     history,
     prompt,
@@ -72,6 +73,8 @@ const mapStateToProps = (state) => ({
     prompt: state.prompt,
 });
 
-export default connect(mapStateToProps, {getEstates, findEstatesInRadius})(
-    withRouter(EstateList)
-);
+export default connect(mapStateToProps, {
+    getEstates,
+    findEstatesInRadius,
+    deleteEstate,
+})(withRouter(EstateList));

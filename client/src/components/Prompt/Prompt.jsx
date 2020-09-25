@@ -14,7 +14,7 @@ const Prompt = ({type, confirmPrompt, cancelPrompt, callback}) => {
     return (
         <div className='prompt'>
             <div className='prompt-container'>
-                <h3>Are you sure you want {type}?</h3>
+                <h3>Are you sure you want {type} this estate?</h3>
                 <div className='prompt-container_buttons'>
                     <button style={{color: 'lightblue'}} onClick={handleCancel}>
                         CANCEL
