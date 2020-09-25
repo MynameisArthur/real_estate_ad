@@ -5,7 +5,7 @@ import Navbar from './components/Navbar/Navbar';
 import Landing from './components/Landing/Landing';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
-import Estates from './components/Estates/Estates';
+import EstateList from './components/EstateList/EstateList';
 import Alert from './components/Alert/Alert';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/Routing/PrivateRoute';
@@ -36,7 +36,11 @@ const App = () => {
                         <Alert />
                         <Switch>
                             <Route exact path='/' component={Landing} />
-                            <Route exact path='/estates' component={Estates} />
+                            <Route
+                                exact
+                                path='/estates'
+                                component={EstateList}
+                            />
                             <Route
                                 exact
                                 path='/register'

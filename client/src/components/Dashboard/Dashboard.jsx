@@ -3,14 +3,30 @@ import PropTypes from 'prop-types';
 import './Dashboard.scss';
 import {connect} from 'react-redux';
 import Spinner from '../Spinner/Spinner';
-import {Link, Switch, Route, NavLink, Redirect} from 'react-router-dom';
+import {
+    Link,
+    Switch,
+    Route,
+    NavLink,
+    Redirect,
+    withRouter,
+} from 'react-router-dom';
 
 import UserEstates from './UserEstates';
 import UserComments from './UserComments';
 import UserOffers from './UserOffers';
 import Register from '../Register/Register';
+import Prompt from '../Prompt/Prompt';
+import {deleteEstate} from '../../actions/estate';
 
-const Dashboard = ({profile}) => {
+const Dashboard = ({
+    profile,
+    prompt,
+    deleteEstate,
+    location,
+    history,
+    selectedEstate,
+}) => {
     const [userProfile, setUserProfile] = useState({
         name: 'user',
         role: '',
@@ -40,6 +56,18 @@ const Dashboard = ({profile}) => {
         <Spinner />
     ) : (
         <div className='dashboard-container'>
+            {prompt.show && (
+                <Prompt
+                    type={`delete`}
+                    callback={() => {
+                        deleteEstate(
+                            selectedEstate,
+                            location.pathname,
+                            history
+                        );
+                    }}
+                />
+            )}
             <h2 className='section-title'>{name}'s dashboard</h2>
             <div>
                 <strong>role:</strong> {role}
@@ -120,6 +148,8 @@ Dashboard.propTypes = {
 
 const mapStateToProps = (state) => ({
     profile: state.profile,
+    prompt: state.prompt,
+    selectedEstate: state.estate.selectedEstate,
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, {deleteEstate})(withRouter(Dashboard));

@@ -1,13 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import './Estate.scss';
 import {connect} from 'react-redux';
-import {Link, withRouter} from 'react-router-dom';
-import {deleteEstate} from '../../actions/estate';
-import {showPrompt} from '../../actions/prompt';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Prompt from '../Prompt/Prompt';
 import Picture from '../Picture/Picture';
 import Buttons from '../Buttons/Buttons';
+import {selectEstate} from '../../actions/estate';
 
 const Estate = ({
     userId,
@@ -22,25 +20,13 @@ const Estate = ({
         description,
         location: {formattedAddress},
     },
-    deleteEstate,
-    showPrompt,
-    location,
-    history,
-    prompt,
+    selectEstate,
 }) => {
     const handleDelete = () => {
-        showPrompt('delete');
+        selectEstate(_id);
     };
     return (
         <div className='estate-container'>
-            {prompt.show && (
-                <Prompt
-                    type={'delete'}
-                    callback={() =>
-                        deleteEstate(_id, location.pathname, history)
-                    }
-                />
-            )}
             <h3 className='estate-name'>
                 <Link to={`/estate/${_id}`}>{name}</Link>
             </h3>
@@ -60,6 +46,7 @@ const Estate = ({
             <div className='estate-address'>{formattedAddress}</div>
 
             {photos.length && <Picture photo={photos[0]} />}
+
             <Buttons props={{role, _id, handleDelete, user, userId}} />
         </div>
     );
@@ -67,7 +54,6 @@ const Estate = ({
 
 Estate.propTypes = {
     userId: PropTypes.string,
-    deleteEstate: PropTypes.func.isRequired,
     location: PropTypes.object,
     role: PropTypes.string,
 };
@@ -75,9 +61,6 @@ Estate.propTypes = {
 const mapStateToProps = (state) => ({
     userId: state.auth.isAuthenticated ? state.auth.user.data._id : null,
     role: state.auth.isAuthenticated ? state.auth.user.data.role : 'user',
-    prompt: state.prompt,
 });
 
-export default connect(mapStateToProps, {deleteEstate, showPrompt})(
-    withRouter(Estate)
-);
+export default connect(mapStateToProps, {selectEstate})(Estate);

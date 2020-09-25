@@ -1,17 +1,24 @@
 import React, {useEffect} from 'react';
-import './Estates.scss';
+import './EstateList.scss';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getEstates, findEstatesInRadius} from '../../actions/estate';
 import Estate from '../Estate/Estate';
 import Spinner from '../Spinner/Spinner';
 import Search from '../Search/Search';
+import Prompt from '../Prompt/Prompt';
+import {deleteEstate} from '../../actions/estate';
+import {withRouter} from 'react-router-dom';
 
-const Estates = ({
+const EstateList = ({
     estates: {count, data},
     loading,
     getEstates,
     findEstatesInRadius,
+    selectedEstate,
+    location,
+    history,
+    prompt,
 }) => {
     useEffect(() => {
         getEstates();
@@ -20,6 +27,18 @@ const Estates = ({
         <Spinner />
     ) : (
         <div className='estates-container'>
+            {prompt.show && (
+                <Prompt
+                    type={`delete`}
+                    callback={() => {
+                        deleteEstate(
+                            selectedEstate,
+                            location.pathname,
+                            history
+                        );
+                    }}
+                />
+            )}
             <h3>Estates</h3>
             <p>
                 <strong>All estates : </strong>
@@ -31,13 +50,15 @@ const Estates = ({
             </button>
             <div className='estate-list'>
                 {data &&
-                    data.map((item) => <Estate key={item.id} estate={item} />)}
+                    data.map((item) => {
+                        return <Estate key={item.id} estate={item} />;
+                    })}
             </div>
         </div>
     );
 };
 
-Estates.propTypes = {
+EstateList.propTypes = {
     getEstates: PropTypes.func.isRequired,
     findEstatesInRadius: PropTypes.func.isRequired,
     loading: PropTypes.bool,
@@ -46,8 +67,11 @@ Estates.propTypes = {
 const mapStateToProps = (state) => ({
     estates: state.estate.estates,
     loading: state.estate.loading,
+    profile: state.profile,
+    selectedEstate: state.estate.selectedEstate,
+    prompt: state.prompt,
 });
 
 export default connect(mapStateToProps, {getEstates, findEstatesInRadius})(
-    Estates
+    withRouter(EstateList)
 );

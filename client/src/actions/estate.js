@@ -3,6 +3,7 @@ import {EstateActionTypes as types} from './types';
 import {dispatchError as error} from '../utils/dispatchErrors';
 import {setAlert} from './alert';
 import {getCurrentProfile} from './profile';
+import {showPrompt} from './prompt';
 
 export const getEstates = () => async (dispatch) => {
     try {
@@ -114,15 +115,19 @@ export const deleteEstate = (estateId, source, history) => async (dispatch) => {
     try {
         await axios.delete(`/real_estate_ad/estates/${estateId}`);
         dispatch({type: types.DELETE_ESTATE});
-        await dispatch(getCurrentProfile());
-        await dispatch(setAlert('Estate deleted', 'danger', 2000));
 
         if (source === '/dashboard/estates') {
+            await dispatch(getCurrentProfile());
             history.push('/');
         } else if (source === '/estates') {
-            dispatch(getEstates());
+            await dispatch(getEstates());
         }
+        await dispatch(setAlert('Estate deleted', 'danger', 2000));
     } catch (err) {
         error(dispatch, err);
     }
+};
+export const selectEstate = (estateId, type = 'delete') => async (dispatch) => {
+    await dispatch({type: types.SELECT_ESTATE, payload: estateId});
+    dispatch(showPrompt(type));
 };

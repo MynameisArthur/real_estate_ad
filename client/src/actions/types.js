@@ -29,6 +29,7 @@ export const EstateActionTypes = {
     EDIT_ESTATE: 'EDIT_ESTATE',
     DELETE_ESTATE: 'DELETE_ESTATE',
     SET_USER_ESTATES: 'SET_USER_ESTATES',
+    SELECT_ESTATE: 'SELECT_ESTATE',
 };
 export const OfferActionTypes = {
     GET_OFFERS_FOR_ESTATE: 'GET_OFFERS_FOR_ESTATE',

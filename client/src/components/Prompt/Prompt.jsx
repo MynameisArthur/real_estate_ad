@@ -28,8 +28,6 @@ const Prompt = ({type, confirmPrompt, cancelPrompt, callback}) => {
     );
 };
 
-const mapStateToProps = (state) => ({});
-
 export default connect(null, {
     confirmPrompt,
     cancelPrompt,

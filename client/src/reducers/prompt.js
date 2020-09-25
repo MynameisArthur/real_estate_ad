@@ -9,6 +9,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 show: true,
+                confirm: false,
                 promptMsg: payload,
             };
         case types.CONFIRM_PROMPT:

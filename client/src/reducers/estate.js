@@ -1,5 +1,6 @@
 import {EstateActionTypes as types} from '../actions/types';
 const initialState = {
+    selectedEstate: null,
     estates: [],
     errors: null,
     loading: true,
@@ -14,12 +15,15 @@ export default function (state = initialState, action) {
                 ...state,
                 estates: payload,
                 loading: false,
-                currentEstate: null,
+            };
+        case types.DELETE_ESTATE:
+            return {
+                ...state,
+                selectedEstate: null,
             };
         case types.GET_SINGLE_ESTATE:
             return {
                 ...state,
-                currentEstate: payload,
                 loading: false,
             };
         case types.UPLOAD_PHOTO:
@@ -27,6 +31,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 photos: payload,
+            };
+        case types.SELECT_ESTATE:
+            return {
+                ...state,
+                selectedEstate: payload,
             };
         case types.ESTATE_ERROR:
             return {
