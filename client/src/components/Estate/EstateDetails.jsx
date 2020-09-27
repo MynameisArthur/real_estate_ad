@@ -7,8 +7,17 @@ import PropTypes from 'prop-types';
 import Spinner from '../Spinner/Spinner';
 import Picture from '../Picture/Picture';
 import GMap from '../GMap/GMap';
+import Buttons from '../Buttons/Buttons';
+import {selectEstate} from '../../actions/estate';
 
-const EstateDetails = ({getEstate, history, match}) => {
+const EstateDetails = ({
+    getEstate,
+    selectEstate,
+    history,
+    match,
+    userId,
+    role,
+}) => {
     const {id} = match.params;
     const [estate, setEstate] = useState({loading: true});
     const {
@@ -31,6 +40,8 @@ const EstateDetails = ({getEstate, history, match}) => {
         loading,
         photos,
         location,
+        user,
+        _id,
     } = estate;
 
     const loadEstate = async (id) => {
@@ -54,7 +65,9 @@ const EstateDetails = ({getEstate, history, match}) => {
     useEffect(() => {
         loadEstate(id);
     }, []);
-
+    const handleDelete = () => {
+        selectEstate(_id);
+    };
     return (
         <div className='estate-details'>
             {loading ? (
@@ -192,15 +205,20 @@ const EstateDetails = ({getEstate, history, match}) => {
                     <section className='estate-details_map'>
                         <GMap address={address} location={location} />
                     </section>
-                    <button
-                        className='btn'
-                        onClick={(e) => {
-                            e.preventDefault();
-                            history.go(-1);
-                        }}
-                    >
-                        &larr; Go Back
-                    </button>
+                    <section className='estate-details_btns'>
+                        <button
+                            className='btn'
+                            onClick={(e) => {
+                                e.preventDefault();
+                                history.go(-1);
+                            }}
+                        >
+                            &larr; Go Back
+                        </button>
+                        <Buttons
+                            props={{role, _id, handleDelete, user, userId}}
+                        />
+                    </section>
                 </>
             )}
         </div>
@@ -211,5 +229,10 @@ EstateDetails.propTypes = {
     getEstate: PropTypes.func.isRequired,
     currentEstate: PropTypes.object,
 };
-
-export default connect(null, {getEstate})(withRouter(EstateDetails));
+const mapStateToProps = (state) => ({
+    userId: state.auth.isAuthenticated ? state.auth.user.data._id : null,
+    role: state.auth.isAuthenticated ? state.auth.user.data.role : 'user',
+});
+export default connect(mapStateToProps, {getEstate, selectEstate})(
+    withRouter(EstateDetails)
+);

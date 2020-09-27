@@ -7,8 +7,9 @@ const Prompt = ({type, confirmPrompt, cancelPrompt, callback}) => {
     const handleCancel = () => {
         cancelPrompt();
     };
-    const handleConfirm = async () => {
-        await callback();
+    const handleConfirm = () => {
+        callback();
+        console.log('handle confirm');
         confirmPrompt();
     };
     return (

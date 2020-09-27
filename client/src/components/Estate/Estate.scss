@@ -45,6 +45,9 @@
         border-bottom: 1px solid rgba(#fff, 0.1);
         padding: 1em 0;
     }
+    &_btns {
+        display: flex;
+    }
 }
 .estate-photos {
     display: flex;

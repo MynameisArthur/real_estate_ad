@@ -6,20 +6,12 @@ import {getEstates, findEstatesInRadius} from '../../actions/estate';
 import Estate from '../Estate/Estate';
 import Spinner from '../Spinner/Spinner';
 import Search from '../Search/Search';
-import Prompt from '../Prompt/Prompt';
-import {deleteEstate} from '../../actions/estate';
-import {withRouter} from 'react-router-dom';
 
 const EstateList = ({
     estates: {count, data},
     loading,
     getEstates,
     findEstatesInRadius,
-    selectedEstate,
-    deleteEstate,
-    location,
-    history,
-    prompt,
 }) => {
     useEffect(() => {
         getEstates();
@@ -28,18 +20,6 @@ const EstateList = ({
         <Spinner />
     ) : (
         <div className='estates-container'>
-            {prompt.show && (
-                <Prompt
-                    type={`delete`}
-                    callback={() => {
-                        deleteEstate(
-                            selectedEstate,
-                            location.pathname,
-                            history
-                        );
-                    }}
-                />
-            )}
             <h3>Estates</h3>
             <p>
                 <strong>All estates : </strong>
@@ -69,12 +49,9 @@ const mapStateToProps = (state) => ({
     estates: state.estate.estates,
     loading: state.estate.loading,
     profile: state.profile,
-    selectedEstate: state.estate.selectedEstate,
-    prompt: state.prompt,
 });
 
 export default connect(mapStateToProps, {
     getEstates,
     findEstatesInRadius,
-    deleteEstate,
-})(withRouter(EstateList));
+})(EstateList);
