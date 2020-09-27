@@ -29,6 +29,7 @@ const Search = ({search}) => {
                             value={zipcode}
                             onChange={(e) => handleChange(e)}
                             required
+                            placeholder='city,state/zipcode'
                         />
                     </label>
                 </div>

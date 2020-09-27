@@ -6,6 +6,7 @@ import './Estate.scss';
 import PropTypes from 'prop-types';
 import Spinner from '../Spinner/Spinner';
 import Picture from '../Picture/Picture';
+import GMap from '../GMap/GMap';
 
 const EstateDetails = ({getEstate, history, match}) => {
     const {id} = match.params;
@@ -29,6 +30,7 @@ const EstateDetails = ({getEstate, history, match}) => {
         highestBid,
         loading,
         photos,
+        location,
     } = estate;
 
     const loadEstate = async (id) => {
@@ -123,60 +125,72 @@ const EstateDetails = ({getEstate, history, match}) => {
                             {email}
                         </article>
                     </section>
-                    <section className='estate-details_offers'>
-                        <h4>Offers:</h4>
-                        <ul>
-                            {offers &&
-                                offers.map((offer) => (
-                                    <li key={offer._id}>
-                                        <p>
-                                            <strong>title: </strong>
-                                            {offer.title}
-                                        </p>
-                                        <p>
-                                            <strong>description: </strong>
-                                            {offer.description}
-                                        </p>
-                                        <p>
-                                            <strong>amount offered: </strong>$
-                                            {offer.amountOffered}
-                                        </p>
-                                    </li>
-                                ))}
-                        </ul>
-                    </section>
-                    <section className='estate-details_comments'>
-                        <h4>Comments:</h4>
-                        <ul>
-                            {comments &&
-                                comments.map((comment) => (
-                                    <li key={comment._id}>
-                                        <p>
-                                            <strong>title: </strong>
-                                            {comment.title}
-                                        </p>
-                                        <p>
-                                            <strong>description: </strong>
-                                            {comment.text}
-                                        </p>
-                                        <p>
-                                            <strong>date: </strong>
-                                            {comment.createdAt}
-                                        </p>
-                                    </li>
-                                ))}
-                        </ul>
-                    </section>
-                    <section className='estate-details_photos'>
-                        {photos.map((photo, index) => (
-                            <li key={`${id}_${index + 1}`}>
-                                <Picture
-                                    photo={photo}
-                                    index={index}
-                                    name={name}
-                                />
-                            </li>
-                        ))}
+                    {offers.length > 0 && (
+                        <section className='estate-details_offers'>
+                            <h4>Offers:</h4>
+                            <ul>
+                                {offers &&
+                                    offers.map((offer) => (
+                                        <li key={offer._id}>
+                                            <p>
+                                                <strong>title: </strong>
+                                                {offer.title}
+                                            </p>
+                                            <p>
+                                                <strong>description: </strong>
+                                                {offer.description}
+                                            </p>
+                                            <p>
+                                                <strong>
+                                                    amount offered:{' '}
+                                                </strong>
+                                                ${offer.amountOffered}
+                                            </p>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </section>
+                    )}
+                    {comments.length > 0 && (
+                        <section className='estate-details_comments'>
+                            <h4>Comments:</h4>
+                            <ul>
+                                {comments &&
+                                    comments.map((comment) => (
+                                        <li key={comment._id}>
+                                            <p>
+                                                <strong>title: </strong>
+                                                {comment.title}
+                                            </p>
+                                            <p>
+                                                <strong>description: </strong>
+                                                {comment.text}
+                                            </p>
+                                            <p>
+                                                <strong>date: </strong>
+                                                {comment.createdAt}
+                                            </p>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </section>
+                    )}
+
+                    {photos.length > 0 && (
+                        <section className='estate-details_photos'>
+                            {photos.map((photo, index) => (
+                                <li key={`${id}_${index + 1}`}>
+                                    <Picture
+                                        photo={photo}
+                                        index={index}
+                                        name={name}
+                                    />
+                                </li>
+                            ))}
+                        </section>
+                    )}
+                    <section className='estate-details_map'>
+                        <GMap address={address} location={location} />
                     </section>
                     <button
                         className='btn'
