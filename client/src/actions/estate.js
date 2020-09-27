@@ -112,6 +112,7 @@ export const deletePhoto = (estateId, photoId) => async (dispatch) => {
 };
 
 export const deleteEstate = (estateId, source, history) => async (dispatch) => {
+    const pattern = /estate\/\w+/gi;
     try {
         await axios.delete(`/real_estate_ad/estates/${estateId}`);
         dispatch({type: types.DELETE_ESTATE});
@@ -119,9 +120,14 @@ export const deleteEstate = (estateId, source, history) => async (dispatch) => {
         if (source === '/dashboard/estates') {
             await dispatch(getCurrentProfile());
             history.push('/');
+        } else if (pattern.test(source)) {
+            //check if delete is called from EstateDetails component
+            await dispatch(getCurrentProfile());
+            history.push('/dashboard');
         } else if (source === '/estates') {
             await dispatch(getEstates());
         }
+
         await dispatch(setAlert('Estate deleted', 'danger', 2000));
     } catch (err) {
         error(dispatch, err);

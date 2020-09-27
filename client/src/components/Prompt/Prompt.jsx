@@ -9,7 +9,6 @@ const Prompt = ({type, confirmPrompt, cancelPrompt, callback}) => {
     };
     const handleConfirm = () => {
         callback();
-        console.log('handle confirm');
         confirmPrompt();
     };
     return (
