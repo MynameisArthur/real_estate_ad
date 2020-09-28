@@ -2,7 +2,7 @@ import React from 'react';
 import PrivateRoute from '../Routing/PrivateRoute';
 import EstateForm from '../EstateForm/EstateForm';
 import EstateDetails from '../Estate/EstateDetails';
-import Offer from '../Offer/Offer';
+import OfferForm from '../Offer/OfferForm';
 import Comment from '../Comment/Comment';
 import Landing from '../Landing/Landing';
 import Login from '../Login/Login';
@@ -59,12 +59,12 @@ const RouteContainer = ({
                 <PrivateRoute
                     exact
                     path='/estate/:id/offer'
-                    component={() => <Offer edit={false} />}
+                    component={() => <OfferForm edit={false} />}
                 />
                 <PrivateRoute
                     exact
                     path='/estate/:id/offer/:offerId'
-                    component={() => <Offer edit={true} />}
+                    component={() => <OfferForm edit={true} />}
                 />
                 <Route exact path='/estate/:id' component={EstateDetails} />
             </Switch>

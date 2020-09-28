@@ -9,10 +9,13 @@ import Picture from '../Picture/Picture';
 import GMap from '../GMap/GMap';
 import Buttons from '../Buttons/Buttons';
 import {selectEstate} from '../../actions/estate';
+import OfferDisplay from '../Offer/OfferDisplay';
+import {deleteOffer} from '../../actions/offer';
 
 const EstateDetails = ({
     getEstate,
     selectEstate,
+    deleteOffer,
     history,
     match,
     userId,
@@ -67,6 +70,9 @@ const EstateDetails = ({
     }, []);
     const handleDelete = () => {
         selectEstate(_id);
+    };
+    const offerDelete = (id) => {
+        deleteOffer(id);
     };
     return (
         <div className='estate-details'>
@@ -145,20 +151,11 @@ const EstateDetails = ({
                                 {offers &&
                                     offers.map((offer) => (
                                         <li key={offer._id}>
-                                            <p>
-                                                <strong>title: </strong>
-                                                {offer.title}
-                                            </p>
-                                            <p>
-                                                <strong>description: </strong>
-                                                {offer.description}
-                                            </p>
-                                            <p>
-                                                <strong>
-                                                    amount offered:{' '}
-                                                </strong>
-                                                ${offer.amountOffered}
-                                            </p>
+                                            <OfferDisplay
+                                                offer={offer}
+                                                userId={userId}
+                                                offerDelete={offerDelete}
+                                            />
                                         </li>
                                     ))}
                             </ul>
@@ -233,6 +230,6 @@ const mapStateToProps = (state) => ({
     userId: state.auth.isAuthenticated ? state.auth.user.data._id : null,
     role: state.auth.isAuthenticated ? state.auth.user.data.role : 'user',
 });
-export default connect(mapStateToProps, {getEstate, selectEstate})(
+export default connect(mapStateToProps, {getEstate, selectEstate, deleteOffer})(
     withRouter(EstateDetails)
 );

@@ -43,7 +43,8 @@ export const getSingleOffer = (offerId) => async (dispatch) => {
 };
 export const deleteOffer = (offerId) => async (dispatch) => {
     try {
-        return await axios.delete(`/real_estate_ad/offers/${offerId}`);
+        await axios.delete(`/real_estate_ad/offers/${offerId}`);
+        await dispatch(setAlert('Offer removed', 'danger', 2000));
     } catch (err) {
         error(dispatch, err, 'offer');
     }

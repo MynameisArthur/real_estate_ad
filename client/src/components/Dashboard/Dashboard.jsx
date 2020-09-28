@@ -4,11 +4,10 @@ import './Dashboard.scss';
 import {connect} from 'react-redux';
 import Spinner from '../Spinner/Spinner';
 import {Link, Switch, Route, NavLink, Redirect} from 'react-router-dom';
-
 import UserEstates from './UserEstates';
 import UserComments from './UserComments';
 import UserOffers from './UserOffers';
-import Register from '../Register/Register';
+import UserProfile from './UserProfile';
 
 const Dashboard = ({profile}) => {
     const [userProfile, setUserProfile] = useState({
@@ -18,6 +17,8 @@ const Dashboard = ({profile}) => {
         offers: [],
         comments: [],
         loading: true,
+        email: '',
+        userId: null,
     });
     const loadData = () => {
         if (profile.userProfile) {
@@ -29,13 +30,14 @@ const Dashboard = ({profile}) => {
                 loading: false,
                 offers,
                 comments,
+                email: user.email,
             });
         }
     };
     useEffect(() => {
         loadData();
     }, [profile]);
-    const {name, role, estates, loading, offers, comments} = userProfile;
+    const {name, role, estates, loading, offers, comments, email} = userProfile;
     return loading ? (
         <Spinner />
     ) : (
@@ -107,7 +109,14 @@ const Dashboard = ({profile}) => {
                 <Route
                     exact
                     path='/dashboard/user'
-                    component={() => <Register owner={profile} edit={true} />}
+                    component={() => (
+                        <UserProfile
+                            profile={{
+                                name,
+                                email,
+                            }}
+                        />
+                    )}
                 />
             </Switch>
         </div>

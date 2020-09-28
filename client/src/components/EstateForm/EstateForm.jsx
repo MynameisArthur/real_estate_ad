@@ -13,7 +13,6 @@ const EstateForm = ({
     getEstate,
     history,
     match,
-    profile,
 }) => {
     const {id} = match.params;
     const [pictures, setPictures] = useState([]);
@@ -259,9 +258,7 @@ EstateForm.propTypes = {
     updateEstate: PropTypes.func.isRequired,
     getEstate: PropTypes.func.isRequired,
 };
-const mapStateToProps = (state) => ({
-    profile: state.profile,
-});
-export default connect(mapStateToProps, {addEstate, updateEstate, getEstate})(
+
+export default connect(null, {addEstate, updateEstate, getEstate})(
     withRouter(EstateForm)
 );

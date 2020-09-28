@@ -148,6 +148,7 @@ exports.deleteEstate = asyncHandler(async (req, res, next) => {
 
 exports.getEstatesInRadius = asyncHandler(async (req, res, next) => {
     const {zipcode, distance, unit} = req.params;
+
     //Get lat/lng from geocoder
     const loc = await geocoder.geocode(zipcode);
     const lat = loc[0].latitude;

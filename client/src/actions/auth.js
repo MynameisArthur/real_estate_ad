@@ -76,3 +76,34 @@ export const logout = () => (dispatch) => {
     dispatch({type: profileTypes.CLEAR_PROFILE});
     dispatch({type: authTypes.LOGOUT});
 };
+//update user
+
+export const updateUser = ({name, email}) => async (dispatch) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const body = JSON.stringify({name, email});
+    try {
+        const res = await axios.put(
+            `/real_estate_ad/auth/updatedetails`,
+            body,
+            config
+        );
+        dispatch({
+            type: profileTypes.UPDATE_PROFILE_SUCCESS,
+            payload: res.data,
+        });
+        await dispatch(setAlert('User profile updated', 'success', 2000));
+        dispatch(loadUser());
+    } catch (err) {
+        const errors = err.response.data.error.split(',');
+        if (errors) {
+            errors.forEach((error) => dispatch(setAlert(error, 'danger')));
+        }
+        dispatch({
+            type: profileTypes.UPDATE_PROFILE_ERROR,
+        });
+    }
+};
