@@ -107,3 +107,21 @@ export const updateUser = ({name, email}) => async (dispatch) => {
         });
     }
 };
+
+export const resetPassword = (email) => async (dispatch) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const body = JSON.stringify({email});
+    try {
+        const res = await axios.post(
+            '/real_estate_ad/auth/forgotpassword',
+            body,
+            config
+        );
+    } catch (err) {
+        dispatch({type: authTypes.AUTH_ERROR});
+    }
+};
