@@ -8,7 +8,8 @@ import Landing from '../Landing/Landing';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import EstateList from '../EstateList/EstateList';
-import PasswordReset from '../PasswordReset/PasswordReset';
+import ForgotPassword from '../ForgotPassword/ForgotPassword';
+import NewPassword from '../NewPassword/NewPassword';
 import Alert from '../Alert/Alert';
 import Dashboard from '../Dashboard/Dashboard';
 import {Route, Switch, withRouter} from 'react-router-dom';
@@ -39,7 +40,12 @@ const RouteContainer = ({
                 <Route exact path='/estates' component={EstateList} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
-                <Route exact path='/forgotPassword' component={PasswordReset} />
+                <Route path='/forgotPassword' component={ForgotPassword} />
+                <Route
+                    exact
+                    path='/newPassword/:resetToken'
+                    component={NewPassword}
+                />
                 <PrivateRoute path='/dashboard' component={Dashboard} />
                 <PrivateRoute
                     path='/addEstate'

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {resetPassword} from '../../actions/auth';
+import {forgotPassword} from '../../actions/auth';
 import {connect} from 'react-redux';
 
-const PasswordReset = ({resetPassword}) => {
+const ForgotPassword = ({forgotPassword}) => {
     const [formData, setFormData] = useState({
         email: '',
     });
@@ -12,7 +12,7 @@ const PasswordReset = ({resetPassword}) => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        resetPassword(email);
+        forgotPassword(email);
     };
     return (
         <form className='container' onSubmit={handleSubmit}>
@@ -30,4 +30,4 @@ const PasswordReset = ({resetPassword}) => {
     );
 };
 
-export default connect(null, {resetPassword})(PasswordReset);
+export default connect(null, {forgotPassword})(ForgotPassword);

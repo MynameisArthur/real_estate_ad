@@ -69,6 +69,7 @@ export const login = (email, password) => async (dispatch) => {
         dispatch({
             type: authTypes.LOGIN_FAIL,
         });
+        await dispatch(setAlert('Invalid credentials!', 'danger', 3000));
     }
 };
 //Logout / clear profile
@@ -108,7 +109,7 @@ export const updateUser = ({name, email}) => async (dispatch) => {
     }
 };
 
-export const resetPassword = (email) => async (dispatch) => {
+export const forgotPassword = (email) => async (dispatch) => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -118,6 +119,24 @@ export const resetPassword = (email) => async (dispatch) => {
     try {
         const res = await axios.post(
             '/real_estate_ad/auth/forgotpassword',
+            body,
+            config
+        );
+    } catch (err) {
+        dispatch({type: authTypes.AUTH_ERROR});
+    }
+};
+
+export const sendNewPassword = (token, password) => async (dispatch) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+    const body = JSON.stringify({password});
+    try {
+        const res = await axios.put(
+            `/real_estate_ad/auth/resetpassword/${token}`,
             body,
             config
         );

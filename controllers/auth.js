@@ -103,10 +103,11 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
     const resetToken = user.getResetPasswordToken();
     await user.save({validateBeforeSave: false});
     //Create rest url
-    const resetUrl = `${req.protocol}://${req.get(
-        'host'
-    )}/real_estate_ad/auth/resetpassword/${resetToken}`;
-    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+    // const resetUrl = `${req.protocol}://${req.get(
+    //     'host'
+    // )}/real_estate_ad/auth/resetpassword/${resetToken}`;
+    const resetUrl = `${process.env.FRONTEND_URI}/newPassword/${resetToken}`;
+    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Click this link to get new password: <a href="${resetUrl}" target="_blank">${resetUrl}</a>`;
     try {
         await sendEmail({
             email: user.email,
