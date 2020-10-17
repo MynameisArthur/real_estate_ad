@@ -42,8 +42,7 @@ const Comment = ({
         <>
             {error && (
                 <p>
-                    {error.message.split(' ').includes('400') &&
-                        'Already commented on this estate'}
+                    Already commented on this estate!                    
                 </p>
             )}
 

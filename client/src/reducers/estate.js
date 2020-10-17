@@ -37,6 +37,11 @@ export default function (state = initialState, action) {
                 ...state,
                 selectedEstate: payload,
             };
+        case types.DESELECT_ESTATE:
+            return {
+                ...state,
+                selectedEstate: null,
+            };
         case types.ESTATE_ERROR:
             return {
                 ...state,

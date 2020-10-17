@@ -12,26 +12,19 @@ import ForgotPassword from '../ForgotPassword/ForgotPassword';
 import NewPassword from '../NewPassword/NewPassword';
 import Alert from '../Alert/Alert';
 import Dashboard from '../Dashboard/Dashboard';
-import {Route, Switch, withRouter} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Prompt from '../Prompt/Prompt';
-import {deleteEstate} from '../../actions/estate';
 
-const RouteContainer = ({
-    selectedEstate,
-    location,
-    history,
-    prompt,
-    deleteEstate,
+
+const RouteContainer = ({    
+    prompt    
 }) => {
     return (
         <section className='container'>
             {prompt.show && (
                 <Prompt
-                    type={`delete`}
-                    callback={() =>
-                        deleteEstate(selectedEstate, location.pathname, history)
-                    }
+                    action={`delete`} 
                 />
             )}
             <Alert />
@@ -80,11 +73,8 @@ const RouteContainer = ({
     );
 };
 
-const mapStateToProps = (state) => ({
-    selectedEstate: state.estate.selectedEstate,
+const mapStateToProps = (state) => ({   
     prompt: state.prompt,
 });
 
-export default connect(mapStateToProps, {
-    deleteEstate,
-})(withRouter(RouteContainer));
+export default connect(mapStateToProps)(RouteContainer);

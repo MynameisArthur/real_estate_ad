@@ -1,35 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {deleteOffer} from '../../actions/offer';
 import PropTypes from 'prop-types';
-import Prompt from '../Prompt/Prompt';
+import {selectOffer} from '../../actions/offer';
 
-const UserOffers = ({offers, deleteOffer}) => {
-    const [prompt, setPrompt] = useState({
-        show: false,
-        confirm: false,
-        promptMsg: '',
-    });
-    const [offerId, setOfferId] = useState(null);
-    const [offerList, setOfferList] = useState(offers);
-    const {show, confirm, promptMsg} = prompt;
-    useEffect(() => {
-        if (confirm) {
-            deleteOffer(offerId);
-        }
-    }, [confirm, offerList]);
+const UserOffers = ({offers, selectOffer}) => {
+    const [offerList, setOfferList] = useState(offers);   
+  
     const handleDelete = (id) => {
-        setPrompt({...prompt, show: true, promptMsg: 'delete offer'});
-        setOfferId(id);
+        selectOffer(id);
     };
-    const handleConfirm = () => {
-        setOfferList(offerList.filter((item) => item._id !== offerId));
-        setPrompt({...prompt, confirm: true, show: false});
-    };
-    const hidePrompt = () => {
-        setPrompt({...prompt, show: false});
-    };
+    
     const styles = {
         deleteBtn: {
             color: '#fff',
@@ -52,14 +33,7 @@ const UserOffers = ({offers, deleteOffer}) => {
         },
     };
     return (
-        <div className='user-offers'>
-            {show && (
-                <Prompt
-                    msg={promptMsg}
-                    toggleConfirm={handleConfirm}
-                    toggleShow={hidePrompt}
-                />
-            )}
+        <div className='user-offers'>            
             {offerList.length > 0 &&
                 offerList.map((item) => (
                     <div className='user-offers_offer' key={item._id}>
@@ -92,7 +66,7 @@ const UserOffers = ({offers, deleteOffer}) => {
 };
 
 UserOffers.propTypes = {
-    deleteOffer: PropTypes.func.isRequired,
+    selectOffer: PropTypes.func.isRequired,
 };
 
-export default connect(null, {deleteOffer})(UserOffers);
+export default connect(null, {selectOffer})(UserOffers);

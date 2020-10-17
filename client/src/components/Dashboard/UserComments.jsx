@@ -1,35 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import Prompt from '../Prompt/Prompt';
-import {deleteComment} from '../../actions/comment';
+import {selectComment} from '../../actions/comment';
 
-const UserComments = ({comments, deleteComment}) => {
-    const [prompt, setPrompt] = useState({
-        show: false,
-        confirm: false,
-        promptMsg: '',
-    });
-    const [commentId, setCommentId] = useState(null);
+const UserComments = ({comments, selectComment}) => {    
     const [commentList, setCommentList] = useState(comments);
-    const {show, confirm, promptMsg} = prompt;
-    useEffect(() => {
-        if (confirm) {
-            deleteComment(commentId);
-        }
-    }, [confirm, commentList]);
-    const handleDelete = (id) => {
-        setPrompt({...prompt, show: true, promptMsg: 'delete comment'});
-        setCommentId(id);
+    const handleDelete = (id) => { 
+        selectComment(id);
     };
-    const handleConfirm = () => {
-        setCommentList(commentList.filter((item) => item._id !== commentId));
-        setPrompt({...prompt, confirm: true, show: false});
-    };
-    const hidePrompt = () => {
-        setPrompt({...prompt, show: false});
-    };
+   
     const styles = {
         deleteBtn: {
             color: '#fff',
@@ -52,14 +32,7 @@ const UserComments = ({comments, deleteComment}) => {
         },
     };
     return (
-        <div className='user-comments'>
-            {show && (
-                <Prompt
-                    msg={promptMsg}
-                    toggleConfirm={handleConfirm}
-                    toggleShow={hidePrompt}
-                />
-            )}
+        <div className='user-comments'>       
             {commentList.length > 0 &&
                 commentList.map((item) => (
                     <div className='user-comments_comment' key={item._id}>
@@ -92,7 +65,7 @@ const UserComments = ({comments, deleteComment}) => {
 };
 
 UserComments.propTypes = {
-    deleteComment: PropTypes.func.isRequired,
+    selectComment: PropTypes.func.isRequired,
 };
 
-export default connect(null, {deleteComment})(UserComments);
+export default connect(null, {selectComment})(UserComments);

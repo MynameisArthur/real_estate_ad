@@ -2,6 +2,7 @@ import axios from 'axios';
 import {OfferActionTypes as types} from './types';
 import {setAlert} from './alert';
 import {dispatchError as error} from '../utils/dispatchErrors';
+import {showPrompt} from './prompt';
 
 export const modifyOffer = (estateId, data, history, edit) => async (
     dispatch
@@ -48,4 +49,9 @@ export const deleteOffer = (offerId) => async (dispatch) => {
     } catch (err) {
         error(dispatch, err, 'offer');
     }
+};
+
+export const selectOffer = (offerId, action = 'delete') => async (dispatch) => {
+    await dispatch({type: 'SELECT_OFFER', payload: offerId});
+    dispatch(showPrompt(action, 'offer'));
 };

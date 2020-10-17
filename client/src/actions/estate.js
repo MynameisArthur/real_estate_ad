@@ -133,7 +133,9 @@ export const deleteEstate = (estateId, source, history) => async (dispatch) => {
         error(dispatch, err);
     }
 };
-export const selectEstate = (estateId, type = 'delete') => async (dispatch) => {
+export const selectEstate = (estateId, action = 'delete') => async (
+    dispatch
+) => {
     await dispatch({type: types.SELECT_ESTATE, payload: estateId});
-    dispatch(showPrompt(type));
+    dispatch(showPrompt(action, 'estate'));
 };

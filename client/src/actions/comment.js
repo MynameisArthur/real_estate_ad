@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {setAlert} from './alert';
 import {dispatchError as error} from '../utils/dispatchErrors';
+import {showPrompt} from './prompt';
 
 //depending on boolean "edit" either: edits existing comment or adds new one
 export const modifyComment = (estateId, data, history, edit) => async (
@@ -43,10 +44,18 @@ export const getSingleComment = (commentId) => async (dispatch) => {
         error(dispatch, err, 'comment');
     }
 };
-export const deleteComment = (commentId) => async (dispatch) => {
+export const deleteComment = (commentId, source, history) => async (
+    dispatch
+) => {
     try {
         return await axios.delete(`/real_estate_ad/comments/${commentId}`);
     } catch (err) {
         error(dispatch, err, 'comment');
     }
+};
+export const selectComment = (commentId, action = 'delete') => async (
+    dispatch
+) => {
+    await dispatch({type: 'SELECT_COMMENT', payload: commentId});
+    dispatch(showPrompt(action, 'comment'));
 };

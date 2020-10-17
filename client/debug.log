@@ -1,2 +1,5 @@
 [0907/130543.149:ERROR:exit_code_watcher_win.cc(87)] Failed to wait for process exit or stop event
 [0923/150900.843:ERROR:exit_code_watcher_win.cc(87)] Failed to wait for process exit or stop event
+[1016/155642.363:ERROR:directory_reader_win.cc(43)] FindFirstFile: System nie mo¿e odnaleŸæ okreœlonej œcie¿ki. (0x3)
+[1016/202757.159:ERROR:process_reader_win.cc(123)] NtOpenThread: {Odmowa dostêpu} Proces za¿¹da³ dostêpu do obiektu, ale prawa dostêpu nie zosta³y przyznane. (0xc0000022)
+[1016/202757.164:ERROR:exception_snapshot_win.cc(99)] thread ID 9816 not found in process
