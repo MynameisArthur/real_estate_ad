@@ -2,6 +2,8 @@ import axios from 'axios';
 import {setAlert} from './alert';
 import {dispatchError as error} from '../utils/dispatchErrors';
 import {showPrompt} from './prompt';
+import {CommentActionTypes as types} from './types';
+import {getCurrentProfile} from './profile';
 
 //depending on boolean "edit" either: edits existing comment or adds new one
 export const modifyComment = (estateId, data, history, edit) => async (
@@ -14,6 +16,7 @@ export const modifyComment = (estateId, data, history, edit) => async (
     };
     const body = JSON.stringify(data);
     let message = 'Comment added';
+    const pattern = /\/estate\/\w+\/comment/gi;
     try {
         // if edit=false add new comment
         if (!edit) {
@@ -22,6 +25,8 @@ export const modifyComment = (estateId, data, history, edit) => async (
                 body,
                 config
             );
+            message = 'Comment added';
+            await dispatch(getCurrentProfile());
         } else {
             // if edit=true update comment
             await axios.put(
@@ -31,8 +36,8 @@ export const modifyComment = (estateId, data, history, edit) => async (
             );
             message = 'Comment updated';
         }
-        dispatch(setAlert(message));
         history.go(-1);
+        dispatch(setAlert(message, 'success', 2000));
     } catch (err) {
         error(dispatch, err, 'comment');
     }
@@ -48,7 +53,11 @@ export const deleteComment = (commentId, source, history) => async (
     dispatch
 ) => {
     try {
-        return await axios.delete(`/real_estate_ad/comments/${commentId}`);
+        await axios.delete(`/real_estate_ad/comments/${commentId}`);
+        await dispatch(setAlert('Comment removed', 'danger', 2000));
+        dispatch({type: types.DELETE_COMMENT});
+        await dispatch(getCurrentProfile());
+        history.push('/dashboard/comments');
     } catch (err) {
         error(dispatch, err, 'comment');
     }

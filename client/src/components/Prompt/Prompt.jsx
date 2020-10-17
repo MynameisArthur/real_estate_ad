@@ -22,14 +22,11 @@ const Prompt = ({
     history}) => {
     let callback;
     
-    if(type === 'estate'){
-        console.log('selectedEstate');
+    if(type === 'estate'){        
         callback = () =>deleteEstate(selectedEstate, location.pathname, history);        
-    }else if(type === 'comment'){
-        console.log('selectedComment');
+    }else if(type === 'comment'){        
         callback = () =>deleteComment(selectedComment, location.pathname, history);       
-    }else if(type === 'offer'){
-        console.log('selectedOffer');
+    }else if(type === 'offer'){        
         callback = () =>deleteOffer(selectedOffer, location.pathname, history);        
     }
     const handleCancel = () => {       
