@@ -88,6 +88,7 @@ const Dashboard = ({profile}) => {
                         Edit User
                     </NavLink>
                 </li>
+                
             </ul>
             <Switch>
                 <Redirect exact from='/dashboard' to='/dashboard/estates' />
@@ -117,7 +118,7 @@ const Dashboard = ({profile}) => {
                             }}
                         />
                     )}
-                />
+                />                
             </Switch>
         </div>
     );

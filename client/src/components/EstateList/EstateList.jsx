@@ -3,19 +3,30 @@ import './EstateList.scss';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getEstates, findEstatesInRadius} from '../../actions/estate';
-import Estate from '../Estate/Estate';
+import EstatesPage from './EstatesPage';
 import Spinner from '../Spinner/Spinner';
 import Search from '../Search/Search';
+import {Switch, Route, NavLink} from 'react-router-dom';
 
 const EstateList = ({
     estates: {count, data},
     loading,
     getEstates,
     findEstatesInRadius,
+    match
 }) => {
+    
+    const generatePageLinks = (count)=>{
+        let num = Math.ceil(count/10);
+        let array = [];
+        for(let i=0;i<num;i++){
+            array.push(i+1);
+        }
+        return array.map(item=><NavLink to={`/estates/${item}`} className="estates-pagination_item" key={`page-${item}`} activeClassName='selected'>{item}</NavLink>);
+    }
     useEffect(() => {
-        getEstates();
-    }, [getEstates]);
+        getEstates(match.params.page);
+    }, [match.params.page]);
     return loading ? (
         <Spinner />
     ) : (
@@ -29,11 +40,15 @@ const EstateList = ({
             <button onClick={getEstates} className='btn'>
                 Show All
             </button>
-            <div className='estate-list'>
-                {data &&
-                    data.map((item) => {
-                        return <Estate key={item.id} estate={item} />;
-                    })}
+            <div className='estate-list'>                
+                <Switch>             
+                    <Route exact to='/estates/:page' component={()=><EstatesPage data={data} />} />                    
+                </Switch>
+            </div>
+            <div className="estates-pagination">
+                {
+                   generatePageLinks(count)
+                }
             </div>
         </div>
     );

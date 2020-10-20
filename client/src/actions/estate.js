@@ -5,9 +5,9 @@ import {setAlert} from './alert';
 import {getCurrentProfile} from './profile';
 import {showPrompt} from './prompt';
 
-export const getEstates = () => async (dispatch) => {
+export const getEstates = (page = 1) => async (dispatch) => {
     try {
-        const res = await axios.get('/real_estate_ad/estates');
+        const res = await axios.get(`/real_estate_ad/estates?page=${page}`);
         dispatch({type: types.GET_ESTATES, payload: res.data});
     } catch (err) {
         error(dispatch, err);

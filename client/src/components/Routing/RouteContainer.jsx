@@ -30,7 +30,7 @@ const RouteContainer = ({
             <Alert />
             <Switch>
                 <Route exact path='/' component={Landing} />
-                <Route exact path='/estates' component={EstateList} />
+                <Route exact path='/estates/:page' component={EstateList} />
                 <Route exact path='/register' component={Register} />
                 <Route exact path='/login' component={Login} />
                 <Route path='/forgotPassword' component={ForgotPassword} />
