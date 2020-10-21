@@ -15,11 +15,18 @@ export const getEstates = (page = 1) => async (dispatch) => {
 };
 
 export const findEstatesInRadius = (data) => async (dispatch) => {
-    const {zipcode, distance, unit} = data;
+    let {zipcode, distance, unit, price, area} = data;
+    if (!zipcode) {
+        zipcode = 'Warszawa, Mazowieckie';
+    }
+    distance = distance < 25 ? 25 : distance;
+    let queryStr = '';
+    if (price || area) {
+        queryStr = `price=${price}&area=${area}`;
+    }
+    const url = `/real_estate_ad/estates/radius/${zipcode}/${distance}/${unit}?${queryStr}`;
     try {
-        const res = await axios.get(
-            `/real_estate_ad/estates/radius/${zipcode}/${distance}/${unit}`
-        );
+        const res = await axios.get(url);
         dispatch({type: types.GET_ESTATES, payload: res.data});
     } catch (err) {
         error(dispatch, err);

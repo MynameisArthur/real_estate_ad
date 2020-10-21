@@ -6,6 +6,8 @@ const Search = ({search}) => {
         distance: 0,
         zipcode: '',
         unit: 'miles',
+        price: 0,
+        area: 0
     };
     const [formData, setFormData] = useState(initialState);
     const handleSubmit = (e) => {
@@ -16,7 +18,7 @@ const Search = ({search}) => {
     const handleChange = (e) => {
         setFormData({...formData, [e.target.name]: e.target.value});
     };
-    const {zipcode, distance} = formData;
+    const {zipcode, distance, price, area} = formData;
     return (
         <div className='search-container'>
             <form onSubmit={handleSubmit}>
@@ -27,8 +29,7 @@ const Search = ({search}) => {
                             type='text'
                             name='zipcode'
                             value={zipcode}
-                            onChange={(e) => handleChange(e)}
-                            required
+                            onChange={(e) => handleChange(e)}                            
                             placeholder='city,state/zipcode'
                         />
                     </label>
@@ -66,7 +67,19 @@ const Search = ({search}) => {
                             onChange={(e) => handleChange(e)}
                         />
                     </label>
-                </div>
+                </div>   
+                <div className="form-group">
+                    <label>
+                        Price
+                        <input type="number" name="price" value={price} onChange={(e) => handleChange(e)}/>
+                    </label>
+                </div>            
+                <div className="form-group">
+                    <label>
+                        Area
+                        <input type="number" name="area" value={area} onChange={(e) => handleChange(e)}/>
+                    </label>
+                </div>            
                 <button type='submit' className='btn'>
                     Search
                 </button>

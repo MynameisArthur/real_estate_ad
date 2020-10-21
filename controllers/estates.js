@@ -148,21 +148,30 @@ exports.deleteEstate = asyncHandler(async (req, res, next) => {
 
 exports.getEstatesInRadius = asyncHandler(async (req, res, next) => {
     const {zipcode, distance, unit} = req.params;
-
     //Get lat/lng from geocoder
     const loc = await geocoder.geocode(zipcode);
     const lat = loc[0].latitude;
     const lng = loc[0].longitude;
+
     //Calc radius using radians
     //Divide dist by radius of Earth
     //Earth radius = 3,963miles(6378km)
     const earthRadius = unit === 'miles' ? 3963 : 6378;
     const radius = distance / earthRadius;
-    const estates = await Estate.find({
+    const searchParams = {
         location: {
             $geoWithin: {$centerSphere: [[lng, lat], radius]},
         },
-    });
+    };
+
+    if (req.query.price) {
+        searchParams.startingPrice = {$lt: Number(req.query.price) + 1};
+    }
+    if (req.query.area) {
+        searchParams.houseArea = {$lt: Number(req.query.area) + 1};
+    }
+    console.log('SEARCH PARAMS : ', searchParams);
+    const estates = await Estate.find(searchParams);
     res.status(200).json({success: true, count: estates.length, data: estates});
 });
 
