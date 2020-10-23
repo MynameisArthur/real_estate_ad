@@ -55,7 +55,7 @@ const Dashboard = ({profile}) => {
             <ul className='dashboard-navigation'>
                 <li>
                     <NavLink
-                        to='/dashboard/estates'
+                        to='/dashboard/estates/1'
                         className='btn'
                         activeClassName='selected'
                     >
@@ -73,7 +73,7 @@ const Dashboard = ({profile}) => {
                 </li>
                 <li>
                     <NavLink
-                        to='/dashboard/offers'
+                        to='/dashboard/offers/1'
                         className='btn'
                         activeClassName='selected'
                     >
@@ -91,10 +91,10 @@ const Dashboard = ({profile}) => {
                 </li>
             </ul>
             <Switch>
-                <Redirect exact from='/dashboard' to='/dashboard/estates' />
+                <Redirect exact from='/dashboard' to='/dashboard/estates/1' />
                 <Route
                     exact
-                    path='/dashboard/estates'
+                    path='/dashboard/estates/:page'
                     component={() => <UserEstates estates={estates} />}
                 />
                 <Route
@@ -104,7 +104,7 @@ const Dashboard = ({profile}) => {
                 />
                 <Route
                     exact
-                    path='/dashboard/offers'
+                    path='/dashboard/offers/:page'
                     component={() => <UserOffers offers={offers} />}
                 />
                 <Route

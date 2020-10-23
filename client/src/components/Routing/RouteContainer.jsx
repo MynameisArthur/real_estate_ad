@@ -3,7 +3,7 @@ import PrivateRoute from '../Routing/PrivateRoute';
 import EstateForm from '../EstateForm/EstateForm';
 import EstateDetails from '../Estate/EstateDetails';
 import OfferForm from '../Offer/OfferForm';
-import Comment from '../Comment/Comment';
+import CommentForm from '../Comment/CommentForm';
 import Landing from '../Landing/Landing';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
@@ -16,17 +16,10 @@ import {Route, Switch} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Prompt from '../Prompt/Prompt';
 
-
-const RouteContainer = ({    
-    prompt    
-}) => {
+const RouteContainer = ({prompt}) => {
     return (
         <section className='container'>
-            {prompt.show && (
-                <Prompt
-                    action={`delete`} 
-                />
-            )}
+            {prompt.show && <Prompt action={`delete`} />}
             <Alert />
             <Switch>
                 <Route exact path='/' component={Landing} />
@@ -51,11 +44,11 @@ const RouteContainer = ({
                 <PrivateRoute
                     exact
                     path='/estate/:id/comment'
-                    component={() => <Comment edit={false} />}
+                    component={() => <CommentForm edit={false} />}
                 />
                 <PrivateRoute
                     path='/estate/:id/comment/:commentId'
-                    component={() => <Comment edit={true} />}
+                    component={() => <CommentForm edit={true} />}
                 />
                 <PrivateRoute
                     exact
@@ -73,7 +66,7 @@ const RouteContainer = ({
     );
 };
 
-const mapStateToProps = (state) => ({   
+const mapStateToProps = (state) => ({
     prompt: state.prompt,
 });
 

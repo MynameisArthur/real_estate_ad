@@ -1,115 +1,56 @@
-import React, {useState, useEffect} from 'react';
-import './Comment.scss';
-import {withRouter} from 'react-router-dom';
-import {modifyComment, getSingleComment} from '../../actions/comment';
-import PropTypes from 'prop-types';
+import React from 'react';
+import {Link} from 'react-router-dom';
+import {selectComment} from '../../actions/comment';
 import {connect} from 'react-redux';
 
-const Comment = ({
-    error,
-    modifyComment,
-    getSingleComment,
-    history,
-    match,
-    edit,
-}) => {
-    const {id, commentId} = match.params;
-    const initialState = {
-        title: '',
-        text: '',
-        rating: 1,
+const Comment = ({item, selectComment}) => {
+    const handleDelete = (id) => {
+        selectComment(id);
     };
-    const [commentDetails, setCommentDetails] = useState(initialState);
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        modifyComment(id, commentDetails, history, edit);
+    const styles = {
+        deleteBtn: {
+            color: '#fff',
+            backgroundColor: 'red',
+            margin: '0 0.5em',
+            fontWeight: 700,
+            fontSize: '1.6rem',
+        },
+        editBtn: {
+            color: '#fff',
+            backgroundColor: 'green',
+            margin: '0 0.5em',
+            fontWeight: 500,
+        },
+        gotoBtn: {
+            color: '#fff',
+            backgroundColor: 'blue',
+            margin: '0 0.5em',
+            fontWeight: 400,
+        },
     };
-    const handleChange = (e) => {
-        setCommentDetails({...commentDetails, [e.target.name]: e.target.value});
-    };
-    const loadComment = async (commentId) => {
-        const comment = await getSingleComment(commentId);
-        setCommentDetails(comment.data.data);
-    };
-    useEffect(() => {
-        if (edit) {
-            loadComment(commentId);
-        }
-    }, []);
-    const {title, text, rating} = commentDetails;
     return (
-        <>
-            {error && (
-                <p>
-                    Already commented on this estate!                    
-                </p>
-            )}
-
-            <form onSubmit={(e) => onSubmit(e)} className='form'>
-                <div className='form-group'>
-                    <label>
-                        Title
-                        <input
-                            type='text'
-                            name='title'
-                            value={title}
-                            onChange={(e) => handleChange(e)}
-                        />
-                    </label>
-                </div>
-                <div className='form-group'>
-                    <label>
-                        Description
-                        <textarea
-                            name='text'
-                            value={text}
-                            onChange={(e) => handleChange(e)}
-                            required
-                        />
-                    </label>
-                </div>
-                <div className='form-group'>
-                    <label>
-                        Rating
-                        <input
-                            name='number'
-                            name='rating'
-                            value={rating}
-                            onChange={(e) => handleChange(e)}
-                            min='1'
-                            max='10'
-                            required
-                        />
-                    </label>
-                </div>
-                <button
-                    className='btn'
-                    onClick={(e) => {
-                        e.preventDefault();
-                        history.go(-1);
-                    }}
-                >
-                    &larr; Go Back
-                </button>
-                <button type='submit' className='btn btn-addOffer'>
-                    Submit Comment
-                </button>
-            </form>
-        </>
+        <div className='user-comments_comment' key={item._id}>
+            <h5>Title: {item.title}</h5>
+            <p>Text: {item.text}</p>
+            <div>Rating: {item.rating}</div>
+            <p>Comment added at: {item.createdAt}</p>
+            <Link to={`/estate/${item.estate}`} style={styles.gotoBtn}>
+                Go to estate &rarr;
+            </Link>
+            <Link
+                to={`/estate/${item.estate}/comment/${item._id}`}
+                style={styles.editBtn}
+            >
+                Edit Comment
+            </Link>
+            <button
+                onClick={() => handleDelete(item._id)}
+                style={styles.deleteBtn}
+            >
+                Delete Comment
+            </button>
+        </div>
     );
 };
 
-Comment.propTypes = {
-    modifyComment: PropTypes.func.isRequired,
-    error: PropTypes.object,
-    edit: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    error: state.comment.error,
-});
-
-export default connect(mapStateToProps, {modifyComment, getSingleComment})(
-    withRouter(Comment)
-);
+export default connect(null, {selectComment})(Comment);

@@ -39,12 +39,6 @@ export const getEstate = (id) => async (dispatch) => {
         dispatch({type: types.GET_SINGLE_ESTATE, payload: res.data});
         return res.data;
     } catch (err) {
-        // const errors = err.response.data.error.split(',');
-        // if (errors) {
-        //     errors.forEach((error) =>
-        //         dispatch(setAlert(error, 'danger', 3000))
-        //     );
-        // }
         error(dispatch, err);
     }
 };

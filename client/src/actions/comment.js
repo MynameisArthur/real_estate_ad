@@ -57,7 +57,7 @@ export const deleteComment = (commentId, source, history) => async (
         await dispatch(setAlert('Comment removed', 'danger', 2000));
         dispatch({type: types.DELETE_COMMENT});
         await dispatch(getCurrentProfile());
-        history.push('/dashboard/comments');
+        history.push('/dashboard/comments/1');
     } catch (err) {
         error(dispatch, err, 'comment');
     }
