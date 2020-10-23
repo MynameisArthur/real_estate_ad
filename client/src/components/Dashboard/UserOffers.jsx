@@ -32,6 +32,8 @@ const UserOffers = ({offers, selectOffer}) => {
             fontWeight: 400,
         },
     };
+   
+
     return (
         <div className='user-offers'>            
             {offerList.length > 0 &&

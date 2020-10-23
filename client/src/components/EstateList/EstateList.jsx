@@ -6,7 +6,8 @@ import {getEstates, findEstatesInRadius} from '../../actions/estate';
 import EstatesPage from './EstatesPage';
 import Spinner from '../Spinner/Spinner';
 import Search from '../Search/Search';
-import {Switch, Route, NavLink} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
+import {generatePageLinks} from '../../utils/generatePageLinks';
 
 const EstateList = ({
     estates: {count, data},
@@ -15,15 +16,10 @@ const EstateList = ({
     findEstatesInRadius,
     match
 }) => {
-    
-    const generatePageLinks = (count)=>{
-        let num = Math.ceil(count/10);
-        let array = [];
-        for(let i=0;i<num;i++){
-            array.push(i+1);
-        }
-        return array.map(item=><NavLink to={`/estates/${item}`} className="estates-pagination_item" key={`page-${item}`} activeClassName='selected'>{item}</NavLink>);
-    }
+    const pageLinkConfig = {
+        count,        
+        to: 'estates'
+    };
     useEffect(() => {
         getEstates(match.params.page);
     }, [match.params.page]);
@@ -45,9 +41,9 @@ const EstateList = ({
                     <Route exact to='/estates/:page' component={()=><EstatesPage data={data} />} />                    
                 </Switch>
             </div>
-            <div className="estates-pagination">
+            <div className="pagination">
                 {
-                   generatePageLinks(count)
+                   generatePageLinks(pageLinkConfig)
                 }
             </div>
         </div>

@@ -34,6 +34,7 @@ const Dashboard = ({profile}) => {
             });
         }
     };
+
     useEffect(() => {
         loadData();
     }, [profile]);
@@ -63,7 +64,7 @@ const Dashboard = ({profile}) => {
                 </li>
                 <li>
                     <NavLink
-                        to='/dashboard/comments'
+                        to='/dashboard/comments/1'
                         className='btn'
                         activeClassName='selected'
                     >
@@ -88,7 +89,6 @@ const Dashboard = ({profile}) => {
                         Edit User
                     </NavLink>
                 </li>
-                
             </ul>
             <Switch>
                 <Redirect exact from='/dashboard' to='/dashboard/estates' />
@@ -99,7 +99,7 @@ const Dashboard = ({profile}) => {
                 />
                 <Route
                     exact
-                    path='/dashboard/comments'
+                    path='/dashboard/comments/:page'
                     component={() => <UserComments comments={comments} />}
                 />
                 <Route
@@ -118,7 +118,7 @@ const Dashboard = ({profile}) => {
                             }}
                         />
                     )}
-                />                
+                />
             </Switch>
         </div>
     );
