@@ -1,17 +1,14 @@
 import React from 'react';
 import Estate from '../Estate/Estate';
 import {withRouter} from 'react-router-dom';
-import MultipleComponents from '../../utils/MultipleComponents';
 
-const EstatesPage = ({data, match}) => {
-    const {page} = match.params;
+const EstatesPage = ({data}) => {
     return (
         <>
-            <MultipleComponents
-                WrappedComponent={Estate}
-                data={data}
-                page={page}
-            />
+            {data &&
+                data.map((item) => {
+                    return <Estate key={item.id} item={item} />;
+                })}
         </>
     );
 };

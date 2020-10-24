@@ -1,5 +1,5 @@
 import React from 'react';
-import EstatesPage from '../EstateList/EstatesPage';
+import UserEstatesPage from '../EstateList/UserEstatesPage';
 import {generatePageLinks} from '../../utils/generatePageLinks';
 const UserEstates = ({estates}) => {
     const pageLinkConfig = {
@@ -9,7 +9,7 @@ const UserEstates = ({estates}) => {
     };
     return (
         <div className='user-estates'>
-            <EstatesPage data={estates} />
+            <UserEstatesPage data={estates} />
             <div className='pagination'>
                 {generatePageLinks(pageLinkConfig)}
             </div>
