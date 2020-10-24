@@ -10,7 +10,7 @@ import {selectEstate} from '../../actions/estate';
 const Estate = ({
     userId,
     role,
-    estate: {
+    item: {
         _id,
         user,
         offers,

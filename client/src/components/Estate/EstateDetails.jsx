@@ -9,7 +9,7 @@ import Picture from '../Picture/Picture';
 import GMap from '../GMap/GMap';
 import Buttons from '../Buttons/Buttons';
 import {selectEstate} from '../../actions/estate';
-import OfferDisplay from '../Offer/OfferDisplay';
+import Offer from '../Offer/Offer';
 import {deleteOffer} from '../../actions/offer';
 
 const EstateDetails = ({
@@ -151,7 +151,7 @@ const EstateDetails = ({
                                 {offers &&
                                     offers.map((offer) => (
                                         <li key={offer._id}>
-                                            <OfferDisplay
+                                            <Offer
                                                 offer={offer}
                                                 userId={userId}
                                                 offerDelete={offerDelete}

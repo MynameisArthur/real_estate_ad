@@ -1,15 +1,15 @@
 import React from 'react';
 import {withRouter} from 'react-router-dom';
-import Comment from './Comment';
+import UserOffer from './UserOffer';
 import MultipleComponents from '../../utils/MultipleComponents';
 
-const CommentsPage = ({data, match}) => {
+const OffersPage = ({data, match}) => {
     const {page} = match.params;
     return (
         <>
             {
                 <MultipleComponents
-                    WrappedComponent={Comment}
+                    WrappedComponent={UserOffer}
                     data={data}
                     page={page}
                 />
@@ -18,4 +18,4 @@ const CommentsPage = ({data, match}) => {
     );
 };
 
-export default withRouter(CommentsPage);
+export default withRouter(OffersPage);

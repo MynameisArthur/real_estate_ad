@@ -1,7 +1,7 @@
 import React from 'react';
 import './Offer.scss';
 
-const OfferDisplay = ({offer, userId, offerDelete}) => {
+const Offer = ({offer, userId, offerDelete}) => {
     const isOwner = offer.user === userId;
     const handleDelete = async () => {
         if (isOwner) {
@@ -33,4 +33,4 @@ const OfferDisplay = ({offer, userId, offerDelete}) => {
     );
 };
 
-export default OfferDisplay;
+export default Offer;
